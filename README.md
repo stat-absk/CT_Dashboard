@@ -1,5 +1,11 @@
 # Clinical Trial Design Workbench
 
+> 🚧 **Work in progress.** The workbench is under active development —
+> chapters and examples are still being added, rough edges remain, and
+> anything may change. [Issues and suggestions][issues] are very welcome.
+
+[issues]: https://github.com/stat-absk/CT_Dashboard/issues
+
 **Try it live: https://stat-absk-ct-dashboard.share.connect.posit.cloud/** — no installation needed.
 New here? Follow the **[step-by-step user guide](USER_GUIDE.md)**,
 then work through the **[hands-on tutorial](TUTORIAL.md)** — a

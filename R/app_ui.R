@@ -3,7 +3,14 @@
 app_ui <- function() {
   bslib::page_navbar(
     id = "nav",
-    title = "Clinical Trial Design Workbench",
+    title = shiny::tagList(
+      "Clinical Trial Design Workbench",
+      shiny::span(
+        class = "badge rounded-pill border text-secondary fw-normal ms-2 align-middle",
+        title = "Under active development - features and examples are still being added.",
+        "work in progress"
+      )
+    ),
     theme = bslib::bs_theme(
       version = 5,
       preset = "shiny",

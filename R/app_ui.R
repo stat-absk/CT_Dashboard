@@ -13,6 +13,10 @@ app_ui <- function() {
       mod_runner_ui("design")
     ),
     bslib::nav_panel(
+      "Compare Designs",
+      mod_compare_ui("compare")
+    ),
+    bslib::nav_panel(
       "Session Objects",
       bslib::card(
         bslib::card_header("Stored session objects"),

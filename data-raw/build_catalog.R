@@ -60,23 +60,49 @@ classify_family <- function(name) {
   "utility"
 }
 
-# Map every documented alias to its Rd title so each catalog entry carries
-# the official one-line description from the package documentation.
-rd_titles <- local({
+# Map every documented alias to its Rd title, description, and
+# per-argument help text, so catalog entries carry the official package
+# documentation into the UI (tooltips and "about" panels).
+rd_flatten <- function(x) {
+  txt <- paste(unlist(x), collapse = "")
+  trimws(gsub("\\s+", " ", txt))
+}
+
+rd_docs <- local({
   db <- tools::Rd_db("rpact")
-  titles <- list()
+  docs <- list()
   for (rd in db) {
     tags <- vapply(rd, function(x) attr(x, "Rd_tag"), character(1))
-    title <- trimws(paste(unlist(rd[tags == "\\title"]), collapse = " "))
-    title <- gsub("\\s+", " ", title)
+    title <- rd_flatten(rd[tags == "\\title"])
+    description <- rd_flatten(rd[tags == "\\description"])
+
+    arg_help <- list()
+    args_secs <- rd[tags == "\\arguments"]
+    if (length(args_secs) > 0) {
+      items <- Filter(
+        function(x) identical(attr(x, "Rd_tag"), "\\item"),
+        args_secs[[1]]
+      )
+      for (it in items) {
+        # one \item may document several arguments ("alpha, beta")
+        arg_names <- trimws(strsplit(rd_flatten(it[[1]]), ",")[[1]])
+        text <- rd_flatten(it[[2]])
+        for (an in arg_names) {
+          arg_help[[an]] <- text
+        }
+      }
+    }
+
     for (alias in unlist(rd[tags == "\\alias"])) {
-      titles[[trimws(alias)]] <- title
+      docs[[trimws(alias)]] <- list(
+        title = title, description = description, arg_help = arg_help
+      )
     }
   }
-  titles
+  docs
 })
 
-describe_args <- function(fn) {
+describe_args <- function(fn, arg_help = list()) {
   fmls <- formals(fn)
   if (is.null(fmls)) return(list())
   unname(Map(function(arg_name, default) {
@@ -84,7 +110,8 @@ describe_args <- function(fn) {
     list(
       name = arg_name,
       required = required,
-      default = if (required) NULL else paste(deparse(default), collapse = " ")
+      default = if (required) NULL else paste(deparse(default), collapse = " "),
+      description = arg_help[[arg_name]]
     )
   }, names(fmls), fmls))
 }
@@ -95,11 +122,13 @@ target <- Filter(function(n) is.function(getExportedValue("rpact", n)), target)
 
 functions <- lapply(target, function(name) {
   fn <- getExportedValue("rpact", name)
+  doc <- rd_docs[[name]]
   list(
     name = name,
     family = classify_family(name),
-    title = if (!is.null(rd_titles[[name]])) rd_titles[[name]] else NA,
-    args = describe_args(fn)
+    title = if (!is.null(doc)) doc$title else NA,
+    description = if (!is.null(doc)) doc$description else NA,
+    args = describe_args(fn, if (!is.null(doc)) doc$arg_help else list())
   )
 })
 

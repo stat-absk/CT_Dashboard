@@ -45,8 +45,8 @@ run_app()
 |---|---|---|
 | 0 | Scaffold, function catalog, coverage tests, CI | **Done** |
 | 1 | Core engine: generic runner, result renderer, object store, audit log | **Done** |
-| 2 | Design module with tutorial content and worked examples | Next |
-| 3 | Sample size & power module | Planned |
+| 2 | Design module with tutorial content and worked examples | **Done** |
+| 3 | Sample size & power module | Next |
 | 4 | Simulation module | Deferred |
 | 5 | Analysis module | Deferred |
 | 6 | Guided learning paths, reports, deployment | Planned |

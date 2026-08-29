@@ -5,7 +5,8 @@
 # whitelist: literals plus a small set of vector-building functions. Any
 # other call (file access, system, assignment, ...) is rejected.
 
-PARSE_ALLOWED_CALLS <- c("c", ":", "seq", "seq_len", "rep", "+", "-", "*", "/", "(", "list")
+PARSE_ALLOWED_CALLS <- c("c", ":", "seq", "seq_len", "rep", "+", "-", "*", "/", "(",
+                         "list", "matrix", "rbind", "cbind")
 
 #' Parse one user-entered argument value under the whitelist
 #'

@@ -12,15 +12,18 @@ mod_runner_ui <- function(id) {
     sidebar = bslib::sidebar(
       width = 380,
       shiny::uiOutput(ns("fn_select")),
-      shiny::uiOutput(ns("fn_title")),
+      shiny::uiOutput(ns("fn_about")),
+      shiny::uiOutput(ns("example_picker")),
       shiny::uiOutput(ns("args_form")),
       shiny::actionButton(ns("run"), "Run", class = "btn-primary"),
       shiny::helpText(
         "Argument values are R expressions (e.g. 0.025, c(0.5, 1), \"asOF\").",
         "Leave blank to use the rpact default.",
-        "Reference a stored session object with @label."
+        "Reference a stored session object with @label.",
+        "Hover an argument name for its official documentation."
       )
     ),
+    shiny::uiOutput(ns("example_notes")),
     bslib::navset_card_tab(
       bslib::nav_panel("Summary", shiny::verbatimTextOutput(ns("summary"))),
       bslib::nav_panel("Table", shiny::div(
@@ -53,7 +56,7 @@ mod_runner_ui <- function(id) {
 #' @param label_prefix Prefix for suggested store labels.
 #' @keywords internal
 mod_runner_server <- function(id, family, catalog, store, store_version,
-                              label_prefix = family) {
+                              label_prefix = family, examples = load_examples()) {
   shiny::moduleServer(id, function(input, output, session) {
     ns <- session$ns
     entries <- catalog_family(catalog, family)
@@ -69,10 +72,56 @@ mod_runner_server <- function(id, family, catalog, store, store_version,
       entry_by_name[[input$fn]]
     })
 
-    output$fn_title <- shiny::renderUI({
+    output$fn_about <- shiny::renderUI({
       entry <- current_entry()
-      if (is.null(entry$title) || is.na(entry$title)) return(NULL)
-      shiny::helpText(entry$title)
+      parts <- list()
+      if (!is.null(entry$title) && !is.na(entry$title)) {
+        parts <- c(parts, list(shiny::strong(entry$title)))
+      }
+      if (!is.null(entry$description) && !is.na(entry$description)) {
+        parts <- c(parts, list(shiny::p(class = "text-muted small mb-1",
+                                        entry$description)))
+      }
+      if (length(parts) == 0) return(NULL)
+      do.call(shiny::div, parts)
+    })
+
+    output$example_picker <- shiny::renderUI({
+      entry <- current_entry()
+      fn_examples <- examples[[entry$name]]
+      if (is.null(fn_examples) || length(fn_examples) == 0) return(NULL)
+      labels <- vapply(fn_examples, function(e) e$label, character(1))
+      shiny::div(
+        shiny::selectInput(ns("example"), "Worked example",
+                           choices = stats::setNames(seq_along(labels), labels)),
+        shiny::actionButton(ns("load_example"), "Load example",
+                            class = "btn-outline-primary btn-sm")
+      )
+    })
+
+    loaded_example <- shiny::reactiveVal(NULL)
+    shiny::observeEvent(input$fn, loaded_example(NULL))
+
+    shiny::observeEvent(input$load_example, {
+      entry <- current_entry()
+      ex <- examples[[entry$name]][[as.integer(input$example)]]
+      # clear every field, then prefill the example's values
+      for (a in entry$args) {
+        if (identical(a$name, "...")) next
+        shiny::updateTextInput(session, paste0("arg_", a$name),
+                               value = ex$args[[a$name]] %||% "")
+      }
+      loaded_example(ex)
+    })
+
+    output$example_notes <- shiny::renderUI({
+      ex <- loaded_example()
+      if (is.null(ex)) return(NULL)
+      bslib::card(
+        bslib::card_header(paste("Worked example:", ex$label)),
+        shiny::p(ex$description),
+        shiny::p(shiny::strong("What to look for: "), ex$interpretation)
+      )
     })
 
     output$args_form <- shiny::renderUI({
@@ -80,7 +129,16 @@ mod_runner_server <- function(id, family, catalog, store, store_version,
       inputs <- lapply(entry$args, function(a) {
         if (identical(a$name, "...")) return(NULL)
         placeholder <- if (isTRUE(a$required)) "(required)" else a$default
-        label <- if (isTRUE(a$required)) paste0(a$name, " *") else a$name
+        label_txt <- if (isTRUE(a$required)) paste0(a$name, " *") else a$name
+        label <- if (!is.null(a$description) && !is.na(a$description)) {
+          bslib::tooltip(
+            shiny::span(label_txt, shiny::HTML("&nbsp;&#9432;")),
+            a$description,
+            placement = "right"
+          )
+        } else {
+          label_txt
+        }
         shiny::textInput(ns(paste0("arg_", a$name)), label, value = "",
                          placeholder = placeholder)
       })

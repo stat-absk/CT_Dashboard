@@ -1,0 +1,127 @@
+{
+  "getDesignGroupSequential": [
+    {
+      "label": "O'Brien-Fleming-type alpha spending, 3 looks",
+      "description": "The most common group sequential design in practice: three analyses (two interim, one final) with an O'Brien-Fleming-type alpha spending function, one-sided alpha 2.5%, power 80%.",
+      "args": {
+        "kMax": "3",
+        "alpha": "0.025",
+        "beta": "0.2",
+        "sided": "1",
+        "typeOfDesign": "\"asOF\""
+      },
+      "interpretation": "Look at the efficacy boundaries on the z-value scale: the first interim boundary (about 3.71) is far stricter than the fixed-design 1.96, so an early stop needs overwhelming evidence. The final boundary (about 1.99) is barely above 1.96 - the price paid for two interim looks is small. Check the inflation factor: the maximum sample size grows by only about 2%. This is why O'Brien-Fleming-type designs dominate confirmatory practice. (Compare with typeOfDesign = \"OF\", the classic Wang-Tsiatis version: similar shape, boundaries 3.47 / 2.45 / 2.00.)"
+    },
+    {
+      "label": "Pocock-type alpha spending, 3 looks",
+      "description": "Same trial as the O'Brien-Fleming example but with a Pocock-type spending function, which spends alpha nearly evenly across looks. Run both and compare on the Summary and Plot tabs.",
+      "args": {
+        "kMax": "3",
+        "alpha": "0.025",
+        "beta": "0.2",
+        "sided": "1",
+        "typeOfDesign": "\"asP\""
+      },
+      "interpretation": "The boundaries are nearly constant across stages (about 2.28 at every look), so stopping early is much easier than under O'Brien-Fleming - but the final boundary is well above 1.96, and the inflation factor is much larger. Pocock-type designs pay a real sample-size premium for aggressive early stopping, which is why they are less used for confirmatory trials."
+    },
+    {
+      "label": "Adding a non-binding futility bound",
+      "description": "A two-stage O'Brien-Fleming-type design with a futility bound at the interim: if the z-value falls below 0 (the treatment looks no better than control), the trial may stop for futility. Non-binding means the efficacy boundaries remain valid even if the futility rule is ignored.",
+      "args": {
+        "kMax": "2",
+        "alpha": "0.025",
+        "beta": "0.2",
+        "sided": "1",
+        "typeOfDesign": "\"asOF\"",
+        "futilityBounds": "0",
+        "bindingFutility": "FALSE"
+      },
+      "interpretation": "The summary now shows a futility boundary at the interim alongside the efficacy boundary. Because it is non-binding, the type I error is protected even if the sponsor continues despite crossing it; a binding futility bound would buy slightly lower efficacy boundaries in exchange for the obligation to stop. Note the 'futility probabilities' row: that is the chance of stopping for futility if the true effect is zero."
+    }
+  ],
+  "getDesignInverseNormal": [
+    {
+      "label": "Inverse normal combination, unequal information",
+      "description": "A three-stage adaptive design using the inverse normal combination test with O'Brien-Fleming-type spending and interim analyses at 40% and 70% of the information. The boundaries match the group sequential design - the difference is what the design permits later.",
+      "args": {
+        "kMax": "3",
+        "alpha": "0.025",
+        "beta": "0.2",
+        "sided": "1",
+        "typeOfDesign": "\"asOF\"",
+        "informationRates": "c(0.4, 0.7, 1)"
+      },
+      "interpretation": "Compare this summary with getDesignGroupSequential using the same inputs: the boundaries are identical. The inverse normal design combines stage-wise p-values with fixed weights (derived from the planned information rates), which is what makes design adaptations - like a data-driven sample size increase at an interim - possible without inflating the type I error. That flexibility is invisible in the boundary table but is the whole point."
+    }
+  ],
+  "getDesignFisher": [
+    {
+      "label": "Fisher's combination test, 2 stages",
+      "description": "A two-stage adaptive design based on Fisher's product of stage-wise p-values, with equal alpha for both stages and early stopping for futility if the first-stage p-value exceeds 0.5.",
+      "args": {
+        "kMax": "2",
+        "alpha": "0.025",
+        "method": "\"equalAlpha\"",
+        "alpha0Vec": "0.5"
+      },
+      "interpretation": "Fisher's combination multiplies the stage-wise p-values and compares the product against a critical value. The summary shows the scale: critical values here live on the p-value product scale, not the z-scale. alpha0Vec = 0.5 means the trial stops for futility at stage 1 if p1 > 0.5. Fisher designs are fully adaptive but generally less efficient than inverse normal designs, so they appear mostly in small exploratory settings."
+    }
+  ],
+  "getDesignConditionalDunnett": [
+    {
+      "label": "Conditional Dunnett, interim at half the information",
+      "description": "A design for multi-arm trials with treatment selection: several treatment arms are compared with a shared control at an interim (at 50% of the information), promising arms continue, and the final analysis uses the conditional Dunnett test to protect the familywise error rate.",
+      "args": {
+        "alpha": "0.025",
+        "informationAtInterim": "0.5",
+        "secondStageConditioning": "TRUE"
+      },
+      "interpretation": "This design has no boundary table like the group sequential designs - the interim is for selecting arms, not for early efficacy claims. secondStageConditioning = TRUE conditions the final test on the first-stage data, which is more powerful than treating the stages independently. Use this design as input to the multi-arm analysis functions to see it in action."
+    }
+  ],
+  "getDesignCharacteristics": [
+    {
+      "label": "Characteristics of a saved design",
+      "description": "Computes the information and power characteristics of a design. First run the O'Brien-Fleming example under getDesignGroupSequential and save it as design_1, then run this - the @design_1 below refers to that saved object, the same way a design object is passed in R code.",
+      "args": {
+        "design": "@design_1"
+      },
+      "interpretation": "The key numbers are the shift values: how much more information (roughly, sample size) the sequential design needs than a fixed design with the same alpha and power. For the O'Brien-Fleming example the inflation factor is about 1.02 - a 2% premium buys two chances to stop early. The average sample number (ASN) rows show the flip side: under the alternative, the expected sample size is well below the fixed-design requirement."
+    }
+  ],
+  "getPowerAndAverageSampleNumber": [
+    {
+      "label": "Power curve for a saved design",
+      "description": "Computes overall power, stopping probabilities, and expected sample size of a saved design across a range of standardized effect sizes. Save a design first (e.g. the O'Brien-Fleming example as design_1), then run this.",
+      "args": {
+        "design": "@design_1",
+        "theta": "seq(0, 1, 0.25)",
+        "nMax": "100"
+      },
+      "interpretation": "Read the table by column, one column per effect size theta. At theta = 0 the 'power' row shows the type I error (0.025); as theta grows, power rises and the average sample number (ASN) falls below nMax, because large effects make early stopping likely. This trade-off - a small maximum sample size premium for a much smaller expected sample size - is the core argument for group sequential designs. The Plot tab shows the same story as curves."
+    }
+  ],
+  "getGroupSequentialProbabilities": [
+    {
+      "label": "Exit probabilities for O'Brien-Fleming boundaries",
+      "description": "The low-level engine behind the design functions: given a decision matrix of continuation regions (here the classic 3-look O'Brien-Fleming z-boundaries with no futility stopping) and the information rates, it computes the stage-wise boundary-crossing probabilities under the null hypothesis.",
+      "args": {
+        "decisionMatrix": "matrix(c(-Inf, -Inf, -Inf, 3.471, 2.454, 2.004), nrow = 2, byrow = TRUE)",
+        "informationRates": "c(1/3, 2/3, 1)"
+      },
+      "interpretation": "Each column is a stage. The rows give the cumulative probabilities of falling below the lower row and above the upper row of the decision matrix under the null (drift 0). Check that the probabilities of crossing the upper boundaries sum (across stages, as increments) to alpha = 0.025 - that is exactly the constraint the design functions solve for when they compute boundaries. This function is worth one run just to demystify where the boundaries come from."
+    }
+  ],
+  "getFutilityBounds": [
+    {
+      "label": "Converting a futility bound between scales",
+      "description": "Futility rules are communicated on many scales - z-values, p-values, conditional power. This converts a futility bound of z = 0.5 to the one-sided p-value scale.",
+      "args": {
+        "sourceValue": "0.5",
+        "sourceScale": "\"zValue\"",
+        "targetScale": "\"pValue\""
+      },
+      "interpretation": "A z-value futility bound of 0.5 corresponds to a one-sided p-value of about 0.31: the trial would stop for futility when the interim result is weaker than p = 0.31. Being able to restate a rule on the scale your clinical team thinks in (often conditional power) is a routine communication task - try changing targetScale and see how the same rule reads on each scale."
+    }
+  ]
+}

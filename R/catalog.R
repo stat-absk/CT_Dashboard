@@ -19,6 +19,25 @@ load_catalog <- function() {
   jsonlite::read_json(path)
 }
 
+#' Load the worked-example library
+#'
+#' Hand-authored tutorial examples in `inst/tutorial/examples.json`:
+#' for each function, one or more scenarios with prefill argument values,
+#' a plain-language description, and interpretation notes.
+#'
+#' @return Named list: function name -> list of examples.
+#' @export
+load_examples <- function() {
+  path <- system.file("tutorial", "examples.json", package = "rpactdash")
+  if (path == "") {
+    path <- file.path("inst", "tutorial", "examples.json")
+  }
+  if (!file.exists(path)) {
+    return(list())
+  }
+  jsonlite::read_json(path)
+}
+
 #' Subset catalog entries by module family
 #' @param catalog A catalog as returned by [load_catalog()].
 #' @param family One of "design", "samplesize_power", "simulation",

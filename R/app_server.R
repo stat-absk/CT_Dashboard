@@ -9,6 +9,7 @@ app_server <- function(input, output, session) {
   store_version <- shiny::reactiveVal(0)
 
   mod_runner_server("design", "design", catalog, store, store_version)
+  mod_compare_server("compare", store, store_version)
 
   output$store_table <- shiny::renderTable({
     store_version()

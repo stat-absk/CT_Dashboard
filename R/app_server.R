@@ -24,9 +24,26 @@ app_server <- function(input, output, session) {
   mod_compare_server("compare", store, store_version)
   learn_server(input, session, store, store_version, pending, catalog)
 
+  titles <- stats::setNames(
+    vapply(catalog$functions, function(f)
+      sub("^Get ", "", if (is.null(f$title) || is.na(f$title)) f$name else f$title),
+      character(1)),
+    vapply(catalog$functions, function(f) f$name, character(1))
+  )
+
   output$store_table <- shiny::renderTable({
     store_version()
-    store_list(store)
+    listing <- store_list(store)
+    if (nrow(listing) == 0) {
+      return(data.frame(Name = "Nothing saved yet - results you save will appear here."))
+    }
+    data.frame(
+      Name = listing$label,
+      `Created with` = ifelse(is.na(listing$created_by), listing$class,
+                              unname(titles[listing$created_by])),
+      When = listing$created,
+      check.names = FALSE
+    )
   })
 
   output$env_info <- shiny::renderTable({

@@ -100,7 +100,8 @@ learn_ui <- function() {
           "You'll create the workhorse of confirmatory practice: three ",
           "looks with O'Brien-Fleming-type alpha spending. When the ",
           "boundaries appear, press ", shiny::strong("Save for later use"),
-          " - the next chapter builds on this design."
+          " - a name is suggested for you - because the next chapter ",
+          "builds on this design."
         ),
         button_id = "learn_go_4",
         button_label = "Create a group sequential design"
@@ -125,9 +126,9 @@ learn_ui <- function() {
           "Not all interim looks are priced the same. O'Brien-Fleming ",
           "boundaries make early stopping hard and cost almost nothing; ",
           "Pocock boundaries make early stopping easy and inflate the ",
-          "sample size noticeably. Put both on one plot - select the two ",
-          "seeded designs and press Compare - and you will see the ",
-          "trade-off every protocol team argues about."
+          "sample size noticeably. Both designs are waiting for you on ",
+          "the Compare tab: tick them, press Compare, and you will see ",
+          "the trade-off every protocol team argues about on one plot."
         ),
         button_id = "learn_go_6",
         button_label = "Compare the two designs"
@@ -150,7 +151,7 @@ learn_server <- function(input, session, store, store_version, pending, catalog)
     bslib::nav_select("nav", tab, session = session)
   }
 
-  ensure_design <- function(label, type_of_design, description) {
+  ensure_design <- function(label, type_of_design) {
     if (!is.null(store_get(store, label))) return(invisible())
     outcome <- run_catalog_function(
       "getDesignGroupSequential",
@@ -164,8 +165,8 @@ learn_server <- function(input, session, store, store_version, pending, catalog)
               call_text = outcome$call_text)
     store_version(store_version() + 1)
     shiny::showNotification(
-      sprintf("Seeded '%s' (%s) into your session objects for this chapter.",
-              label, description),
+      sprintf("'%s' was created and added to your saved work for this chapter.",
+              label),
       type = "message"
     )
   }
@@ -179,12 +180,12 @@ learn_server <- function(input, session, store, store_version, pending, catalog)
   shiny::observeEvent(input$learn_go_4,
     go("Design", "design", "getDesignGroupSequential", 1))
   shiny::observeEvent(input$learn_go_5, {
-    ensure_design("design_1", "asOF", "O'Brien-Fleming-type, 3 looks")
+    ensure_design("O'Brien-Fleming (3 looks)", "asOF")
     go("Sample Size & Power", "samplesize", "getSampleSizeMeans", 2)
   })
   shiny::observeEvent(input$learn_go_6, {
-    ensure_design("design_1", "asOF", "O'Brien-Fleming-type, 3 looks")
-    ensure_design("design_2", "asP", "Pocock-type, 3 looks")
+    ensure_design("O'Brien-Fleming (3 looks)", "asOF")
+    ensure_design("Pocock (3 looks)", "asP")
     go("Compare Designs")
   })
 }

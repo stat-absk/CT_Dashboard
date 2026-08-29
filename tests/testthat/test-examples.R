@@ -53,7 +53,7 @@ test_that("every worked example runs successfully through the engine", {
   # examples referencing @design_1 assume the user saved the classic
   # O'Brien-Fleming design first, as their descriptions instruct
   store <- store_new()
-  store_put(store, "design_1",
+  store_put(store, "O'Brien-Fleming (3 looks)",
             rpact::getDesignGroupSequential(kMax = 3, alpha = 0.025,
                                             beta = 0.2, sided = 1,
                                             typeOfDesign = "asOF"))

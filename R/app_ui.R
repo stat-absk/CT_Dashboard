@@ -30,13 +30,14 @@ app_ui <- function() {
       mod_compare_ui("compare")
     ),
     bslib::nav_panel(
-      "Session Objects",
+      "Saved Work",
       bslib::card(
-        bslib::card_header("Saved results"),
+        bslib::card_header("Your saved work"),
         shiny::p(
-          "Everything you save with 'Save for later use' appears here, ",
-          "and becomes selectable as an input in the other tabs - the ",
-          "same way rpact objects are passed between functions in R code."
+          "Everything you save with 'Save for later use' lands here, ",
+          "and shows up by name wherever a computation can build on it - ",
+          "for example, a saved design appears in the 'design' dropdown ",
+          "of the sample size calculators."
         ),
         shiny::tableOutput("store_table")
       )

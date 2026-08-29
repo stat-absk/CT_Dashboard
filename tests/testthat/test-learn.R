@@ -116,8 +116,8 @@ test_that("learn chapters seed the designs they depend on", {
   }
   shiny::testServer(server, {
     session$setInputs(learn_go_6 = 1)
-    d1 <- store_get(store, "design_1")
-    d2 <- store_get(store, "design_2")
+    d1 <- store_get(store, "O'Brien-Fleming (3 looks)")
+    d2 <- store_get(store, "Pocock (3 looks)")
     expect_s4_or_r6 <- inherits(d1, "TrialDesign") && inherits(d2, "TrialDesign")
     expect_true(expect_s4_or_r6)
     # the seeds are the canonical chapter designs

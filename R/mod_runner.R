@@ -380,9 +380,10 @@ mod_runner_server <- function(id, family, catalog, store, store_version,
         cat("# The exact rpact code for your result will appear here.")
       } else {
         shiny::req(o$res$ok)
-        cat("# As entered:\n", o$res$call_text, "\n", sep = "")
+        repro <- build_repro_code(o$res, store)
+        cat("# As entered:\n", repro, "\n", sep = "")
         if (!is.null(o$described$r_code) &&
-            !identical(o$described$r_code, o$res$call_text)) {
+            !identical(o$described$r_code, repro)) {
           cat("\n# Minimal form (rpact defaults omitted):\n",
               o$described$r_code, "\n", sep = "")
         }
@@ -397,8 +398,13 @@ mod_runner_server <- function(id, family, catalog, store, store_version,
     })
 
     shiny::observeEvent(last_outcome(), {
-      shiny::updateTextInput(session, "store_label",
-                             value = store_next_label(store, label_prefix))
+      o <- last_outcome()
+      if (is.null(o) || !o$res$ok) return()
+      entry <- entry_by_name[[o$res$fn_name]]
+      shiny::updateTextInput(
+        session, "store_label",
+        value = suggest_store_label(store, o$res$result, entry$title)
+      )
     })
 
     shiny::observeEvent(input$store_save, {

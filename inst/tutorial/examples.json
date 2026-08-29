@@ -82,9 +82,9 @@
   "getDesignCharacteristics": [
     {
       "label": "Characteristics of a saved design",
-      "description": "Computes the information and power characteristics of a design. First run the O'Brien-Fleming example under getDesignGroupSequential and save it as design_1, then run this - the @design_1 below refers to that saved object, the same way a design object is passed in R code.",
+      "description": "Computes the information and power characteristics of a design. It builds on the 3-look O'Brien-Fleming design: create it in the Design tab and save it (the Learn path does this for you), then pick it in the design dropdown below.",
       "args": {
-        "design": "@design_1"
+        "design": "@O'Brien-Fleming (3 looks)"
       },
       "interpretation": "The key numbers are the shift values: how much more information (roughly, sample size) the sequential design needs than a fixed design with the same alpha and power. For the O'Brien-Fleming example the inflation factor is about 1.02 - a 2% premium buys two chances to stop early. The average sample number (ASN) rows show the flip side: under the alternative, the expected sample size is well below the fixed-design requirement."
     }
@@ -92,9 +92,9 @@
   "getPowerAndAverageSampleNumber": [
     {
       "label": "Power curve for a saved design",
-      "description": "Computes overall power, stopping probabilities, and expected sample size of a saved design across a range of standardized effect sizes. Save a design first (e.g. the O'Brien-Fleming example as design_1), then run this.",
+      "description": "Computes overall power, stopping probabilities, and expected sample size of a saved design across a range of standardized effect sizes. It uses the 3-look O'Brien-Fleming design from your saved work - create and save it in the Design tab if it isn't there yet.",
       "args": {
-        "design": "@design_1",
+        "design": "@O'Brien-Fleming (3 looks)",
         "theta": "seq(0, 1, 0.25)",
         "nMax": "100"
       },
@@ -136,9 +136,9 @@
     },
     {
       "label": "Same trial with a group sequential design",
-      "description": "The identical means comparison, but run under a saved 3-look O'Brien-Fleming-type design. Save the O'Brien-Fleming worked example from the Design tab as design_1 first - @design_1 below refers to it.",
+      "description": "The identical means comparison, but run under the 3-look O'Brien-Fleming design from the Design tab. The design dropdown below picks it from your saved work (the Learn path saves it for you if you haven't).",
       "args": {
-        "design": "@design_1",
+        "design": "@O'Brien-Fleming (3 looks)",
         "alternative": "0.5",
         "stDev": "1"
       },
@@ -197,9 +197,9 @@
   "getPowerMeans": [
     {
       "label": "Power curve under a saved sequential design",
-      "description": "The flip side of sample size: fix the maximum sample size at 128 and ask what power the saved 3-look design achieves across a range of standardized effects. Save the O'Brien-Fleming design example as design_1 first.",
+      "description": "The flip side of sample size: fix the maximum sample size at 128 and ask what power the saved 3-look O'Brien-Fleming design achieves across a range of standardized effects. If it isn't in your saved work yet, create and save it in the Design tab first.",
       "args": {
-        "design": "@design_1",
+        "design": "@O'Brien-Fleming (3 looks)",
         "alternative": "seq(0.2, 0.8, 0.2)",
         "stDev": "1",
         "maxNumberOfSubjects": "128",

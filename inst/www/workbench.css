@@ -63,12 +63,21 @@ h1, h2, h3, h4, h5, h6 {
   .navbar-brand { font-size: 1rem; }
 }
 
+/* A card header is a label on a container, not a heading competing with
+ * the page title - the same quiet treatment the contents columns get. */
 .card-header {
   font-weight: 600;
-  font-size: 0.92rem;
-  letter-spacing: -0.005em;
+  font-size: 0.82rem;
+  letter-spacing: 0.01em;
+  color: var(--bs-secondary-color);
   background: transparent;
   border-bottom: 1px solid var(--wb-hairline);
+}
+
+/* Tabs living in a card header keep their own colour and weight. */
+.card-header .nav-link {
+  font-size: 0.875rem;
+  letter-spacing: 0;
 }
 
 .control-label, .form-label, label {
@@ -126,16 +135,43 @@ pre.shiny-text-output, pre {
   border-right: 1px solid var(--wb-hairline);
 }
 
+/* bslib fills a tool page by compressing its children into the viewport.
+ * With a result, a plot, the R code and a table stacked up that squeezes
+ * every one of them - a 400px plot renders 28px tall and the result is
+ * clipped mid-sentence. The main column keeps its children at their
+ * natural height and scrolls instead, which it is already set up to do. */
+.bslib-sidebar-layout > .main > * {
+  flex-shrink: 0;
+}
+
 /* ---------- Response: feedback on press, not on release ---------- */
 
 .btn {
   border-radius: 9px;
+  /* A button squeezed by a flex row should push the row to wrap, not
+   * break its own label into a column of letters. */
+  white-space: nowrap;
   transition: transform 100ms ease-out, background-color 150ms ease-out,
     box-shadow 150ms ease-out;
 }
 
 .btn:active {
   transform: scale(0.97);
+}
+
+/* The brand teal clears 4.5:1 on white but only reaches 2.6:1 on the dark
+ * ground, which failed every outline button in the app. Outline buttons
+ * take the accent's text-safe variant; the filled hover state keeps the
+ * brand colour, where white text on it is fine in both themes. */
+.btn-outline-primary {
+  --bs-btn-color: var(--wb-accent-text);
+  --bs-btn-border-color: color-mix(in srgb, var(--wb-accent-text) 45%, transparent);
+  --bs-btn-hover-bg: var(--bs-primary);
+  --bs-btn-hover-border-color: var(--bs-primary);
+  --bs-btn-hover-color: #fff;
+  --bs-btn-active-bg: var(--bs-primary);
+  --bs-btn-active-border-color: var(--bs-primary);
+  --bs-btn-active-color: #fff;
 }
 
 .nav-link {
@@ -189,9 +225,10 @@ pre.shiny-text-output, pre {
 
 /* bslib's fill layout pins body to exactly one viewport height, so a
  * document-level scroll drags the sticky navbar off-screen with it and the
- * tab bar becomes unreachable. This page is long enough for that to matter,
- * so it scrolls inside its own panel and leaves the chrome in place. */
-.wb-start {
+ * tab bar becomes unreachable. Document tabs scroll inside their own panel
+ * instead, which leaves the chrome - and the tab bar - in place. */
+.wb-start,
+.wb-page {
   flex: 1 1 auto;
   min-height: 0;
   overflow-y: auto;
@@ -201,6 +238,39 @@ pre.shiny-text-output, pre {
    * them set `margin: x 0 y`, which would win over any margin-inline:auto
    * and quietly knock the section headings out of alignment. */
   padding-inline: max(1rem, calc((100% - 1060px) / 2));
+}
+
+/* ---------- Every tab opens the same way ----------
+ * Eyebrow, title, one framing line - the same opening the Start page
+ * gives each part of the course.
+ */
+
+.wb-page-head h1 {
+  margin: 0.35rem 0 0;
+  font-size: clamp(1.35rem, 2.1vw, 1.7rem);
+  font-weight: 650;
+  letter-spacing: -0.025em;
+}
+
+.wb-page-lede {
+  margin: 0.4rem 0 0;
+  max-width: 70ch;
+  font-size: 0.92rem;
+  line-height: 1.55;
+  color: var(--bs-secondary-color);
+}
+
+/* On a document tab the header is just the first thing on the page. */
+.wb-page > .wb-page-head {
+  padding: 1.6rem 0 0.35rem;
+}
+
+/* On a tool tab it is a band above a layout that fills the rest, so it
+ * carries its own inset and a hairline to sit against. */
+.wb-tool-head {
+  flex: 0 0 auto;
+  padding: 1.1rem 1.15rem 1rem;
+  border-bottom: 1px solid var(--wb-hairline);
 }
 
 .wb-eyebrow {
@@ -342,6 +412,25 @@ pre.shiny-text-output, pre {
   display: block;
   margin-top: 0.15rem;
   font-size: 0.8rem;
+  color: var(--bs-secondary-color);
+}
+
+/* An empty panel says what would fill it, centred in the space it will
+ * eventually occupy, rather than leaving a blank rectangle. */
+.wb-empty {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 7rem;
+  padding: 2rem 1.5rem;
+}
+
+.wb-empty p {
+  margin: 0;
+  max-width: 44ch;
+  text-align: center;
+  font-size: 0.88rem;
+  line-height: 1.55;
   color: var(--bs-secondary-color);
 }
 

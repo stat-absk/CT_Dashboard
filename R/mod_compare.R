@@ -21,7 +21,14 @@ mod_compare_ui <- function(id) {
       bslib::nav_panel(
         "Plot",
         shiny::uiOutput(ns("plot_type_select")),
-        shiny::plotOutput(ns("plot"), height = "480px")
+        # Hidden until there is a comparison, so an unused tab reads as a
+        # short explanation rather than a tall void. Hidden rather than
+        # built on demand: bslib sizes a plot from its container, and a
+        # plot inserted into a uiOutput measures zero.
+        shiny::conditionalPanel(
+          condition = "output.has_comparison === true", ns = ns,
+          shiny::plotOutput(ns("plot"), height = "480px")
+        )
       ),
       bslib::nav_panel("Table", shiny::div(
         style = "overflow-x: auto;", shiny::tableOutput(ns("table"))
@@ -51,10 +58,12 @@ mod_compare_server <- function(id, store, store_version) {
     output$design_select <- shiny::renderUI({
       labels <- design_labels()
       if (length(labels) < 2) {
-        return(shiny::helpText(
-          "At least two stored designs are needed. ",
-          "Currently stored: ", length(labels), "."
-        ))
+        # sprintf, not several arguments: shiny joins those with spaces,
+        # which put a gap before the full stop.
+        return(shiny::helpText(sprintf(
+          "Two saved designs are needed to compare. You have %d so far.",
+          length(labels)
+        )))
       }
       shiny::checkboxGroupInput(ns("designs"), "Designs to compare",
                                 choices = labels)
@@ -90,13 +99,30 @@ mod_compare_server <- function(id, store, store_version) {
       list(res = outcome, described = describe_result(outcome$result))
     })
 
+    # `comparison` is an eventReactive, so reading it before Compare has
+    # ever been pressed raises a silent error that would abort the whole
+    # renderUI - including the empty state it is meant to show.
+    current <- shiny::reactive({
+      if (!isTRUE(input$compare > 0)) return(NULL)
+      comparison()
+    })
+
     output$plot_type_select <- shiny::renderUI({
-      o <- comparison()
-      shiny::req(o)
+      o <- current()
+      if (is.null(o)) {
+        return(wb_empty(
+          "Nothing to compare yet. Save two or more designs on the Design ",
+          "tab, then choose them on the left and press Compare."
+        ))
+      }
       types <- o$described$plot_types
       if (length(types) == 0) return(shiny::helpText("No plots available."))
       shiny::selectInput(ns("plot_type"), "Plot type", choices = types)
     })
+
+    output$has_comparison <- shiny::reactive(!is.null(current()))
+    # The panel is hidden, so without this the flag would never be sent.
+    shiny::outputOptions(output, "has_comparison", suspendWhenHidden = FALSE)
 
     output$plot <- shiny::renderPlot({
       o <- comparison()

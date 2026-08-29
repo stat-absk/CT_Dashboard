@@ -30,13 +30,16 @@ mod_runner_ui <- function(id) {
     ),
     shiny::uiOutput(ns("example_notes")),
     bslib::layout_columns(
-      col_widths = c(6, 6),
+      # Side by side only once the main area is genuinely wide enough for
+      # two readable columns; below that the result and the plot each get
+      # the full width rather than being squeezed into unreadable halves.
+      col_widths = bslib::breakpoints(sm = 12, xl = 6),
       bslib::card(
         bslib::card_header("Result"),
         shiny::verbatimTextOutput(ns("summary"), placeholder = TRUE),
         bslib::card_footer(
           shiny::div(
-            class = "d-flex gap-2 align-items-center",
+            class = "d-flex gap-2 align-items-center flex-wrap",
             shiny::textInput(ns("store_label"), NULL, placeholder = "label",
                              width = "160px"),
             shiny::actionButton(ns("store_save"), "Save for later use",
@@ -49,7 +52,14 @@ mod_runner_ui <- function(id) {
       bslib::card(
         bslib::card_header("Plot"),
         shiny::uiOutput(ns("plot_type_select")),
-        shiny::plotOutput(ns("plot"), height = "400px")
+        # Hidden until there is a plot, so an untouched tab shows a short
+        # explanation instead of an empty 400px rectangle. It is hidden
+        # rather than built on demand because bslib sizes a plot from its
+        # container, and a plot inserted into a uiOutput measures zero.
+        shiny::conditionalPanel(
+          condition = "output.has_plot === true", ns = ns,
+          shiny::plotOutput(ns("plot"), height = "400px")
+        )
       )
     ),
     bslib::card(
@@ -371,13 +381,25 @@ mod_runner_server <- function(id, family, catalog, store, store_version,
 
     output$plot_type_select <- shiny::renderUI({
       o <- last_outcome()
-      shiny::req(o, o$res$ok)
+      if (is.null(o) || !isTRUE(o$res$ok)) {
+        return(wb_empty(
+          "No plot yet. Run a computation - or load a worked example - ",
+          "and its plot appears here."
+        ))
+      }
       types <- o$described$plot_types
       if (length(types) == 0) {
         return(shiny::helpText("This result has no plots."))
       }
       shiny::selectInput(ns("plot_type"), NULL, choices = types, width = "120px")
     })
+
+    output$has_plot <- shiny::reactive({
+      o <- last_outcome()
+      !is.null(o) && isTRUE(o$res$ok) && length(o$described$plot_types) > 0
+    })
+    # The panel is hidden, so without this the flag would never be sent.
+    shiny::outputOptions(output, "has_plot", suspendWhenHidden = FALSE)
 
     output$plot <- shiny::renderPlot({
       o <- last_outcome()

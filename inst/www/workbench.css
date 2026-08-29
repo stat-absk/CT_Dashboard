@@ -1,0 +1,177 @@
+/* Workbench design system.
+ *
+ * Grounded in Apple's design guidance translated to the web: system
+ * typography with size-specific tracking, translucent material chrome
+ * with content scrolling underneath, instant press feedback, gentle
+ * recalculation states, and honored accessibility preferences
+ * (reduced motion, reduced transparency, increased contrast).
+ * Every color derives from Bootstrap's theme variables so light and
+ * dark mode both resolve correctly.
+ */
+
+:root {
+  --wb-radius: 12px;
+  --wb-hairline: color-mix(in srgb, var(--bs-body-color) 10%, transparent);
+  --wb-shadow: 0 1px 2px rgba(0, 0, 0, 0.04), 0 6px 20px rgba(0, 0, 0, 0.05);
+}
+
+/* ---------- Typography (optical sizing, tracking, hierarchy) ---------- */
+
+body {
+  font-family: system-ui, -apple-system, "Segoe UI", Roboto,
+    "Helvetica Neue", Arial, sans-serif;
+  font-optical-sizing: auto;
+  line-height: 1.5;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  letter-spacing: -0.015em;
+  line-height: 1.2;
+}
+
+.navbar-brand {
+  font-weight: 600;
+  letter-spacing: -0.02em;
+}
+
+.card-header {
+  font-weight: 600;
+  font-size: 0.92rem;
+  letter-spacing: -0.005em;
+  background: transparent;
+  border-bottom: 1px solid var(--wb-hairline);
+}
+
+.control-label, .form-label, label {
+  font-size: 0.86rem;
+  font-weight: 500;
+}
+
+.help-block, .text-muted, .form-text {
+  font-size: 0.82rem;
+  line-height: 1.45;
+}
+
+/* Code and results: monospace with comfortable leading */
+pre, code, .shiny-text-output {
+  font-family: ui-monospace, "SF Mono", SFMono-Regular, Menlo, Consolas,
+    "Liberation Mono", monospace;
+}
+
+pre.shiny-text-output, pre {
+  font-size: 0.83rem;
+  line-height: 1.5;
+  background: color-mix(in srgb, var(--bs-body-color) 4%, var(--bs-body-bg));
+  border: 1px solid var(--wb-hairline);
+  border-radius: 8px;
+  padding: 0.9rem 1.1rem;
+}
+
+/* ---------- Materials: translucent chrome, content scrolls under ---------- */
+
+.navbar {
+  position: sticky;
+  top: 0;
+  z-index: 1030;
+  background: color-mix(in srgb, var(--bs-body-bg) 72%, transparent) !important;
+  -webkit-backdrop-filter: blur(16px) saturate(180%);
+  backdrop-filter: blur(16px) saturate(180%);
+  border-bottom: 1px solid var(--wb-hairline);
+  box-shadow: none;
+}
+
+/* ---------- Depth: cards as considered surfaces ---------- */
+
+.card {
+  border-radius: var(--wb-radius);
+  border: 1px solid var(--wb-hairline);
+  box-shadow: var(--wb-shadow);
+}
+
+.accordion {
+  --bs-accordion-border-radius: 10px;
+  --bs-accordion-border-color: var(--wb-hairline);
+}
+
+.sidebar {
+  border-right: 1px solid var(--wb-hairline);
+}
+
+/* ---------- Response: feedback on press, not on release ---------- */
+
+.btn {
+  border-radius: 9px;
+  transition: transform 100ms ease-out, background-color 150ms ease-out,
+    box-shadow 150ms ease-out;
+}
+
+.btn:active {
+  transform: scale(0.97);
+}
+
+.nav-link {
+  transition: opacity 120ms ease-out;
+}
+
+.nav-link:active {
+  opacity: 0.6;
+}
+
+/* Keyboard focus is always visible */
+:focus-visible {
+  outline: 2px solid var(--bs-primary);
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+
+/* ---------- Recalculation: a gentle settle, not a grey flash ---------- */
+
+.recalculating {
+  opacity: 0.5 !important;
+  transition: opacity 250ms ease 150ms;
+}
+
+/* ---------- Layout rhythm ---------- */
+
+.shiny-input-container {
+  margin-bottom: 0.8rem;
+}
+
+.bslib-sidebar-layout > .main {
+  padding-top: 1rem;
+}
+
+/* New content settles in with a small rise (disabled under reduced motion) */
+@keyframes wb-rise {
+  from { opacity: 0; transform: translateY(6px); }
+  to   { opacity: 1; transform: none; }
+}
+
+.card {
+  animation: wb-rise 350ms cubic-bezier(0.2, 0.9, 0.25, 1);
+}
+
+/* ---------- Honored preferences ---------- */
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation: none !important;
+    transition-duration: 1ms !important;
+  }
+  .btn:active { transform: none; }
+}
+
+@media (prefers-reduced-transparency: reduce) {
+  .navbar {
+    background: var(--bs-body-bg) !important;
+    -webkit-backdrop-filter: none;
+    backdrop-filter: none;
+  }
+}
+
+@media (prefers-contrast: more) {
+  .card, pre.shiny-text-output, pre {
+    border-color: var(--bs-body-color);
+    box-shadow: none;
+  }
+}

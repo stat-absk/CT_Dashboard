@@ -9,6 +9,10 @@ app_ui <- function() {
       preset = "shiny",
       primary = "#0F6B66"
     ),
+    header = shiny::tagList(
+      shiny::tags$head(shiny::tags$style(shiny::HTML(workbench_css()))),
+      shiny::useBusyIndicators(spinners = FALSE, pulse = TRUE)
+    ),
     bslib::nav_panel(
       "Start",
       start_page_ui()
@@ -38,6 +42,7 @@ app_ui <- function() {
       )
     ),
     bslib::nav_spacer(),
+    bslib::nav_item(bslib::input_dark_mode(id = "dark_mode", mode = NULL)),
     bslib::nav_panel(
       "Environment",
       bslib::card(
@@ -51,6 +56,16 @@ app_ui <- function() {
       )
     )
   )
+}
+
+#' Read the design-system stylesheet shipped with the package
+#' @keywords internal
+workbench_css <- function() {
+  path <- system.file("www", "workbench.css", package = "rpactdash")
+  if (path == "") {
+    path <- file.path("inst", "www", "workbench.css")
+  }
+  paste(readLines(path, encoding = "UTF-8"), collapse = "\n")
 }
 
 #' The Start tab: orientation and a three-step learning path

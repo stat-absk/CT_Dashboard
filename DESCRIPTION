@@ -20,7 +20,8 @@ Imports:
     jsonlite,
     rlang,
     rpact (>= 4.4.0),
-    shiny
+    shiny,
+    thematic
 Suggests:
     testthat (>= 3.0.0),
     withr

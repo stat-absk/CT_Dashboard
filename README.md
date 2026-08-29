@@ -53,8 +53,13 @@ run_app()
 
 ## How the interface works
 
-- **Start tab** orients newcomers with a three-step learning path:
-  design a trial, size it, compare designs.
+- **Start tab: a six-chapter guided path** ordered the way people
+  actually learn - (1) your first sample size, (2) power, (3) survival
+  trials count events, (4) the case for interim looks, (5) sizing a
+  sequential trial, (6) O'Brien-Fleming vs Pocock. Each chapter teaches
+  one idea and drops you into the live tool with the matching worked
+  example loaded and running; chapters that need a saved design seed it
+  automatically.
 - **Smart inputs**: arguments with enumerated choices (rpact's
   `match.arg` defaults) render as dropdowns, saved objects as pickers,
   logicals as selects - no quoting or R syntax needed for the common

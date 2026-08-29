@@ -77,7 +77,7 @@ mod_runner_ui <- function(id) {
 mod_runner_server <- function(id, family, catalog, store, store_version,
                               label_prefix = family, examples = load_examples(),
                               group_fn = NULL, group_order = NULL,
-                              default_fn = NULL) {
+                              default_fn = NULL, pending = NULL) {
   shiny::moduleServer(id, function(input, output, session) {
     ns <- session$ns
     entries <- catalog_family(catalog, family)
@@ -272,9 +272,10 @@ mod_runner_server <- function(id, family, catalog, store, store_version,
     loaded_example <- shiny::reactiveVal(NULL)
     shiny::observeEvent(input$fn, loaded_example(NULL))
 
-    shiny::observeEvent(input$load_example, {
+    apply_example <- function(idx) {
       entry <- current_entry()
-      ex <- examples[[entry$name]][[as.integer(input$example)]]
+      ex <- examples[[entry$name]][[idx]]
+      if (is.null(ex)) return()
       specs <- arg_specs()
       for (a in entry$args) {
         if (identical(a$name, "...")) next
@@ -293,9 +294,38 @@ mod_runner_server <- function(id, family, catalog, store, store_version,
           shiny::updateTextInput(session, input_id, value = raw)
         }
       }
+      shiny::updateSelectInput(session, "example", selected = idx)
       loaded_example(ex)
       pending_run(TRUE)
-    })
+    }
+
+    shiny::observeEvent(input$load_example,
+                        apply_example(as.integer(input$example)))
+
+    # a Learn-path chapter can hand this module a function + example to
+    # open: switch the function first, then apply the example once the
+    # re-rendered form has reported its inputs back (arg_values fires)
+    staged_example <- shiny::reactiveVal(NULL)
+    if (!is.null(pending)) {
+      shiny::observeEvent(pending(), {
+        p <- pending()
+        if (is.null(p) || !identical(p$module, id)) return()
+        pending(NULL)
+        if (identical(input$fn, p$fn)) {
+          apply_example(p$example)
+        } else {
+          staged_example(p)
+          shiny::updateSelectInput(session, "fn", selected = p$fn)
+        }
+      })
+      shiny::observeEvent(arg_values(), {
+        s <- staged_example()
+        if (!is.null(s) && identical(input$fn, s$fn)) {
+          staged_example(NULL)
+          apply_example(s$example)
+        }
+      })
+    }
 
     output$example_notes <- shiny::renderUI({
       ex <- loaded_example()

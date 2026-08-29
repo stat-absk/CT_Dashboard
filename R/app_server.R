@@ -7,25 +7,22 @@ app_server <- function(input, output, session) {
 
   store <- store_new()
   store_version <- shiny::reactiveVal(0)
+  pending <- shiny::reactiveVal(NULL)
 
   mod_runner_server("design", "design", catalog, store, store_version,
-                    default_fn = "getDesignGroupSequential")
+                    default_fn = "getDesignGroupSequential",
+                    pending = pending)
   mod_runner_server(
     "samplesize", "samplesize_power", catalog, store, store_version,
     label_prefix = "result",
     group_fn = samplesize_group,
     group_order = c("Sample size", "Power", "Survival planning",
                     "Conversion calculators"),
-    default_fn = "getSampleSizeMeans"
+    default_fn = "getSampleSizeMeans",
+    pending = pending
   )
   mod_compare_server("compare", store, store_version)
-
-  shiny::observeEvent(input$go_design,
-                      bslib::nav_select("nav", "Design"))
-  shiny::observeEvent(input$go_samplesize,
-                      bslib::nav_select("nav", "Sample Size & Power"))
-  shiny::observeEvent(input$go_compare,
-                      bslib::nav_select("nav", "Compare Designs"))
+  learn_server(input, session, store, store_version, pending, catalog)
 
   output$store_table <- shiny::renderTable({
     store_version()

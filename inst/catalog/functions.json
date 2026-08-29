@@ -1,0 +1,3815 @@
+{
+  "meta": {
+    "rpact_version": "4.4.0",
+    "r_version": "4.6.1",
+    "generated": "2026-08-29 10:25:01 IST",
+    "n_functions": 78
+  },
+  "functions": [
+    {
+      "name": "getAccrualTime",
+      "family": "samplesize_power",
+      "title": "Get Accrual Time",
+      "args": [
+        {
+          "name": "accrualTime",
+          "required": false,
+          "default": "NA_real_"
+        },
+        {
+          "name": "...",
+          "required": true,
+          "default": null
+        },
+        {
+          "name": "accrualIntensity",
+          "required": false,
+          "default": "NA_real_"
+        },
+        {
+          "name": "accrualIntensityType",
+          "required": false,
+          "default": "c(\"auto\", \"absolute\", \"relative\")"
+        },
+        {
+          "name": "maxNumberOfSubjects",
+          "required": false,
+          "default": "NA_real_"
+        }
+      ]
+    },
+    {
+      "name": "getAnalysisResults",
+      "family": "analysis",
+      "title": "Get Analysis Results",
+      "args": [
+        {
+          "name": "design",
+          "required": true,
+          "default": null
+        },
+        {
+          "name": "dataInput",
+          "required": true,
+          "default": null
+        },
+        {
+          "name": "...",
+          "required": true,
+          "default": null
+        },
+        {
+          "name": "directionUpper",
+          "required": false,
+          "default": "NA"
+        },
+        {
+          "name": "thetaH0",
+          "required": false,
+          "default": "NA_real_"
+        },
+        {
+          "name": "nPlanned",
+          "required": false,
+          "default": "NA_real_"
+        },
+        {
+          "name": "allocationRatioPlanned",
+          "required": false,
+          "default": "1"
+        },
+        {
+          "name": "stage",
+          "required": false,
+          "default": "NA_integer_"
+        },
+        {
+          "name": "maxInformation",
+          "required": false,
+          "default": "NULL"
+        },
+        {
+          "name": "informationEpsilon",
+          "required": false,
+          "default": "NULL"
+        }
+      ]
+    },
+    {
+      "name": "getAvailablePlotTypes",
+      "family": "utility",
+      "title": "Get Available Plot Types",
+      "args": [
+        {
+          "name": "obj",
+          "required": true,
+          "default": null
+        },
+        {
+          "name": "output",
+          "required": false,
+          "default": "c(\"numeric\", \"caption\", \"numcap\", \"capnum\")"
+        },
+        {
+          "name": "numberInCaptionEnabled",
+          "required": false,
+          "default": "FALSE"
+        }
+      ]
+    },
+    {
+      "name": "getClosedCombinationTestResults",
+      "family": "analysis",
+      "title": "Get Closed Combination Test Results",
+      "args": [
+        {
+          "name": "stageResults",
+          "required": true,
+          "default": null
+        }
+      ]
+    },
+    {
+      "name": "getClosedConditionalDunnettTestResults",
+      "family": "analysis",
+      "title": "Get Closed Conditional Dunnett Test Results",
+      "args": [
+        {
+          "name": "stageResults",
+          "required": true,
+          "default": null
+        },
+        {
+          "name": "...",
+          "required": true,
+          "default": null
+        },
+        {
+          "name": "stage",
+          "required": false,
+          "default": "stageResults$stage"
+        }
+      ]
+    },
+    {
+      "name": "getConditionalPower",
+      "family": "analysis",
+      "title": "Get Conditional Power",
+      "args": [
+        {
+          "name": "stageResults",
+          "required": true,
+          "default": null
+        },
+        {
+          "name": "...",
+          "required": true,
+          "default": null
+        },
+        {
+          "name": "nPlanned",
+          "required": true,
+          "default": null
+        },
+        {
+          "name": "allocationRatioPlanned",
+          "required": false,
+          "default": "1"
+        }
+      ]
+    },
+    {
+      "name": "getConditionalRejectionProbabilities",
+      "family": "analysis",
+      "title": "Get Conditional Rejection Probabilities",
+      "args": [
+        {
+          "name": "stageResults",
+          "required": true,
+          "default": null
+        },
+        {
+          "name": "...",
+          "required": true,
+          "default": null
+        }
+      ]
+    },
+    {
+      "name": "getData",
+      "family": "simulation",
+      "title": "Get Simulation Data",
+      "args": [
+        {
+          "name": "x",
+          "required": true,
+          "default": null
+        }
+      ]
+    },
+    {
+      "name": "getData.SimulationResults",
+      "family": "simulation",
+      "title": "Get Simulation Data",
+      "args": [
+        {
+          "name": "x",
+          "required": true,
+          "default": null
+        }
+      ]
+    },
+    {
+      "name": "getDataset",
+      "family": "analysis",
+      "title": "Get Dataset",
+      "args": [
+        {
+          "name": "...",
+          "required": true,
+          "default": null
+        },
+        {
+          "name": "floatingPointNumbersEnabled",
+          "required": false,
+          "default": "FALSE"
+        }
+      ]
+    },
+    {
+      "name": "getDataSet",
+      "family": "analysis",
+      "title": "Get Dataset",
+      "args": [
+        {
+          "name": "...",
+          "required": true,
+          "default": null
+        },
+        {
+          "name": "floatingPointNumbersEnabled",
+          "required": false,
+          "default": "FALSE"
+        }
+      ]
+    },
+    {
+      "name": "getDesignCharacteristics",
+      "family": "design",
+      "title": "Get Design Characteristics",
+      "args": [
+        {
+          "name": "design",
+          "required": false,
+          "default": "NULL"
+        },
+        {
+          "name": "...",
+          "required": true,
+          "default": null
+        }
+      ]
+    },
+    {
+      "name": "getDesignConditionalDunnett",
+      "family": "design",
+      "title": "Get Design Conditional Dunnett Test",
+      "args": [
+        {
+          "name": "alpha",
+          "required": false,
+          "default": "0.025"
+        },
+        {
+          "name": "informationAtInterim",
+          "required": false,
+          "default": "0.5"
+        },
+        {
+          "name": "...",
+          "required": true,
+          "default": null
+        },
+        {
+          "name": "secondStageConditioning",
+          "required": false,
+          "default": "TRUE"
+        },
+        {
+          "name": "directionUpper",
+          "required": false,
+          "default": "NA"
+        }
+      ]
+    },
+    {
+      "name": "getDesignFisher",
+      "family": "design",
+      "title": "Get Design Fisher",
+      "args": [
+        {
+          "name": "...",
+          "required": true,
+          "default": null
+        },
+        {
+          "name": "kMax",
+          "required": false,
+          "default": "NA_integer_"
+        },
+        {
+          "name": "alpha",
+          "required": false,
+          "default": "NA_real_"
+        },
+        {
+          "name": "method",
+          "required": false,
+          "default": "c(\"equalAlpha\", \"fullAlpha\", \"noInteraction\", \"userDefinedAlpha\")"
+        },
+        {
+          "name": "userAlphaSpending",
+          "required": false,
+          "default": "NA_real_"
+        },
+        {
+          "name": "alpha0Vec",
+          "required": false,
+          "default": "NA_real_"
+        },
+        {
+          "name": "alpha0Scale",
+          "required": false,
+          "default": "c(\"pValue\", \"zValue\", \"condPowerAtObserved\", \"predictivePower\")"
+        },
+        {
+          "name": "informationRates",
+          "required": false,
+          "default": "NA_real_"
+        },
+        {
+          "name": "sided",
+          "required": false,
+          "default": "1"
+        },
+        {
+          "name": "bindingFutility",
+          "required": false,
+          "default": "NA"
+        },
+        {
+          "name": "directionUpper",
+          "required": false,
+          "default": "NA"
+        },
+        {
+          "name": "tolerance",
+          "required": false,
+          "default": "1e-14"
+        },
+        {
+          "name": "iterations",
+          "required": false,
+          "default": "0"
+        },
+        {
+          "name": "seed",
+          "required": false,
+          "default": "NA_real_"
+        }
+      ]
+    },
+    {
+      "name": "getDesignGroupSequential",
+      "family": "design",
+      "title": "Get Design Group Sequential",
+      "args": [
+        {
+          "name": "...",
+          "required": true,
+          "default": null
+        },
+        {
+          "name": "kMax",
+          "required": false,
+          "default": "NA_integer_"
+        },
+        {
+          "name": "alpha",
+          "required": false,
+          "default": "NA_real_"
+        },
+        {
+          "name": "beta",
+          "required": false,
+          "default": "NA_real_"
+        },
+        {
+          "name": "sided",
+          "required": false,
+          "default": "1L"
+        },
+        {
+          "name": "informationRates",
+          "required": false,
+          "default": "NA_real_"
+        },
+        {
+          "name": "futilityBounds",
+          "required": false,
+          "default": "NA_real_"
+        },
+        {
+          "name": "typeOfDesign",
+          "required": false,
+          "default": "c(\"OF\", \"P\", \"WT\", \"PT\", \"HP\", \"WToptimum\", \"asP\", \"asOF\", \"asKD\",      \"asHSD\", \"asUser\", \"noEarlyEfficacy\")"
+        },
+        {
+          "name": "deltaWT",
+          "required": false,
+          "default": "NA_real_"
+        },
+        {
+          "name": "deltaPT1",
+          "required": false,
+          "default": "NA_real_"
+        },
+        {
+          "name": "deltaPT0",
+          "required": false,
+          "default": "NA_real_"
+        },
+        {
+          "name": "optimizationCriterion",
+          "required": false,
+          "default": "c(\"ASNH1\", \"ASNIFH1\", \"ASNsum\")"
+        },
+        {
+          "name": "gammaA",
+          "required": false,
+          "default": "NA_real_"
+        },
+        {
+          "name": "typeBetaSpending",
+          "required": false,
+          "default": "c(\"none\", \"bsP\", \"bsOF\", \"bsKD\", \"bsHSD\", \"bsUser\")"
+        },
+        {
+          "name": "userAlphaSpending",
+          "required": false,
+          "default": "NA_real_"
+        },
+        {
+          "name": "userBetaSpending",
+          "required": false,
+          "default": "NA_real_"
+        },
+        {
+          "name": "efficacyStops",
+          "required": false,
+          "default": "NA"
+        },
+        {
+          "name": "futilityStops",
+          "required": false,
+          "default": "NA"
+        },
+        {
+          "name": "gammaB",
+          "required": false,
+          "default": "NA_real_"
+        },
+        {
+          "name": "bindingFutility",
+          "required": false,
+          "default": "NA"
+        },
+        {
+          "name": "futilityBoundsScale",
+          "required": false,
+          "default": "c(\"zValue\", \"pValue\", \"reverseCondPower\", \"condPowerAtObserved\",      \"predictivePower\")"
+        },
+        {
+          "name": "directionUpper",
+          "required": false,
+          "default": "NA"
+        },
+        {
+          "name": "betaAdjustment",
+          "required": false,
+          "default": "NA"
+        },
+        {
+          "name": "constantBoundsHP",
+          "required": false,
+          "default": "3"
+        },
+        {
+          "name": "twoSidedPower",
+          "required": false,
+          "default": "NA"
+        },
+        {
+          "name": "delayedInformation",
+          "required": false,
+          "default": "NA_real_"
+        },
+        {
+          "name": "tolerance",
+          "required": false,
+          "default": "1e-08"
+        }
+      ]
+    },
+    {
+      "name": "getDesignInverseNormal",
+      "family": "design",
+      "title": "Get Design Inverse Normal",
+      "args": [
+        {
+          "name": "...",
+          "required": true,
+          "default": null
+        },
+        {
+          "name": "kMax",
+          "required": false,
+          "default": "NA_integer_"
+        },
+        {
+          "name": "alpha",
+          "required": false,
+          "default": "NA_real_"
+        },
+        {
+          "name": "beta",
+          "required": false,
+          "default": "NA_real_"
+        },
+        {
+          "name": "sided",
+          "required": false,
+          "default": "1L"
+        },
+        {
+          "name": "informationRates",
+          "required": false,
+          "default": "NA_real_"
+        },
+        {
+          "name": "futilityBounds",
+          "required": false,
+          "default": "NA_real_"
+        },
+        {
+          "name": "typeOfDesign",
+          "required": false,
+          "default": "c(\"OF\", \"P\", \"WT\", \"PT\", \"HP\", \"WToptimum\", \"asP\", \"asOF\", \"asKD\",      \"asHSD\", \"asUser\", \"noEarlyEfficacy\")"
+        },
+        {
+          "name": "deltaWT",
+          "required": false,
+          "default": "NA_real_"
+        },
+        {
+          "name": "deltaPT1",
+          "required": false,
+          "default": "NA_real_"
+        },
+        {
+          "name": "deltaPT0",
+          "required": false,
+          "default": "NA_real_"
+        },
+        {
+          "name": "optimizationCriterion",
+          "required": false,
+          "default": "c(\"ASNH1\", \"ASNIFH1\", \"ASNsum\")"
+        },
+        {
+          "name": "gammaA",
+          "required": false,
+          "default": "NA_real_"
+        },
+        {
+          "name": "typeBetaSpending",
+          "required": false,
+          "default": "c(\"none\", \"bsP\", \"bsOF\", \"bsKD\", \"bsHSD\", \"bsUser\")"
+        },
+        {
+          "name": "userAlphaSpending",
+          "required": false,
+          "default": "NA_real_"
+        },
+        {
+          "name": "userBetaSpending",
+          "required": false,
+          "default": "NA_real_"
+        },
+        {
+          "name": "efficacyStops",
+          "required": false,
+          "default": "NA"
+        },
+        {
+          "name": "futilityStops",
+          "required": false,
+          "default": "NA"
+        },
+        {
+          "name": "gammaB",
+          "required": false,
+          "default": "NA_real_"
+        },
+        {
+          "name": "bindingFutility",
+          "required": false,
+          "default": "NA"
+        },
+        {
+          "name": "futilityBoundsScale",
+          "required": false,
+          "default": "c(\"zValue\", \"pValue\", \"reverseCondPower\", \"condPowerAtObserved\",      \"predictivePower\")"
+        },
+        {
+          "name": "directionUpper",
+          "required": false,
+          "default": "NA"
+        },
+        {
+          "name": "betaAdjustment",
+          "required": false,
+          "default": "NA"
+        },
+        {
+          "name": "constantBoundsHP",
+          "required": false,
+          "default": "3"
+        },
+        {
+          "name": "twoSidedPower",
+          "required": false,
+          "default": "NA"
+        },
+        {
+          "name": "tolerance",
+          "required": false,
+          "default": "1e-08"
+        }
+      ]
+    },
+    {
+      "name": "getDesignSet",
+      "family": "design",
+      "title": "Get Design Set",
+      "args": [
+        {
+          "name": "...",
+          "required": true,
+          "default": null
+        }
+      ]
+    },
+    {
+      "name": "getEventProbabilities",
+      "family": "samplesize_power",
+      "title": "Get Event Probabilities",
+      "args": [
+        {
+          "name": "time",
+          "required": true,
+          "default": null
+        },
+        {
+          "name": "...",
+          "required": true,
+          "default": null
+        },
+        {
+          "name": "accrualTime",
+          "required": false,
+          "default": "c(0, 12)"
+        },
+        {
+          "name": "accrualIntensity",
+          "required": false,
+          "default": "0.1"
+        },
+        {
+          "name": "accrualIntensityType",
+          "required": false,
+          "default": "c(\"auto\", \"absolute\", \"relative\")"
+        },
+        {
+          "name": "kappa",
+          "required": false,
+          "default": "1"
+        },
+        {
+          "name": "piecewiseSurvivalTime",
+          "required": false,
+          "default": "NA_real_"
+        },
+        {
+          "name": "lambda2",
+          "required": false,
+          "default": "NA_real_"
+        },
+        {
+          "name": "lambda1",
+          "required": false,
+          "default": "NA_real_"
+        },
+        {
+          "name": "allocationRatioPlanned",
+          "required": false,
+          "default": "1"
+        },
+        {
+          "name": "hazardRatio",
+          "required": false,
+          "default": "NA_real_"
+        },
+        {
+          "name": "dropoutRate1",
+          "required": false,
+          "default": "0"
+        },
+        {
+          "name": "dropoutRate2",
+          "required": false,
+          "default": "0"
+        },
+        {
+          "name": "dropoutTime",
+          "required": false,
+          "default": "12"
+        },
+        {
+          "name": "maxNumberOfSubjects",
+          "required": false,
+          "default": "NA_real_"
+        }
+      ]
+    },
+    {
+      "name": "getFinalConfidenceInterval",
+      "family": "analysis",
+      "title": "Get Final Confidence Interval",
+      "args": [
+        {
+          "name": "design",
+          "required": true,
+          "default": null
+        },
+        {
+          "name": "dataInput",
+          "required": true,
+          "default": null
+        },
+        {
+          "name": "...",
+          "required": true,
+          "default": null
+        },
+        {
+          "name": "directionUpper",
+          "required": false,
+          "default": "NA"
+        },
+        {
+          "name": "thetaH0",
+          "required": false,
+          "default": "NA_real_"
+        },
+        {
+          "name": "tolerance",
+          "required": false,
+          "default": "1e-06"
+        },
+        {
+          "name": "stage",
+          "required": false,
+          "default": "NA_integer_"
+        }
+      ]
+    },
+    {
+      "name": "getFinalPValue",
+      "family": "analysis",
+      "title": "Get Final P Value",
+      "args": [
+        {
+          "name": "stageResults",
+          "required": true,
+          "default": null
+        },
+        {
+          "name": "...",
+          "required": true,
+          "default": null
+        }
+      ]
+    },
+    {
+      "name": "getFutilityBounds",
+      "family": "design",
+      "title": "Get Futility Bounds",
+      "args": [
+        {
+          "name": "sourceValue",
+          "required": true,
+          "default": null
+        },
+        {
+          "name": "...",
+          "required": true,
+          "default": null
+        },
+        {
+          "name": "sourceScale",
+          "required": false,
+          "default": "c(\"zValue\", \"pValue\", \"conditionalPower\", \"condPowerAtObserved\",      \"predictivePower\", \"reverseCondPower\", \"effectEstimate\")"
+        },
+        {
+          "name": "targetScale",
+          "required": false,
+          "default": "c(\"zValue\", \"pValue\", \"conditionalPower\", \"condPowerAtObserved\",      \"predictivePower\", \"reverseCondPower\", \"effectEstimate\")"
+        },
+        {
+          "name": "design",
+          "required": false,
+          "default": "NULL"
+        },
+        {
+          "name": "theta",
+          "required": false,
+          "default": "NA_real_"
+        },
+        {
+          "name": "information",
+          "required": false,
+          "default": "NA_real_"
+        },
+        {
+          "name": "naAllowed",
+          "required": false,
+          "default": "FALSE"
+        }
+      ]
+    },
+    {
+      "name": "getGroupSequentialProbabilities",
+      "family": "design",
+      "title": "Get Group Sequential Probabilities",
+      "args": [
+        {
+          "name": "decisionMatrix",
+          "required": true,
+          "default": null
+        },
+        {
+          "name": "informationRates",
+          "required": true,
+          "default": null
+        }
+      ]
+    },
+    {
+      "name": "getHazardRatioByLambda",
+      "family": "samplesize_power",
+      "title": "Survival Helper Functions for Conversion of Pi, Lambda, Median, and Hazard Ratio Values",
+      "args": [
+        {
+          "name": "lambda1",
+          "required": true,
+          "default": null
+        },
+        {
+          "name": "lambda2",
+          "required": true,
+          "default": null
+        }
+      ]
+    },
+    {
+      "name": "getHazardRatioByMedian",
+      "family": "samplesize_power",
+      "title": "Survival Helper Functions for Conversion of Pi, Lambda, Median, and Hazard Ratio Values",
+      "args": [
+        {
+          "name": "median1",
+          "required": true,
+          "default": null
+        },
+        {
+          "name": "median2",
+          "required": true,
+          "default": null
+        },
+        {
+          "name": "kappa",
+          "required": false,
+          "default": "1"
+        }
+      ]
+    },
+    {
+      "name": "getHazardRatioByPi",
+      "family": "samplesize_power",
+      "title": "Survival Helper Functions for Conversion of Pi, Lambda, Median, and Hazard Ratio Values",
+      "args": [
+        {
+          "name": "pi1",
+          "required": true,
+          "default": null
+        },
+        {
+          "name": "pi2",
+          "required": true,
+          "default": null
+        },
+        {
+          "name": "eventTime",
+          "required": false,
+          "default": "12"
+        },
+        {
+          "name": "kappa",
+          "required": false,
+          "default": "1"
+        }
+      ]
+    },
+    {
+      "name": "getLambda1ByLambda2AndHazardRatio",
+      "family": "samplesize_power",
+      "title": "Survival Helper Functions for Conversion of Pi, Lambda, Median, and Hazard Ratio Values",
+      "args": [
+        {
+          "name": "lambda2",
+          "required": true,
+          "default": null
+        },
+        {
+          "name": "hazardRatio",
+          "required": true,
+          "default": null
+        }
+      ]
+    },
+    {
+      "name": "getLambda2ByLambda1AndHazardRatio",
+      "family": "samplesize_power",
+      "title": "Survival Helper Functions for Conversion of Pi, Lambda, Median, and Hazard Ratio Values",
+      "args": [
+        {
+          "name": "lambda1",
+          "required": true,
+          "default": null
+        },
+        {
+          "name": "hazardRatio",
+          "required": true,
+          "default": null
+        }
+      ]
+    },
+    {
+      "name": "getLambdaByMedian",
+      "family": "samplesize_power",
+      "title": "Survival Helper Functions for Conversion of Pi, Lambda, Median, and Hazard Ratio Values",
+      "args": [
+        {
+          "name": "median",
+          "required": true,
+          "default": null
+        },
+        {
+          "name": "kappa",
+          "required": false,
+          "default": "1"
+        }
+      ]
+    },
+    {
+      "name": "getLambdaByPi",
+      "family": "samplesize_power",
+      "title": "Survival Helper Functions for Conversion of Pi, Lambda, Median, and Hazard Ratio Values",
+      "args": [
+        {
+          "name": "piValue",
+          "required": true,
+          "default": null
+        },
+        {
+          "name": "eventTime",
+          "required": false,
+          "default": "12"
+        },
+        {
+          "name": "kappa",
+          "required": false,
+          "default": "1"
+        }
+      ]
+    },
+    {
+      "name": "getLambdaStepFunction",
+      "family": "utility",
+      "title": "Get Lambda Step Function",
+      "args": [
+        {
+          "name": "timeValues",
+          "required": true,
+          "default": null
+        },
+        {
+          "name": "...",
+          "required": true,
+          "default": null
+        },
+        {
+          "name": "piecewiseSurvivalTime",
+          "required": true,
+          "default": null
+        },
+        {
+          "name": "piecewiseLambda",
+          "required": true,
+          "default": null
+        }
+      ]
+    },
+    {
+      "name": "getLogLevel",
+      "family": "utility",
+      "title": "Get Log Level",
+      "args": []
+    },
+    {
+      "name": "getLongFormat",
+      "family": "analysis",
+      "title": "Get Long Format",
+      "args": [
+        {
+          "name": "dataInput",
+          "required": true,
+          "default": null
+        }
+      ]
+    },
+    {
+      "name": "getMedianByLambda",
+      "family": "samplesize_power",
+      "title": "Survival Helper Functions for Conversion of Pi, Lambda, Median, and Hazard Ratio Values",
+      "args": [
+        {
+          "name": "lambda",
+          "required": true,
+          "default": null
+        },
+        {
+          "name": "kappa",
+          "required": false,
+          "default": "1"
+        }
+      ]
+    },
+    {
+      "name": "getMedianByPi",
+      "family": "samplesize_power",
+      "title": "Survival Helper Functions for Conversion of Pi, Lambda, Median, and Hazard Ratio Values",
+      "args": [
+        {
+          "name": "piValue",
+          "required": true,
+          "default": null
+        },
+        {
+          "name": "eventTime",
+          "required": false,
+          "default": "12"
+        },
+        {
+          "name": "kappa",
+          "required": false,
+          "default": "1"
+        }
+      ]
+    },
+    {
+      "name": "getNumberOfSubjects",
+      "family": "samplesize_power",
+      "title": "Get Number Of Subjects",
+      "args": [
+        {
+          "name": "time",
+          "required": true,
+          "default": null
+        },
+        {
+          "name": "...",
+          "required": true,
+          "default": null
+        },
+        {
+          "name": "accrualTime",
+          "required": false,
+          "default": "c(0, 12)"
+        },
+        {
+          "name": "accrualIntensity",
+          "required": false,
+          "default": "0.1"
+        },
+        {
+          "name": "accrualIntensityType",
+          "required": false,
+          "default": "c(\"auto\", \"absolute\", \"relative\")"
+        },
+        {
+          "name": "maxNumberOfSubjects",
+          "required": false,
+          "default": "NA_real_"
+        }
+      ]
+    },
+    {
+      "name": "getObjectRCode",
+      "family": "utility",
+      "title": "Get Object R Code",
+      "args": [
+        {
+          "name": "obj",
+          "required": true,
+          "default": null
+        },
+        {
+          "name": "...",
+          "required": true,
+          "default": null
+        },
+        {
+          "name": "leadingArguments",
+          "required": false,
+          "default": "NULL"
+        },
+        {
+          "name": "includeDefaultParameters",
+          "required": false,
+          "default": "FALSE"
+        },
+        {
+          "name": "stringWrapParagraphWidth",
+          "required": false,
+          "default": "90"
+        },
+        {
+          "name": "prefix",
+          "required": false,
+          "default": "\"\""
+        },
+        {
+          "name": "postfix",
+          "required": false,
+          "default": "\"\""
+        },
+        {
+          "name": "stringWrapPrefix",
+          "required": false,
+          "default": "\"\""
+        },
+        {
+          "name": "newArgumentValues",
+          "required": false,
+          "default": "list()"
+        },
+        {
+          "name": "tolerance",
+          "required": false,
+          "default": "1e-07"
+        },
+        {
+          "name": "pipeOperator",
+          "required": false,
+          "default": "c(\"auto\", \"none\", \"magrittr\", \"R\")"
+        },
+        {
+          "name": "output",
+          "required": false,
+          "default": "c(\"vector\", \"cat\", \"test\", \"markdown\", \"internal\")"
+        },
+        {
+          "name": "explicitPrint",
+          "required": false,
+          "default": "FALSE"
+        }
+      ]
+    },
+    {
+      "name": "getObservedInformationRates",
+      "family": "analysis",
+      "title": "Get Observed Information Rates",
+      "args": [
+        {
+          "name": "dataInput",
+          "required": true,
+          "default": null
+        },
+        {
+          "name": "...",
+          "required": true,
+          "default": null
+        },
+        {
+          "name": "maxInformation",
+          "required": false,
+          "default": "NULL"
+        },
+        {
+          "name": "informationEpsilon",
+          "required": false,
+          "default": "NULL"
+        },
+        {
+          "name": "stage",
+          "required": false,
+          "default": "NA_integer_"
+        }
+      ]
+    },
+    {
+      "name": "getOutputFormat",
+      "family": "utility",
+      "title": "Get Output Format",
+      "args": [
+        {
+          "name": "parameterName",
+          "required": false,
+          "default": "NA_character_"
+        },
+        {
+          "name": "...",
+          "required": true,
+          "default": null
+        },
+        {
+          "name": "file",
+          "required": false,
+          "default": "NA_character_"
+        },
+        {
+          "name": "default",
+          "required": false,
+          "default": "FALSE"
+        },
+        {
+          "name": "fields",
+          "required": false,
+          "default": "TRUE"
+        }
+      ]
+    },
+    {
+      "name": "getParameterCaption",
+      "family": "utility",
+      "title": "Get Parameter Caption",
+      "args": [
+        {
+          "name": "obj",
+          "required": true,
+          "default": null
+        },
+        {
+          "name": "var",
+          "required": true,
+          "default": null
+        }
+      ]
+    },
+    {
+      "name": "getParameterName",
+      "family": "utility",
+      "title": "Get Parameter Name",
+      "args": [
+        {
+          "name": "obj",
+          "required": true,
+          "default": null
+        },
+        {
+          "name": "parameterCaption",
+          "required": true,
+          "default": null
+        }
+      ]
+    },
+    {
+      "name": "getParameterType",
+      "family": "utility",
+      "title": "Get Parameter Type",
+      "args": [
+        {
+          "name": "obj",
+          "required": true,
+          "default": null
+        },
+        {
+          "name": "var",
+          "required": true,
+          "default": null
+        }
+      ]
+    },
+    {
+      "name": "getPerformanceScore",
+      "family": "simulation",
+      "title": "Get Performance Score",
+      "args": [
+        {
+          "name": "simulationResult",
+          "required": true,
+          "default": null
+        }
+      ]
+    },
+    {
+      "name": "getPi1ByPi2AndHazardRatio",
+      "family": "samplesize_power",
+      "title": "Survival Helper Functions for Conversion of Pi, Lambda, Median, and Hazard Ratio Values",
+      "args": [
+        {
+          "name": "pi2",
+          "required": true,
+          "default": null
+        },
+        {
+          "name": "hazardRatio",
+          "required": true,
+          "default": null
+        },
+        {
+          "name": "eventTime",
+          "required": false,
+          "default": "12"
+        },
+        {
+          "name": "kappa",
+          "required": false,
+          "default": "1"
+        }
+      ]
+    },
+    {
+      "name": "getPi2ByPi1AndHazardRatio",
+      "family": "samplesize_power",
+      "title": "Survival Helper Functions for Conversion of Pi, Lambda, Median, and Hazard Ratio Values",
+      "args": [
+        {
+          "name": "pi1",
+          "required": true,
+          "default": null
+        },
+        {
+          "name": "hazardRatio",
+          "required": true,
+          "default": null
+        },
+        {
+          "name": "eventTime",
+          "required": false,
+          "default": "12"
+        },
+        {
+          "name": "kappa",
+          "required": false,
+          "default": "1"
+        }
+      ]
+    },
+    {
+      "name": "getPiByLambda",
+      "family": "samplesize_power",
+      "title": "Survival Helper Functions for Conversion of Pi, Lambda, Median, and Hazard Ratio Values",
+      "args": [
+        {
+          "name": "lambda",
+          "required": true,
+          "default": null
+        },
+        {
+          "name": "eventTime",
+          "required": false,
+          "default": "12"
+        },
+        {
+          "name": "kappa",
+          "required": false,
+          "default": "1"
+        }
+      ]
+    },
+    {
+      "name": "getPiByMedian",
+      "family": "samplesize_power",
+      "title": "Survival Helper Functions for Conversion of Pi, Lambda, Median, and Hazard Ratio Values",
+      "args": [
+        {
+          "name": "median",
+          "required": true,
+          "default": null
+        },
+        {
+          "name": "eventTime",
+          "required": false,
+          "default": "12"
+        },
+        {
+          "name": "kappa",
+          "required": false,
+          "default": "1"
+        }
+      ]
+    },
+    {
+      "name": "getPiecewiseExponentialDistribution",
+      "family": "samplesize_power",
+      "title": "The Piecewise Exponential Distribution",
+      "args": [
+        {
+          "name": "time",
+          "required": true,
+          "default": null
+        },
+        {
+          "name": "...",
+          "required": true,
+          "default": null
+        },
+        {
+          "name": "piecewiseSurvivalTime",
+          "required": false,
+          "default": "NA_real_"
+        },
+        {
+          "name": "piecewiseLambda",
+          "required": false,
+          "default": "NA_real_"
+        },
+        {
+          "name": "kappa",
+          "required": false,
+          "default": "1"
+        }
+      ]
+    },
+    {
+      "name": "getPiecewiseExponentialQuantile",
+      "family": "samplesize_power",
+      "title": "The Piecewise Exponential Distribution",
+      "args": [
+        {
+          "name": "quantile",
+          "required": true,
+          "default": null
+        },
+        {
+          "name": "...",
+          "required": true,
+          "default": null
+        },
+        {
+          "name": "piecewiseSurvivalTime",
+          "required": false,
+          "default": "NA_real_"
+        },
+        {
+          "name": "piecewiseLambda",
+          "required": false,
+          "default": "NA_real_"
+        },
+        {
+          "name": "kappa",
+          "required": false,
+          "default": "1"
+        }
+      ]
+    },
+    {
+      "name": "getPiecewiseExponentialRandomNumbers",
+      "family": "samplesize_power",
+      "title": "The Piecewise Exponential Distribution",
+      "args": [
+        {
+          "name": "n",
+          "required": true,
+          "default": null
+        },
+        {
+          "name": "...",
+          "required": true,
+          "default": null
+        },
+        {
+          "name": "piecewiseSurvivalTime",
+          "required": false,
+          "default": "NA_real_"
+        },
+        {
+          "name": "piecewiseLambda",
+          "required": false,
+          "default": "NA_real_"
+        },
+        {
+          "name": "kappa",
+          "required": false,
+          "default": "1"
+        }
+      ]
+    },
+    {
+      "name": "getPiecewiseSurvivalTime",
+      "family": "samplesize_power",
+      "title": "Get Piecewise Survival Time",
+      "args": [
+        {
+          "name": "piecewiseSurvivalTime",
+          "required": false,
+          "default": "NA_real_"
+        },
+        {
+          "name": "...",
+          "required": true,
+          "default": null
+        },
+        {
+          "name": "lambda1",
+          "required": false,
+          "default": "NA_real_"
+        },
+        {
+          "name": "lambda2",
+          "required": false,
+          "default": "NA_real_"
+        },
+        {
+          "name": "hazardRatio",
+          "required": false,
+          "default": "NA_real_"
+        },
+        {
+          "name": "pi1",
+          "required": false,
+          "default": "NA_real_"
+        },
+        {
+          "name": "pi2",
+          "required": false,
+          "default": "NA_real_"
+        },
+        {
+          "name": "median1",
+          "required": false,
+          "default": "NA_real_"
+        },
+        {
+          "name": "median2",
+          "required": false,
+          "default": "NA_real_"
+        },
+        {
+          "name": "eventTime",
+          "required": false,
+          "default": "12"
+        },
+        {
+          "name": "kappa",
+          "required": false,
+          "default": "1"
+        },
+        {
+          "name": "delayedResponseAllowed",
+          "required": false,
+          "default": "FALSE"
+        }
+      ]
+    },
+    {
+      "name": "getPlotSettings",
+      "family": "utility",
+      "title": "Get Plot Settings",
+      "args": [
+        {
+          "name": "lineSize",
+          "required": false,
+          "default": "0.8"
+        },
+        {
+          "name": "pointSize",
+          "required": false,
+          "default": "3"
+        },
+        {
+          "name": "pointColor",
+          "required": false,
+          "default": "NA_character_"
+        },
+        {
+          "name": "mainTitleFontSize",
+          "required": false,
+          "default": "14"
+        },
+        {
+          "name": "axesTextFontSize",
+          "required": false,
+          "default": "10"
+        },
+        {
+          "name": "legendFontSize",
+          "required": false,
+          "default": "11"
+        },
+        {
+          "name": "scalingFactor",
+          "required": false,
+          "default": "1"
+        }
+      ]
+    },
+    {
+      "name": "getPowerAndAverageSampleNumber",
+      "family": "design",
+      "title": "Get Power And Average Sample Number",
+      "args": [
+        {
+          "name": "design",
+          "required": true,
+          "default": null
+        },
+        {
+          "name": "theta",
+          "required": false,
+          "default": "seq(-1, 1, 0.02)"
+        },
+        {
+          "name": "nMax",
+          "required": false,
+          "default": "100"
+        }
+      ]
+    },
+    {
+      "name": "getPowerCounts",
+      "family": "samplesize_power",
+      "title": "Get Power Counts",
+      "args": [
+        {
+          "name": "design",
+          "required": false,
+          "default": "NULL"
+        },
+        {
+          "name": "...",
+          "required": true,
+          "default": null
+        },
+        {
+          "name": "directionUpper",
+          "required": false,
+          "default": "NA"
+        },
+        {
+          "name": "maxNumberOfSubjects",
+          "required": false,
+          "default": "NA_real_"
+        },
+        {
+          "name": "lambda1",
+          "required": false,
+          "default": "NA_real_"
+        },
+        {
+          "name": "lambda2",
+          "required": false,
+          "default": "NA_real_"
+        },
+        {
+          "name": "lambda",
+          "required": false,
+          "default": "NA_real_"
+        },
+        {
+          "name": "theta",
+          "required": false,
+          "default": "NA_real_"
+        },
+        {
+          "name": "thetaH0",
+          "required": false,
+          "default": "1"
+        },
+        {
+          "name": "overdispersion",
+          "required": false,
+          "default": "0"
+        },
+        {
+          "name": "fixedExposureTime",
+          "required": false,
+          "default": "NA_real_"
+        },
+        {
+          "name": "accrualTime",
+          "required": false,
+          "default": "NA_real_"
+        },
+        {
+          "name": "accrualIntensity",
+          "required": false,
+          "default": "NA_real_"
+        },
+        {
+          "name": "followUpTime",
+          "required": false,
+          "default": "NA_real_"
+        },
+        {
+          "name": "allocationRatioPlanned",
+          "required": false,
+          "default": "NA_real_"
+        }
+      ]
+    },
+    {
+      "name": "getPowerMeans",
+      "family": "samplesize_power",
+      "title": "Get Power Means",
+      "args": [
+        {
+          "name": "design",
+          "required": false,
+          "default": "NULL"
+        },
+        {
+          "name": "...",
+          "required": true,
+          "default": null
+        },
+        {
+          "name": "groups",
+          "required": false,
+          "default": "2L"
+        },
+        {
+          "name": "normalApproximation",
+          "required": false,
+          "default": "FALSE"
+        },
+        {
+          "name": "meanRatio",
+          "required": false,
+          "default": "FALSE"
+        },
+        {
+          "name": "thetaH0",
+          "required": false,
+          "default": "ifelse(meanRatio, 1, 0)"
+        },
+        {
+          "name": "alternative",
+          "required": false,
+          "default": "seq(0, 1, 0.2)"
+        },
+        {
+          "name": "stDev",
+          "required": false,
+          "default": "1"
+        },
+        {
+          "name": "directionUpper",
+          "required": false,
+          "default": "NA"
+        },
+        {
+          "name": "maxNumberOfSubjects",
+          "required": false,
+          "default": "NA_real_"
+        },
+        {
+          "name": "allocationRatioPlanned",
+          "required": false,
+          "default": "NA_real_"
+        }
+      ]
+    },
+    {
+      "name": "getPowerRates",
+      "family": "samplesize_power",
+      "title": "Get Power Rates",
+      "args": [
+        {
+          "name": "design",
+          "required": false,
+          "default": "NULL"
+        },
+        {
+          "name": "...",
+          "required": true,
+          "default": null
+        },
+        {
+          "name": "groups",
+          "required": false,
+          "default": "2L"
+        },
+        {
+          "name": "riskRatio",
+          "required": false,
+          "default": "FALSE"
+        },
+        {
+          "name": "thetaH0",
+          "required": false,
+          "default": "ifelse(riskRatio, 1, 0)"
+        },
+        {
+          "name": "pi1",
+          "required": false,
+          "default": "seq(0.2, 0.5, 0.1)"
+        },
+        {
+          "name": "pi2",
+          "required": false,
+          "default": "0.2"
+        },
+        {
+          "name": "directionUpper",
+          "required": false,
+          "default": "NA"
+        },
+        {
+          "name": "maxNumberOfSubjects",
+          "required": false,
+          "default": "NA_real_"
+        },
+        {
+          "name": "allocationRatioPlanned",
+          "required": false,
+          "default": "NA_real_"
+        }
+      ]
+    },
+    {
+      "name": "getPowerSurvival",
+      "family": "samplesize_power",
+      "title": "Get Power Survival",
+      "args": [
+        {
+          "name": "design",
+          "required": false,
+          "default": "NULL"
+        },
+        {
+          "name": "...",
+          "required": true,
+          "default": null
+        },
+        {
+          "name": "typeOfComputation",
+          "required": false,
+          "default": "c(\"Schoenfeld\", \"Freedman\", \"HsiehFreedman\")"
+        },
+        {
+          "name": "thetaH0",
+          "required": false,
+          "default": "1"
+        },
+        {
+          "name": "directionUpper",
+          "required": false,
+          "default": "NA"
+        },
+        {
+          "name": "pi1",
+          "required": false,
+          "default": "NA_real_"
+        },
+        {
+          "name": "pi2",
+          "required": false,
+          "default": "NA_real_"
+        },
+        {
+          "name": "lambda1",
+          "required": false,
+          "default": "NA_real_"
+        },
+        {
+          "name": "lambda2",
+          "required": false,
+          "default": "NA_real_"
+        },
+        {
+          "name": "median1",
+          "required": false,
+          "default": "NA_real_"
+        },
+        {
+          "name": "median2",
+          "required": false,
+          "default": "NA_real_"
+        },
+        {
+          "name": "kappa",
+          "required": false,
+          "default": "1"
+        },
+        {
+          "name": "hazardRatio",
+          "required": false,
+          "default": "NA_real_"
+        },
+        {
+          "name": "piecewiseSurvivalTime",
+          "required": false,
+          "default": "NA_real_"
+        },
+        {
+          "name": "allocationRatioPlanned",
+          "required": false,
+          "default": "1"
+        },
+        {
+          "name": "eventTime",
+          "required": false,
+          "default": "12"
+        },
+        {
+          "name": "accrualTime",
+          "required": false,
+          "default": "c(0, 12)"
+        },
+        {
+          "name": "accrualIntensity",
+          "required": false,
+          "default": "0.1"
+        },
+        {
+          "name": "accrualIntensityType",
+          "required": false,
+          "default": "c(\"auto\", \"absolute\", \"relative\")"
+        },
+        {
+          "name": "maxNumberOfSubjects",
+          "required": false,
+          "default": "NA_real_"
+        },
+        {
+          "name": "maxNumberOfEvents",
+          "required": false,
+          "default": "NA_real_"
+        },
+        {
+          "name": "dropoutRate1",
+          "required": false,
+          "default": "0"
+        },
+        {
+          "name": "dropoutRate2",
+          "required": false,
+          "default": "0"
+        },
+        {
+          "name": "dropoutTime",
+          "required": false,
+          "default": "12"
+        }
+      ]
+    },
+    {
+      "name": "getRawData",
+      "family": "simulation",
+      "title": "Get Simulation Raw Data for Survival",
+      "args": [
+        {
+          "name": "x",
+          "required": true,
+          "default": null
+        },
+        {
+          "name": "aggregate",
+          "required": false,
+          "default": "FALSE"
+        }
+      ]
+    },
+    {
+      "name": "getRepeatedConfidenceIntervals",
+      "family": "analysis",
+      "title": "Get Repeated Confidence Intervals",
+      "args": [
+        {
+          "name": "design",
+          "required": true,
+          "default": null
+        },
+        {
+          "name": "dataInput",
+          "required": true,
+          "default": null
+        },
+        {
+          "name": "...",
+          "required": true,
+          "default": null
+        },
+        {
+          "name": "directionUpper",
+          "required": false,
+          "default": "NA"
+        },
+        {
+          "name": "tolerance",
+          "required": false,
+          "default": "1e-06"
+        },
+        {
+          "name": "stage",
+          "required": false,
+          "default": "NA_integer_"
+        }
+      ]
+    },
+    {
+      "name": "getRepeatedPValues",
+      "family": "analysis",
+      "title": "Get Repeated P Values",
+      "args": [
+        {
+          "name": "stageResults",
+          "required": true,
+          "default": null
+        },
+        {
+          "name": "...",
+          "required": true,
+          "default": null
+        },
+        {
+          "name": "tolerance",
+          "required": false,
+          "default": "1e-06"
+        }
+      ]
+    },
+    {
+      "name": "getSampleSizeCounts",
+      "family": "samplesize_power",
+      "title": "Get Sample Size Counts",
+      "args": [
+        {
+          "name": "design",
+          "required": false,
+          "default": "NULL"
+        },
+        {
+          "name": "...",
+          "required": true,
+          "default": null
+        },
+        {
+          "name": "lambda1",
+          "required": false,
+          "default": "NA_real_"
+        },
+        {
+          "name": "lambda2",
+          "required": false,
+          "default": "NA_real_"
+        },
+        {
+          "name": "lambda",
+          "required": false,
+          "default": "NA_real_"
+        },
+        {
+          "name": "theta",
+          "required": false,
+          "default": "NA_real_"
+        },
+        {
+          "name": "thetaH0",
+          "required": false,
+          "default": "1"
+        },
+        {
+          "name": "overdispersion",
+          "required": false,
+          "default": "0"
+        },
+        {
+          "name": "fixedExposureTime",
+          "required": false,
+          "default": "NA_real_"
+        },
+        {
+          "name": "accrualTime",
+          "required": false,
+          "default": "NA_real_"
+        },
+        {
+          "name": "accrualIntensity",
+          "required": false,
+          "default": "NA_real_"
+        },
+        {
+          "name": "followUpTime",
+          "required": false,
+          "default": "NA_real_"
+        },
+        {
+          "name": "maxNumberOfSubjects",
+          "required": false,
+          "default": "NA_integer_"
+        },
+        {
+          "name": "allocationRatioPlanned",
+          "required": false,
+          "default": "NA_real_"
+        }
+      ]
+    },
+    {
+      "name": "getSampleSizeMeans",
+      "family": "samplesize_power",
+      "title": "Get Sample Size Means",
+      "args": [
+        {
+          "name": "design",
+          "required": false,
+          "default": "NULL"
+        },
+        {
+          "name": "...",
+          "required": true,
+          "default": null
+        },
+        {
+          "name": "groups",
+          "required": false,
+          "default": "2L"
+        },
+        {
+          "name": "normalApproximation",
+          "required": false,
+          "default": "FALSE"
+        },
+        {
+          "name": "meanRatio",
+          "required": false,
+          "default": "FALSE"
+        },
+        {
+          "name": "thetaH0",
+          "required": false,
+          "default": "ifelse(meanRatio, 1, 0)"
+        },
+        {
+          "name": "alternative",
+          "required": false,
+          "default": "seq(0.2, 1, 0.2)"
+        },
+        {
+          "name": "stDev",
+          "required": false,
+          "default": "1"
+        },
+        {
+          "name": "allocationRatioPlanned",
+          "required": false,
+          "default": "NA_real_"
+        }
+      ]
+    },
+    {
+      "name": "getSampleSizeRates",
+      "family": "samplesize_power",
+      "title": "Get Sample Size Rates",
+      "args": [
+        {
+          "name": "design",
+          "required": false,
+          "default": "NULL"
+        },
+        {
+          "name": "...",
+          "required": true,
+          "default": null
+        },
+        {
+          "name": "groups",
+          "required": false,
+          "default": "2L"
+        },
+        {
+          "name": "normalApproximation",
+          "required": false,
+          "default": "TRUE"
+        },
+        {
+          "name": "conservative",
+          "required": false,
+          "default": "TRUE"
+        },
+        {
+          "name": "riskRatio",
+          "required": false,
+          "default": "FALSE"
+        },
+        {
+          "name": "thetaH0",
+          "required": false,
+          "default": "ifelse(riskRatio, 1, 0)"
+        },
+        {
+          "name": "pi1",
+          "required": false,
+          "default": "c(0.4, 0.5, 0.6)"
+        },
+        {
+          "name": "pi2",
+          "required": false,
+          "default": "0.2"
+        },
+        {
+          "name": "allocationRatioPlanned",
+          "required": false,
+          "default": "NA_real_"
+        }
+      ]
+    },
+    {
+      "name": "getSampleSizeSurvival",
+      "family": "samplesize_power",
+      "title": "Get Sample Size Survival",
+      "args": [
+        {
+          "name": "design",
+          "required": false,
+          "default": "NULL"
+        },
+        {
+          "name": "...",
+          "required": true,
+          "default": null
+        },
+        {
+          "name": "typeOfComputation",
+          "required": false,
+          "default": "c(\"Schoenfeld\", \"Freedman\", \"HsiehFreedman\")"
+        },
+        {
+          "name": "thetaH0",
+          "required": false,
+          "default": "1"
+        },
+        {
+          "name": "pi1",
+          "required": false,
+          "default": "NA_real_"
+        },
+        {
+          "name": "pi2",
+          "required": false,
+          "default": "NA_real_"
+        },
+        {
+          "name": "lambda1",
+          "required": false,
+          "default": "NA_real_"
+        },
+        {
+          "name": "lambda2",
+          "required": false,
+          "default": "NA_real_"
+        },
+        {
+          "name": "median1",
+          "required": false,
+          "default": "NA_real_"
+        },
+        {
+          "name": "median2",
+          "required": false,
+          "default": "NA_real_"
+        },
+        {
+          "name": "kappa",
+          "required": false,
+          "default": "1"
+        },
+        {
+          "name": "hazardRatio",
+          "required": false,
+          "default": "NA_real_"
+        },
+        {
+          "name": "piecewiseSurvivalTime",
+          "required": false,
+          "default": "NA_real_"
+        },
+        {
+          "name": "allocationRatioPlanned",
+          "required": false,
+          "default": "NA_real_"
+        },
+        {
+          "name": "eventTime",
+          "required": false,
+          "default": "12"
+        },
+        {
+          "name": "accrualTime",
+          "required": false,
+          "default": "c(0, 12)"
+        },
+        {
+          "name": "accrualIntensity",
+          "required": false,
+          "default": "0.1"
+        },
+        {
+          "name": "accrualIntensityType",
+          "required": false,
+          "default": "c(\"auto\", \"absolute\", \"relative\")"
+        },
+        {
+          "name": "followUpTime",
+          "required": false,
+          "default": "NA_real_"
+        },
+        {
+          "name": "maxNumberOfSubjects",
+          "required": false,
+          "default": "NA_real_"
+        },
+        {
+          "name": "dropoutRate1",
+          "required": false,
+          "default": "0"
+        },
+        {
+          "name": "dropoutRate2",
+          "required": false,
+          "default": "0"
+        },
+        {
+          "name": "dropoutTime",
+          "required": false,
+          "default": "12"
+        }
+      ]
+    },
+    {
+      "name": "getSimulationCounts",
+      "family": "simulation",
+      "title": "Get Simulation Counts",
+      "args": [
+        {
+          "name": "design",
+          "required": false,
+          "default": "NULL"
+        },
+        {
+          "name": "...",
+          "required": true,
+          "default": null
+        },
+        {
+          "name": "plannedCalendarTime",
+          "required": false,
+          "default": "NA_real_"
+        },
+        {
+          "name": "maxNumberOfSubjects",
+          "required": false,
+          "default": "NA_real_"
+        },
+        {
+          "name": "lambda1",
+          "required": false,
+          "default": "NA_real_"
+        },
+        {
+          "name": "lambda2",
+          "required": false,
+          "default": "NA_real_"
+        },
+        {
+          "name": "lambda",
+          "required": false,
+          "default": "NA_real_"
+        },
+        {
+          "name": "theta",
+          "required": false,
+          "default": "NA_real_"
+        },
+        {
+          "name": "directionUpper",
+          "required": false,
+          "default": "NA"
+        },
+        {
+          "name": "thetaH0",
+          "required": false,
+          "default": "1"
+        },
+        {
+          "name": "overdispersion",
+          "required": false,
+          "default": "0"
+        },
+        {
+          "name": "fixedExposureTime",
+          "required": false,
+          "default": "NA_real_"
+        },
+        {
+          "name": "accrualTime",
+          "required": false,
+          "default": "NA_real_"
+        },
+        {
+          "name": "accrualIntensity",
+          "required": false,
+          "default": "NA_real_"
+        },
+        {
+          "name": "followUpTime",
+          "required": false,
+          "default": "NA_real_"
+        },
+        {
+          "name": "allocationRatioPlanned",
+          "required": false,
+          "default": "NA_real_"
+        },
+        {
+          "name": "maxNumberOfIterations",
+          "required": false,
+          "default": "1000L"
+        },
+        {
+          "name": "seed",
+          "required": false,
+          "default": "NA_real_"
+        },
+        {
+          "name": "showStatistics",
+          "required": false,
+          "default": "FALSE"
+        }
+      ]
+    },
+    {
+      "name": "getSimulationEnrichmentMeans",
+      "family": "simulation",
+      "title": "Get Simulation Enrichment Means",
+      "args": [
+        {
+          "name": "design",
+          "required": false,
+          "default": "NULL"
+        },
+        {
+          "name": "...",
+          "required": true,
+          "default": null
+        },
+        {
+          "name": "effectList",
+          "required": false,
+          "default": "NULL"
+        },
+        {
+          "name": "intersectionTest",
+          "required": false,
+          "default": "c(\"Simes\", \"SpiessensDebois\", \"Bonferroni\", \"Sidak\")"
+        },
+        {
+          "name": "stratifiedAnalysis",
+          "required": false,
+          "default": "TRUE"
+        },
+        {
+          "name": "adaptations",
+          "required": false,
+          "default": "NA"
+        },
+        {
+          "name": "typeOfSelection",
+          "required": false,
+          "default": "c(\"best\", \"rBest\", \"epsilon\", \"all\", \"userDefined\")"
+        },
+        {
+          "name": "effectMeasure",
+          "required": false,
+          "default": "c(\"effectEstimate\", \"testStatistic\")"
+        },
+        {
+          "name": "successCriterion",
+          "required": false,
+          "default": "c(\"all\", \"atLeastOne\")"
+        },
+        {
+          "name": "epsilonValue",
+          "required": false,
+          "default": "NA_real_"
+        },
+        {
+          "name": "rValue",
+          "required": false,
+          "default": "NA_real_"
+        },
+        {
+          "name": "threshold",
+          "required": false,
+          "default": "-Inf"
+        },
+        {
+          "name": "plannedSubjects",
+          "required": false,
+          "default": "NA_integer_"
+        },
+        {
+          "name": "allocationRatioPlanned",
+          "required": false,
+          "default": "NA_real_"
+        },
+        {
+          "name": "minNumberOfSubjectsPerStage",
+          "required": false,
+          "default": "NA_real_"
+        },
+        {
+          "name": "maxNumberOfSubjectsPerStage",
+          "required": false,
+          "default": "NA_real_"
+        },
+        {
+          "name": "conditionalPower",
+          "required": false,
+          "default": "NA_real_"
+        },
+        {
+          "name": "thetaH1",
+          "required": false,
+          "default": "NA_real_"
+        },
+        {
+          "name": "stDevH1",
+          "required": false,
+          "default": "NA_real_"
+        },
+        {
+          "name": "maxNumberOfIterations",
+          "required": false,
+          "default": "1000L"
+        },
+        {
+          "name": "seed",
+          "required": false,
+          "default": "NA_real_"
+        },
+        {
+          "name": "calcSubjectsFunction",
+          "required": false,
+          "default": "NULL"
+        },
+        {
+          "name": "selectPopulationsFunction",
+          "required": false,
+          "default": "NULL"
+        },
+        {
+          "name": "showStatistics",
+          "required": false,
+          "default": "FALSE"
+        }
+      ]
+    },
+    {
+      "name": "getSimulationEnrichmentRates",
+      "family": "simulation",
+      "title": "Get Simulation Enrichment Rates",
+      "args": [
+        {
+          "name": "design",
+          "required": false,
+          "default": "NULL"
+        },
+        {
+          "name": "...",
+          "required": true,
+          "default": null
+        },
+        {
+          "name": "effectList",
+          "required": false,
+          "default": "NULL"
+        },
+        {
+          "name": "intersectionTest",
+          "required": false,
+          "default": "c(\"Simes\", \"SpiessensDebois\", \"Bonferroni\", \"Sidak\")"
+        },
+        {
+          "name": "stratifiedAnalysis",
+          "required": false,
+          "default": "TRUE"
+        },
+        {
+          "name": "directionUpper",
+          "required": false,
+          "default": "NA"
+        },
+        {
+          "name": "adaptations",
+          "required": false,
+          "default": "NA"
+        },
+        {
+          "name": "typeOfSelection",
+          "required": false,
+          "default": "c(\"best\", \"rBest\", \"epsilon\", \"all\", \"userDefined\")"
+        },
+        {
+          "name": "effectMeasure",
+          "required": false,
+          "default": "c(\"effectEstimate\", \"testStatistic\")"
+        },
+        {
+          "name": "successCriterion",
+          "required": false,
+          "default": "c(\"all\", \"atLeastOne\")"
+        },
+        {
+          "name": "epsilonValue",
+          "required": false,
+          "default": "NA_real_"
+        },
+        {
+          "name": "rValue",
+          "required": false,
+          "default": "NA_real_"
+        },
+        {
+          "name": "threshold",
+          "required": false,
+          "default": "-Inf"
+        },
+        {
+          "name": "plannedSubjects",
+          "required": false,
+          "default": "NA_real_"
+        },
+        {
+          "name": "allocationRatioPlanned",
+          "required": false,
+          "default": "NA_real_"
+        },
+        {
+          "name": "minNumberOfSubjectsPerStage",
+          "required": false,
+          "default": "NA_real_"
+        },
+        {
+          "name": "maxNumberOfSubjectsPerStage",
+          "required": false,
+          "default": "NA_real_"
+        },
+        {
+          "name": "conditionalPower",
+          "required": false,
+          "default": "NA_real_"
+        },
+        {
+          "name": "piTreatmentH1",
+          "required": false,
+          "default": "NA_real_"
+        },
+        {
+          "name": "piControlH1",
+          "required": false,
+          "default": "NA_real_"
+        },
+        {
+          "name": "maxNumberOfIterations",
+          "required": false,
+          "default": "1000L"
+        },
+        {
+          "name": "seed",
+          "required": false,
+          "default": "NA_real_"
+        },
+        {
+          "name": "calcSubjectsFunction",
+          "required": false,
+          "default": "NULL"
+        },
+        {
+          "name": "selectPopulationsFunction",
+          "required": false,
+          "default": "NULL"
+        },
+        {
+          "name": "showStatistics",
+          "required": false,
+          "default": "FALSE"
+        }
+      ]
+    },
+    {
+      "name": "getSimulationEnrichmentSurvival",
+      "family": "simulation",
+      "title": "Get Simulation Enrichment Survival",
+      "args": [
+        {
+          "name": "design",
+          "required": false,
+          "default": "NULL"
+        },
+        {
+          "name": "...",
+          "required": true,
+          "default": null
+        },
+        {
+          "name": "effectList",
+          "required": false,
+          "default": "NULL"
+        },
+        {
+          "name": "intersectionTest",
+          "required": false,
+          "default": "c(\"Simes\", \"SpiessensDebois\", \"Bonferroni\", \"Sidak\")"
+        },
+        {
+          "name": "stratifiedAnalysis",
+          "required": false,
+          "default": "TRUE"
+        },
+        {
+          "name": "directionUpper",
+          "required": false,
+          "default": "NA"
+        },
+        {
+          "name": "adaptations",
+          "required": false,
+          "default": "NA"
+        },
+        {
+          "name": "typeOfSelection",
+          "required": false,
+          "default": "c(\"best\", \"rBest\", \"epsilon\", \"all\", \"userDefined\")"
+        },
+        {
+          "name": "effectMeasure",
+          "required": false,
+          "default": "c(\"effectEstimate\", \"testStatistic\")"
+        },
+        {
+          "name": "successCriterion",
+          "required": false,
+          "default": "c(\"all\", \"atLeastOne\")"
+        },
+        {
+          "name": "epsilonValue",
+          "required": false,
+          "default": "NA_real_"
+        },
+        {
+          "name": "rValue",
+          "required": false,
+          "default": "NA_real_"
+        },
+        {
+          "name": "threshold",
+          "required": false,
+          "default": "-Inf"
+        },
+        {
+          "name": "plannedEvents",
+          "required": false,
+          "default": "NA_real_"
+        },
+        {
+          "name": "allocationRatioPlanned",
+          "required": false,
+          "default": "NA_real_"
+        },
+        {
+          "name": "minNumberOfEventsPerStage",
+          "required": false,
+          "default": "NA_real_"
+        },
+        {
+          "name": "maxNumberOfEventsPerStage",
+          "required": false,
+          "default": "NA_real_"
+        },
+        {
+          "name": "conditionalPower",
+          "required": false,
+          "default": "NA_real_"
+        },
+        {
+          "name": "thetaH1",
+          "required": false,
+          "default": "NA_real_"
+        },
+        {
+          "name": "maxNumberOfIterations",
+          "required": false,
+          "default": "1000L"
+        },
+        {
+          "name": "seed",
+          "required": false,
+          "default": "NA_real_"
+        },
+        {
+          "name": "calcEventsFunction",
+          "required": false,
+          "default": "NULL"
+        },
+        {
+          "name": "selectPopulationsFunction",
+          "required": false,
+          "default": "NULL"
+        },
+        {
+          "name": "showStatistics",
+          "required": false,
+          "default": "FALSE"
+        }
+      ]
+    },
+    {
+      "name": "getSimulationMeans",
+      "family": "simulation",
+      "title": "Get Simulation Means",
+      "args": [
+        {
+          "name": "design",
+          "required": false,
+          "default": "NULL"
+        },
+        {
+          "name": "...",
+          "required": true,
+          "default": null
+        },
+        {
+          "name": "groups",
+          "required": false,
+          "default": "2L"
+        },
+        {
+          "name": "normalApproximation",
+          "required": false,
+          "default": "TRUE"
+        },
+        {
+          "name": "meanRatio",
+          "required": false,
+          "default": "FALSE"
+        },
+        {
+          "name": "thetaH0",
+          "required": false,
+          "default": "ifelse(meanRatio, 1, 0)"
+        },
+        {
+          "name": "alternative",
+          "required": false,
+          "default": "seq(0, 1, 0.2)"
+        },
+        {
+          "name": "stDev",
+          "required": false,
+          "default": "1"
+        },
+        {
+          "name": "plannedSubjects",
+          "required": false,
+          "default": "NA_real_"
+        },
+        {
+          "name": "directionUpper",
+          "required": false,
+          "default": "NA"
+        },
+        {
+          "name": "allocationRatioPlanned",
+          "required": false,
+          "default": "NA_real_"
+        },
+        {
+          "name": "minNumberOfSubjectsPerStage",
+          "required": false,
+          "default": "NA_real_"
+        },
+        {
+          "name": "maxNumberOfSubjectsPerStage",
+          "required": false,
+          "default": "NA_real_"
+        },
+        {
+          "name": "conditionalPower",
+          "required": false,
+          "default": "NA_real_"
+        },
+        {
+          "name": "thetaH1",
+          "required": false,
+          "default": "NA_real_"
+        },
+        {
+          "name": "stDevH1",
+          "required": false,
+          "default": "NA_real_"
+        },
+        {
+          "name": "maxNumberOfIterations",
+          "required": false,
+          "default": "1000L"
+        },
+        {
+          "name": "seed",
+          "required": false,
+          "default": "NA_real_"
+        },
+        {
+          "name": "calcSubjectsFunction",
+          "required": false,
+          "default": "NULL"
+        },
+        {
+          "name": "showStatistics",
+          "required": false,
+          "default": "FALSE"
+        }
+      ]
+    },
+    {
+      "name": "getSimulationMultiArmMeans",
+      "family": "simulation",
+      "title": "Get Simulation Multi-Arm Means",
+      "args": [
+        {
+          "name": "design",
+          "required": false,
+          "default": "NULL"
+        },
+        {
+          "name": "...",
+          "required": true,
+          "default": null
+        },
+        {
+          "name": "activeArms",
+          "required": false,
+          "default": "NA_integer_"
+        },
+        {
+          "name": "effectMatrix",
+          "required": false,
+          "default": "NULL"
+        },
+        {
+          "name": "typeOfShape",
+          "required": false,
+          "default": "c(\"linear\", \"sigmoidEmax\", \"userDefined\")"
+        },
+        {
+          "name": "muMaxVector",
+          "required": false,
+          "default": "seq(0, 1, 0.2)"
+        },
+        {
+          "name": "gED50",
+          "required": false,
+          "default": "NA_real_"
+        },
+        {
+          "name": "slope",
+          "required": false,
+          "default": "1"
+        },
+        {
+          "name": "doseLevels",
+          "required": false,
+          "default": "NA_real_"
+        },
+        {
+          "name": "intersectionTest",
+          "required": false,
+          "default": "c(\"Dunnett\", \"Bonferroni\", \"Simes\", \"Sidak\", \"Hierarchical\")"
+        },
+        {
+          "name": "stDev",
+          "required": false,
+          "default": "1"
+        },
+        {
+          "name": "adaptations",
+          "required": false,
+          "default": "NA"
+        },
+        {
+          "name": "typeOfSelection",
+          "required": false,
+          "default": "c(\"best\", \"rBest\", \"epsilon\", \"all\", \"userDefined\")"
+        },
+        {
+          "name": "effectMeasure",
+          "required": false,
+          "default": "c(\"effectEstimate\", \"testStatistic\")"
+        },
+        {
+          "name": "successCriterion",
+          "required": false,
+          "default": "c(\"all\", \"atLeastOne\")"
+        },
+        {
+          "name": "epsilonValue",
+          "required": false,
+          "default": "NA_real_"
+        },
+        {
+          "name": "rValue",
+          "required": false,
+          "default": "NA_real_"
+        },
+        {
+          "name": "threshold",
+          "required": false,
+          "default": "-Inf"
+        },
+        {
+          "name": "plannedSubjects",
+          "required": false,
+          "default": "NA_integer_"
+        },
+        {
+          "name": "allocationRatioPlanned",
+          "required": false,
+          "default": "NA_real_"
+        },
+        {
+          "name": "minNumberOfSubjectsPerStage",
+          "required": false,
+          "default": "NA_real_"
+        },
+        {
+          "name": "maxNumberOfSubjectsPerStage",
+          "required": false,
+          "default": "NA_real_"
+        },
+        {
+          "name": "conditionalPower",
+          "required": false,
+          "default": "NA_real_"
+        },
+        {
+          "name": "thetaH1",
+          "required": false,
+          "default": "NA_real_"
+        },
+        {
+          "name": "stDevH1",
+          "required": false,
+          "default": "NA_real_"
+        },
+        {
+          "name": "maxNumberOfIterations",
+          "required": false,
+          "default": "1000L"
+        },
+        {
+          "name": "seed",
+          "required": false,
+          "default": "NA_real_"
+        },
+        {
+          "name": "calcSubjectsFunction",
+          "required": false,
+          "default": "NULL"
+        },
+        {
+          "name": "selectArmsFunction",
+          "required": false,
+          "default": "NULL"
+        },
+        {
+          "name": "showStatistics",
+          "required": false,
+          "default": "FALSE"
+        }
+      ]
+    },
+    {
+      "name": "getSimulationMultiArmRates",
+      "family": "simulation",
+      "title": "Get Simulation Multi-Arm Rates",
+      "args": [
+        {
+          "name": "design",
+          "required": false,
+          "default": "NULL"
+        },
+        {
+          "name": "...",
+          "required": true,
+          "default": null
+        },
+        {
+          "name": "activeArms",
+          "required": false,
+          "default": "NA_integer_"
+        },
+        {
+          "name": "effectMatrix",
+          "required": false,
+          "default": "NULL"
+        },
+        {
+          "name": "typeOfShape",
+          "required": false,
+          "default": "c(\"linear\", \"sigmoidEmax\", \"userDefined\")"
+        },
+        {
+          "name": "piMaxVector",
+          "required": false,
+          "default": "seq(0.2, 0.5, 0.1)"
+        },
+        {
+          "name": "piControl",
+          "required": false,
+          "default": "0.2"
+        },
+        {
+          "name": "gED50",
+          "required": false,
+          "default": "NA_real_"
+        },
+        {
+          "name": "slope",
+          "required": false,
+          "default": "1"
+        },
+        {
+          "name": "doseLevels",
+          "required": false,
+          "default": "NA_real_"
+        },
+        {
+          "name": "intersectionTest",
+          "required": false,
+          "default": "c(\"Dunnett\", \"Bonferroni\", \"Simes\", \"Sidak\", \"Hierarchical\")"
+        },
+        {
+          "name": "directionUpper",
+          "required": false,
+          "default": "NA"
+        },
+        {
+          "name": "adaptations",
+          "required": false,
+          "default": "NA"
+        },
+        {
+          "name": "typeOfSelection",
+          "required": false,
+          "default": "c(\"best\", \"rBest\", \"epsilon\", \"all\", \"userDefined\")"
+        },
+        {
+          "name": "effectMeasure",
+          "required": false,
+          "default": "c(\"effectEstimate\", \"testStatistic\")"
+        },
+        {
+          "name": "successCriterion",
+          "required": false,
+          "default": "c(\"all\", \"atLeastOne\")"
+        },
+        {
+          "name": "epsilonValue",
+          "required": false,
+          "default": "NA_real_"
+        },
+        {
+          "name": "rValue",
+          "required": false,
+          "default": "NA_real_"
+        },
+        {
+          "name": "threshold",
+          "required": false,
+          "default": "-Inf"
+        },
+        {
+          "name": "plannedSubjects",
+          "required": false,
+          "default": "NA_real_"
+        },
+        {
+          "name": "allocationRatioPlanned",
+          "required": false,
+          "default": "NA_real_"
+        },
+        {
+          "name": "minNumberOfSubjectsPerStage",
+          "required": false,
+          "default": "NA_real_"
+        },
+        {
+          "name": "maxNumberOfSubjectsPerStage",
+          "required": false,
+          "default": "NA_real_"
+        },
+        {
+          "name": "conditionalPower",
+          "required": false,
+          "default": "NA_real_"
+        },
+        {
+          "name": "piTreatmentsH1",
+          "required": false,
+          "default": "NA_real_"
+        },
+        {
+          "name": "piControlH1",
+          "required": false,
+          "default": "NA_real_"
+        },
+        {
+          "name": "maxNumberOfIterations",
+          "required": false,
+          "default": "1000L"
+        },
+        {
+          "name": "seed",
+          "required": false,
+          "default": "NA_real_"
+        },
+        {
+          "name": "calcSubjectsFunction",
+          "required": false,
+          "default": "NULL"
+        },
+        {
+          "name": "selectArmsFunction",
+          "required": false,
+          "default": "NULL"
+        },
+        {
+          "name": "showStatistics",
+          "required": false,
+          "default": "FALSE"
+        }
+      ]
+    },
+    {
+      "name": "getSimulationMultiArmSurvival",
+      "family": "simulation",
+      "title": "Get Simulation Multi-Arm Survival",
+      "args": [
+        {
+          "name": "design",
+          "required": false,
+          "default": "NULL"
+        },
+        {
+          "name": "...",
+          "required": true,
+          "default": null
+        },
+        {
+          "name": "activeArms",
+          "required": false,
+          "default": "NA_integer_"
+        },
+        {
+          "name": "effectMatrix",
+          "required": false,
+          "default": "NULL"
+        },
+        {
+          "name": "typeOfShape",
+          "required": false,
+          "default": "c(\"linear\", \"sigmoidEmax\", \"userDefined\")"
+        },
+        {
+          "name": "omegaMaxVector",
+          "required": false,
+          "default": "seq(1, 2.6, 0.4)"
+        },
+        {
+          "name": "gED50",
+          "required": false,
+          "default": "NA_real_"
+        },
+        {
+          "name": "slope",
+          "required": false,
+          "default": "1"
+        },
+        {
+          "name": "doseLevels",
+          "required": false,
+          "default": "NA_real_"
+        },
+        {
+          "name": "intersectionTest",
+          "required": false,
+          "default": "c(\"Dunnett\", \"Bonferroni\", \"Simes\", \"Sidak\", \"Hierarchical\")"
+        },
+        {
+          "name": "directionUpper",
+          "required": false,
+          "default": "NA"
+        },
+        {
+          "name": "adaptations",
+          "required": false,
+          "default": "NA"
+        },
+        {
+          "name": "typeOfSelection",
+          "required": false,
+          "default": "c(\"best\", \"rBest\", \"epsilon\", \"all\", \"userDefined\")"
+        },
+        {
+          "name": "effectMeasure",
+          "required": false,
+          "default": "c(\"effectEstimate\", \"testStatistic\")"
+        },
+        {
+          "name": "successCriterion",
+          "required": false,
+          "default": "c(\"all\", \"atLeastOne\")"
+        },
+        {
+          "name": "correlationComputation",
+          "required": false,
+          "default": "c(\"alternative\", \"null\")"
+        },
+        {
+          "name": "epsilonValue",
+          "required": false,
+          "default": "NA_real_"
+        },
+        {
+          "name": "rValue",
+          "required": false,
+          "default": "NA_real_"
+        },
+        {
+          "name": "threshold",
+          "required": false,
+          "default": "-Inf"
+        },
+        {
+          "name": "plannedEvents",
+          "required": false,
+          "default": "NA_real_"
+        },
+        {
+          "name": "allocationRatioPlanned",
+          "required": false,
+          "default": "NA_real_"
+        },
+        {
+          "name": "minNumberOfEventsPerStage",
+          "required": false,
+          "default": "NA_real_"
+        },
+        {
+          "name": "maxNumberOfEventsPerStage",
+          "required": false,
+          "default": "NA_real_"
+        },
+        {
+          "name": "conditionalPower",
+          "required": false,
+          "default": "NA_real_"
+        },
+        {
+          "name": "thetaH1",
+          "required": false,
+          "default": "NA_real_"
+        },
+        {
+          "name": "maxNumberOfIterations",
+          "required": false,
+          "default": "1000L"
+        },
+        {
+          "name": "seed",
+          "required": false,
+          "default": "NA_real_"
+        },
+        {
+          "name": "calcEventsFunction",
+          "required": false,
+          "default": "NULL"
+        },
+        {
+          "name": "selectArmsFunction",
+          "required": false,
+          "default": "NULL"
+        },
+        {
+          "name": "showStatistics",
+          "required": false,
+          "default": "FALSE"
+        }
+      ]
+    },
+    {
+      "name": "getSimulationRates",
+      "family": "simulation",
+      "title": "Get Simulation Rates",
+      "args": [
+        {
+          "name": "design",
+          "required": false,
+          "default": "NULL"
+        },
+        {
+          "name": "...",
+          "required": true,
+          "default": null
+        },
+        {
+          "name": "groups",
+          "required": false,
+          "default": "2L"
+        },
+        {
+          "name": "normalApproximation",
+          "required": false,
+          "default": "TRUE"
+        },
+        {
+          "name": "riskRatio",
+          "required": false,
+          "default": "FALSE"
+        },
+        {
+          "name": "thetaH0",
+          "required": false,
+          "default": "ifelse(riskRatio, 1, 0)"
+        },
+        {
+          "name": "pi1",
+          "required": false,
+          "default": "seq(0.2, 0.5, 0.1)"
+        },
+        {
+          "name": "pi2",
+          "required": false,
+          "default": "NA_real_"
+        },
+        {
+          "name": "plannedSubjects",
+          "required": false,
+          "default": "NA_real_"
+        },
+        {
+          "name": "directionUpper",
+          "required": false,
+          "default": "NA"
+        },
+        {
+          "name": "allocationRatioPlanned",
+          "required": false,
+          "default": "NA_real_"
+        },
+        {
+          "name": "minNumberOfSubjectsPerStage",
+          "required": false,
+          "default": "NA_real_"
+        },
+        {
+          "name": "maxNumberOfSubjectsPerStage",
+          "required": false,
+          "default": "NA_real_"
+        },
+        {
+          "name": "conditionalPower",
+          "required": false,
+          "default": "NA_real_"
+        },
+        {
+          "name": "pi1H1",
+          "required": false,
+          "default": "NA_real_"
+        },
+        {
+          "name": "pi2H1",
+          "required": false,
+          "default": "NA_real_"
+        },
+        {
+          "name": "maxNumberOfIterations",
+          "required": false,
+          "default": "1000L"
+        },
+        {
+          "name": "seed",
+          "required": false,
+          "default": "NA_real_"
+        },
+        {
+          "name": "calcSubjectsFunction",
+          "required": false,
+          "default": "NULL"
+        },
+        {
+          "name": "showStatistics",
+          "required": false,
+          "default": "FALSE"
+        }
+      ]
+    },
+    {
+      "name": "getSimulationSurvival",
+      "family": "simulation",
+      "title": "Get Simulation Survival",
+      "args": [
+        {
+          "name": "design",
+          "required": false,
+          "default": "NULL"
+        },
+        {
+          "name": "...",
+          "required": true,
+          "default": null
+        },
+        {
+          "name": "thetaH0",
+          "required": false,
+          "default": "1"
+        },
+        {
+          "name": "directionUpper",
+          "required": false,
+          "default": "NA"
+        },
+        {
+          "name": "pi1",
+          "required": false,
+          "default": "NA_real_"
+        },
+        {
+          "name": "pi2",
+          "required": false,
+          "default": "NA_real_"
+        },
+        {
+          "name": "lambda1",
+          "required": false,
+          "default": "NA_real_"
+        },
+        {
+          "name": "lambda2",
+          "required": false,
+          "default": "NA_real_"
+        },
+        {
+          "name": "median1",
+          "required": false,
+          "default": "NA_real_"
+        },
+        {
+          "name": "median2",
+          "required": false,
+          "default": "NA_real_"
+        },
+        {
+          "name": "hazardRatio",
+          "required": false,
+          "default": "NA_real_"
+        },
+        {
+          "name": "kappa",
+          "required": false,
+          "default": "1"
+        },
+        {
+          "name": "piecewiseSurvivalTime",
+          "required": false,
+          "default": "NA_real_"
+        },
+        {
+          "name": "allocation1",
+          "required": false,
+          "default": "1"
+        },
+        {
+          "name": "allocation2",
+          "required": false,
+          "default": "1"
+        },
+        {
+          "name": "eventTime",
+          "required": false,
+          "default": "12"
+        },
+        {
+          "name": "accrualTime",
+          "required": false,
+          "default": "c(0, 12)"
+        },
+        {
+          "name": "accrualIntensity",
+          "required": false,
+          "default": "0.1"
+        },
+        {
+          "name": "accrualIntensityType",
+          "required": false,
+          "default": "c(\"auto\", \"absolute\", \"relative\")"
+        },
+        {
+          "name": "dropoutRate1",
+          "required": false,
+          "default": "0"
+        },
+        {
+          "name": "dropoutRate2",
+          "required": false,
+          "default": "0"
+        },
+        {
+          "name": "dropoutTime",
+          "required": false,
+          "default": "12"
+        },
+        {
+          "name": "maxNumberOfSubjects",
+          "required": false,
+          "default": "NA_real_"
+        },
+        {
+          "name": "plannedEvents",
+          "required": false,
+          "default": "NA_real_"
+        },
+        {
+          "name": "minNumberOfEventsPerStage",
+          "required": false,
+          "default": "NA_real_"
+        },
+        {
+          "name": "maxNumberOfEventsPerStage",
+          "required": false,
+          "default": "NA_real_"
+        },
+        {
+          "name": "conditionalPower",
+          "required": false,
+          "default": "NA_real_"
+        },
+        {
+          "name": "thetaH1",
+          "required": false,
+          "default": "NA_real_"
+        },
+        {
+          "name": "maxNumberOfIterations",
+          "required": false,
+          "default": "1000L"
+        },
+        {
+          "name": "maxNumberOfRawDatasetsPerStage",
+          "required": false,
+          "default": "0"
+        },
+        {
+          "name": "longTimeSimulationAllowed",
+          "required": false,
+          "default": "FALSE"
+        },
+        {
+          "name": "seed",
+          "required": false,
+          "default": "NA_real_"
+        },
+        {
+          "name": "calcEventsFunction",
+          "required": false,
+          "default": "NULL"
+        },
+        {
+          "name": "showStatistics",
+          "required": false,
+          "default": "FALSE"
+        }
+      ]
+    },
+    {
+      "name": "getStageResults",
+      "family": "analysis",
+      "title": "Get Stage Results",
+      "args": [
+        {
+          "name": "design",
+          "required": true,
+          "default": null
+        },
+        {
+          "name": "dataInput",
+          "required": true,
+          "default": null
+        },
+        {
+          "name": "...",
+          "required": true,
+          "default": null
+        },
+        {
+          "name": "stage",
+          "required": false,
+          "default": "NA_integer_"
+        },
+        {
+          "name": "directionUpper",
+          "required": false,
+          "default": "NA"
+        }
+      ]
+    },
+    {
+      "name": "getSystemIdentifier",
+      "family": "utility",
+      "title": "Get System Identifier",
+      "args": [
+        {
+          "name": "date",
+          "required": false,
+          "default": "NULL"
+        }
+      ]
+    },
+    {
+      "name": "getTestActions",
+      "family": "analysis",
+      "title": "Get Test Actions",
+      "args": [
+        {
+          "name": "stageResults",
+          "required": true,
+          "default": null
+        },
+        {
+          "name": "...",
+          "required": true,
+          "default": null
+        }
+      ]
+    },
+    {
+      "name": "getTestLabel",
+      "family": "utility",
+      "title": "Get Test Label",
+      "args": [
+        {
+          "name": "x",
+          "required": true,
+          "default": null
+        }
+      ]
+    },
+    {
+      "name": "getWideFormat",
+      "family": "analysis",
+      "title": "Get Wide Format",
+      "args": [
+        {
+          "name": "dataInput",
+          "required": true,
+          "default": null
+        }
+      ]
+    }
+  ]
+}

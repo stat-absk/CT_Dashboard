@@ -70,3 +70,37 @@ test_that("calls without saved objects pass through unchanged", {
   )
   expect_identical(build_repro_code(outcome, store), outcome$call_text)
 })
+
+test_that("picker labels are unique within every function family", {
+  catalog <- load_catalog()
+  picker_excludes <- list(
+    analysis = c("getDataset", "getDataSet"),
+    simulation = "getData.SimulationResults"
+  )
+  for (family in c("design", "samplesize_power", "simulation", "analysis")) {
+    entries <- catalog_family(catalog, family)
+    entries <- Filter(function(f)
+      !f$name %in% picker_excludes[[family]], entries)
+    labels <- friendly_fn_labels(
+      vapply(entries, function(f) f$name, character(1)),
+      vapply(entries, function(f) {
+        if (is.null(f$title)) NA_character_ else f$title
+      }, character(1))
+    )
+    expect_true(!anyDuplicated(labels),
+                info = sprintf("%s: duplicated labels %s", family,
+                               paste(labels[duplicated(labels)],
+                                     collapse = ", ")))
+  }
+})
+
+test_that("colliding documentation titles fall back to spaced names", {
+  labels <- friendly_fn_labels(
+    c("getMedianByLambda", "getPi1ByPi2AndHazardRatio", "getSampleSizeMeans"),
+    c("Survival Helper Functions", "Survival Helper Functions",
+      "Get Sample Size Means")
+  )
+  expect_identical(labels, c("Median By Lambda",
+                             "Pi1 By Pi2 And Hazard Ratio",
+                             "Sample Size Means"))
+})

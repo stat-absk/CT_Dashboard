@@ -65,6 +65,25 @@ suggest_store_label <- function(store, x, title = NULL) {
   label
 }
 
+#' Human picker labels for catalogued functions
+#'
+#' Documentation titles are the first choice, but rpact documents whole
+#' families under one Rd title (the survival converters, the piecewise
+#' exponential distribution). Identical picker entries are useless, so
+#' where titles collide the function's own name - spaced into words -
+#' is the label: getMedianByLambda becomes "Median By Lambda".
+#' @param names Function names.
+#' @param titles Their catalog titles (may contain NA).
+#' @keywords internal
+friendly_fn_labels <- function(names, titles) {
+  labels <- ifelse(is.na(titles) | !nzchar(titles),
+                   names, sub("^Get ", "", titles))
+  spaced <- gsub("([a-z0-9])([A-Z])", "\\1 \\2", sub("^get", "", names))
+  dup <- labels %in% labels[duplicated(labels)]
+  labels[dup] <- spaced[dup]
+  labels
+}
+
 #' Turn a saved-work name into a valid R variable name
 #' @keywords internal
 label_to_var <- function(label) {

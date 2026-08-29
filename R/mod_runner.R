@@ -87,10 +87,12 @@ mod_runner_server <- function(id, family, catalog, store, store_version,
     fn_names <- vapply(entries, function(f) f$name, character(1))
     entry_by_name <- stats::setNames(entries, fn_names)
 
-    friendly <- vapply(entries, function(f) {
-      title <- if (!is.null(f$title) && !is.na(f$title)) f$title else f$name
-      sub("^Get ", "", title)
-    }, character(1))
+    friendly <- friendly_fn_labels(
+      fn_names,
+      vapply(entries, function(f) {
+        if (is.null(f$title)) NA_character_ else f$title
+      }, character(1))
+    )
     labelled <- stats::setNames(fn_names, friendly)
 
     choices <- if (is.null(group_fn)) {

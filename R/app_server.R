@@ -28,7 +28,9 @@ app_server <- function(input, output, session) {
     group_order = c("Two-arm trials", "Multi-arm", "Enrichment",
                     "Extract from results"),
     default_fn = "getSimulationMeans",
-    pending = pending
+    pending = pending,
+    # method alias of getData - one picker entry is enough
+    exclude = "getData.SimulationResults"
   )
   mod_dataset_server("dataset", catalog, store, store_version)
   mod_runner_server(

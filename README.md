@@ -77,3 +77,14 @@ testthat::test_local()
 ```
 
 Environment pinned via `renv.lock` (R 4.6, rpact 4.4.0).
+
+## License & attribution
+
+Licensed under **LGPL-3** ([LICENSE.md](LICENSE.md)) — the same license as
+the [rpact package](https://github.com/rpact-com/rpact) this workbench
+builds on. All statistical computations are performed by rpact itself;
+this project provides only the learning interface on top of it.
+
+This is an independent open-source project, not affiliated with or
+endorsed by RPACT GbR. If you use rpact in your own work, cite the
+package as its authors request (see `citation("rpact")`).

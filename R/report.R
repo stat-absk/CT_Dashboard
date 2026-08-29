@@ -81,7 +81,7 @@ render_report <- function(store, catalog = load_catalog()) {
   )
 
   versions <- sprintf(
-    "Generated %s &middot; R %s &middot; rpact %s &middot; RPACT Trial Design Workbench %s",
+    "Generated %s &middot; R %s &middot; rpact %s &middot; Clinical Trial Design Workbench %s",
     format(Sys.time(), "%Y-%m-%d %H:%M"),
     paste(R.version$major, R.version$minor, sep = "."),
     utils::packageVersion("rpact"),
@@ -110,7 +110,7 @@ footer { margin-top: 3rem; padding-top: 1.25rem; border-top: 1px solid #DDE4E8;
 @media print { body { padding: 0; } }
 </style></head><body>
 <h1>Trial Design Report</h1>
-<p class="meta">Saved work from the RPACT Trial Design Workbench</p>
+<p class="meta">Saved work from the Clinical Trial Design Workbench</p>
 %s
 %s
 <footer>%s</footer>

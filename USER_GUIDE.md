@@ -1,6 +1,6 @@
 # Trial Design Workbench — User Guide
 
-A step-by-step walkthrough of the RPACT Trial Design Workbench: a free,
+A step-by-step walkthrough of the Clinical Trial Design Workbench: a free,
 hands-on environment for learning clinical trial design, from your first
 sample size calculation to running an interim analysis.
 

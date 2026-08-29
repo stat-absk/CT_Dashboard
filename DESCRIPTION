@@ -1,5 +1,5 @@
 Package: rpactdash
-Title: RPACT Trial Design Workbench
+Title: Clinical Trial Design Workbench
 Version: 0.0.0.9000
 Authors@R:
     person("Abhishek", email = "stat.absk@gmail.com", role = c("aut", "cre"))

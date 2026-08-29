@@ -1,4 +1,4 @@
-# RPACT Trial Design Workbench
+# Clinical Trial Design Workbench
 
 **Try it live: https://stat-absk-learn-trial-design.share.connect.posit.cloud/** — no installation needed.
 New here? Follow the **[step-by-step user guide](USER_GUIDE.md)**,

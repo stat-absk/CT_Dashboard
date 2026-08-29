@@ -1,4 +1,4 @@
-#' Launch the RPACT Trial Design Workbench
+#' Launch the Clinical Trial Design Workbench
 #'
 #' @param ... Passed to [shiny::shinyApp()].
 #' @export

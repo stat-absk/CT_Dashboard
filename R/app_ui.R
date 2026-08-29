@@ -3,7 +3,7 @@
 app_ui <- function() {
   bslib::page_navbar(
     id = "nav",
-    title = "RPACT Trial Design Workbench",
+    title = "Clinical Trial Design Workbench",
     theme = bslib::bs_theme(
       version = 5,
       preset = "shiny",

@@ -61,6 +61,67 @@ widget_value_to_expr <- function(spec, value) {
   )
 }
 
+#' Human placeholder text for an argument's default value
+#'
+#' Machine spellings never reach the interface: NA variants, NULL, and
+#' computed defaults read "automatic" (rpact picks a sensible value);
+#' integer literals lose their L suffix; anything long or expression-like
+#' also collapses to "automatic".
+#' @keywords internal
+default_placeholder <- function(arg) {
+  if (isTRUE(arg$required)) return("(required)")
+  d <- arg$default
+  automatic <- function() doc_default(arg) %||% "automatic"
+  if (is.null(d) || is.na(d)) return(automatic())
+  d <- trimws(d)
+  if (d %in% c("NA", "NA_real_", "NA_integer_", "NA_character_", "NULL", "")) {
+    return(automatic())
+  }
+  # computed defaults (ifelse(...), function calls) are rpact's business
+  if (grepl("[A-Za-z_.][A-Za-z0-9_.]*\\(", d) && !grepl("^(c|seq|rep)\\(", d)) {
+    return(automatic())
+  }
+  d <- gsub("([0-9])L\\b", "\\1", d)
+  d <- gsub("NA_real_|NA_integer_|NA_character_", "NA", d)
+  if (nchar(d) > 40) return(automatic())
+  d
+}
+
+#' Pull the documented default out of an argument's help text
+#'
+#' rpact's docs state real defaults in prose ("default is 0.025",
+#' "default value is 3") even when the formal default is NA because the
+#' package resolves it internally. Surfacing the documented value beats
+#' a generic "automatic".
+#' @keywords internal
+doc_default <- function(arg) {
+  desc <- arg$description
+  if (is.null(desc) || is.na(desc)) return(NULL)
+  m <- regmatches(
+    desc,
+    regexec("[Dd]efault (?:value )?is (-?[0-9]+(?:\\.[0-9]+)?|TRUE|FALSE)", desc)
+  )[[1]]
+  if (length(m) == 2) m[2] else NULL
+}
+
+#' Label for the empty option of a logical dropdown
+#' @keywords internal
+logical_default_label <- function(arg) {
+  d <- arg$default
+  if (is.null(d) || is.na(d) || trimws(d) %in% c("NA", "NULL")) {
+    return("(automatic)")
+  }
+  paste0("(default: ", trimws(d), ")")
+}
+
+#' Label for the empty option of an object picker
+#' @keywords internal
+object_empty_label <- function(arg) {
+  if (identical(arg$name, "design")) return("(none - fixed sample design)")
+  if (isTRUE(arg$required)) return("(choose from your saved work)")
+  "(none)"
+}
+
 #' Essential arguments for a function: those its worked examples use
 #'
 #' The examples are the curriculum; arguments no example touches are

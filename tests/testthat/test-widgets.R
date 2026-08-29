@@ -69,6 +69,59 @@ test_that("essential arguments follow the worked examples", {
   )
 })
 
+test_that("placeholders are human: documented defaults beat 'automatic'", {
+  gsd <- entry_by_name[["getDesignGroupSequential"]]
+  arg <- function(nm) Filter(function(a) a$name == nm, gsd$args)[[1]]
+  # formal default is NA_integer_/NA_real_, but the docs state the value
+  expect_identical(default_placeholder(arg("kMax")), "3")
+  expect_identical(default_placeholder(arg("alpha")), "0.025")
+  # a real literal default passes through, integer suffix stripped
+  expect_identical(default_placeholder(arg("sided")), "1")
+  # undocumented NA defaults read "automatic"
+  expect_identical(default_placeholder(arg("informationRates")), "automatic")
+  # required args say so
+  expect_identical(default_placeholder(list(required = TRUE, default = NULL)),
+                   "(required)")
+  # computed defaults are rpact's business
+  expect_identical(
+    default_placeholder(list(required = FALSE,
+                             default = "ifelse(meanRatio, 1, 0)",
+                             description = NA)),
+    "automatic"
+  )
+})
+
+test_that("dropdown empty-option labels are human", {
+  gsd <- entry_by_name[["getDesignGroupSequential"]]
+  bf <- Filter(function(a) a$name == "bindingFutility", gsd$args)[[1]]
+  expect_identical(logical_default_label(bf), "(automatic)")
+  expect_identical(logical_default_label(list(default = "FALSE")),
+                   "(default: FALSE)")
+  expect_identical(object_empty_label(list(name = "design", required = FALSE)),
+                   "(none - fixed sample design)")
+  expect_identical(object_empty_label(list(name = "dataInput", required = TRUE)),
+                   "(choose from your saved work)")
+})
+
+test_that("no machine spellings survive in any form the app renders", {
+  served <- c("design", "samplesize_power", "simulation", "analysis")
+  for (family in served) {
+    for (entry in catalog_family(catalog, family)) {
+      for (a in entry$args) {
+        if (identical(a$name, "...")) next
+        spec <- arg_widget_spec(a)
+        if (spec$type != "text") next
+        ph <- default_placeholder(a)
+        expect_false(
+          grepl("NA_|NULL|[0-9]L\\b|ifelse\\(", ph),
+          info = sprintf("%s / %s renders machine placeholder '%s'",
+                         entry$name, a$name, ph)
+        )
+      }
+    }
+  }
+})
+
 test_that("choice translation round-trips through the engine", {
   spec <- arg_widget_spec(find_arg("getDesignGroupSequential", "typeOfDesign"))
   expr <- widget_value_to_expr(spec, "asOF")

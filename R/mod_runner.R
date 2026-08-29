@@ -23,8 +23,9 @@ mod_runner_ui <- function(id) {
                              width = "auto")
       ),
       shiny::helpText(
-        "Blank fields use the rpact default (shown greyed). Numeric ",
-        "fields accept R expressions like c(0.5, 1) or seq(0, 1, 0.25)."
+        "Leave a field blank to accept the greyed value - 'automatic' ",
+        "means rpact chooses sensibly. Several values are entered like ",
+        "c(0.5, 1) or seq(0, 1, 0.25)."
       )
     ),
     shiny::uiOutput(ns("example_notes")),
@@ -155,8 +156,10 @@ mod_runner_server <- function(id, family, catalog, store, store_version,
           stored <- store_list(store)$label
           usable <- stored[vapply(stored, function(l)
             inherits(store_get(store, l), spec$class), logical(1))]
-          shiny::selectInput(input_id, label,
-                             choices = c("(use default)" = "", usable))
+          shiny::selectInput(
+            input_id, label,
+            choices = c(stats::setNames("", object_empty_label(a)), usable)
+          )
         },
         choice = shiny::selectInput(
           input_id, label,
@@ -165,11 +168,11 @@ mod_runner_server <- function(id, family, catalog, store, store_version,
         ),
         logical = shiny::selectInput(
           input_id, label,
-          choices = c(stats::setNames("", paste0("(default: ", a$default, ")")),
+          choices = c(stats::setNames("", logical_default_label(a)),
                       "TRUE", "FALSE")
         ),
         shiny::textInput(input_id, label, value = "",
-                         placeholder = if (isTRUE(a$required)) "(required)" else a$default)
+                         placeholder = default_placeholder(a))
       )
     }
 
@@ -200,7 +203,11 @@ mod_runner_server <- function(id, family, catalog, store, store_version,
 
     # keep object pickers in sync with the store without resetting the form
     shiny::observeEvent(store_version(), {
+      entry <- current_entry()
       specs <- arg_specs()
+      args_by_name <- stats::setNames(
+        entry$args, vapply(entry$args, function(a) a$name, character(1))
+      )
       for (nm in names(specs)) {
         if (!identical(specs[[nm]]$type, "object")) next
         stored <- store_list(store)$label
@@ -208,7 +215,8 @@ mod_runner_server <- function(id, family, catalog, store, store_version,
           inherits(store_get(store, l), specs[[nm]]$class), logical(1))]
         shiny::updateSelectInput(
           session, paste0("arg_", nm),
-          choices = c("(use default)" = "", usable),
+          choices = c(stats::setNames("", object_empty_label(args_by_name[[nm]])),
+                      usable),
           selected = input[[paste0("arg_", nm)]]
         )
       }

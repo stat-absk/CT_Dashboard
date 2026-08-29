@@ -17,9 +17,10 @@ test_that("mod_runner_server runs a design and stores it", {
       label_prefix = "design"
     ),
     {
+      # typeOfDesign is a choice widget now: values are bare, unquoted
       session$setInputs(
         fn = "getDesignGroupSequential",
-        arg_kMax = "3", arg_alpha = "0.025", arg_typeOfDesign = '"asOF"',
+        arg_kMax = "3", arg_alpha = "0.025", arg_typeOfDesign = "asOF",
         run = 1
       )
       o <- outcome()

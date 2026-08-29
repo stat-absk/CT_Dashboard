@@ -51,6 +51,24 @@ run_app()
 | 5 | Analysis module | Deferred |
 | 6 | Guided learning paths, reports, deployment | Planned |
 
+## How the interface works
+
+- **Start tab** orients newcomers with a three-step learning path:
+  design a trial, size it, compare designs.
+- **Smart inputs**: arguments with enumerated choices (rpact's
+  `match.arg` defaults) render as dropdowns, saved objects as pickers,
+  logicals as selects - no quoting or R syntax needed for the common
+  cases. Free-text fields (numerics, vectors) show the rpact default as
+  a placeholder; blank always means "use the default".
+- **Essential vs advanced**: the arguments used by a function's worked
+  examples appear up front; everything else collapses behind "More
+  arguments".
+- **Everything visible at once**: result summary, plot, and the
+  reproducing R code share the screen, and results auto-update as
+  inputs change after the first run.
+- **Worked examples** load and run with one click, with narrative
+  "what to look for" notes above the result.
+
 ## Architecture
 
 - **Catalog-driven forms.** `data-raw/build_catalog.R` introspects the

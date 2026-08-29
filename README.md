@@ -47,7 +47,7 @@ run_app()
 | 1 | Core engine: generic runner, result renderer, object store, audit log | **Done** |
 | 2 | Design module with tutorial content and worked examples | **Done** |
 | 3 | Sample size & power module (28 functions, grouped) | **Done** |
-| 4 | Simulation module | Deferred |
+| 4 | Simulation module (two-arm, multi-arm, enrichment) | **Done** |
 | 5 | Analysis module | Deferred |
 | 6 | Guided learning path, report export, session save/restore, deployment | **Done** |
 

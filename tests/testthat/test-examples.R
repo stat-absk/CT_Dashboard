@@ -57,6 +57,9 @@ test_that("every worked example runs successfully through the engine", {
             rpact::getDesignGroupSequential(kMax = 3, alpha = 0.025,
                                             beta = 0.2, sided = 1,
                                             typeOfDesign = "asOF"))
+  store_put(store, "O'Brien-Fleming (2 looks, inverse normal)",
+            rpact::getDesignInverseNormal(kMax = 2, alpha = 0.025,
+                                          beta = 0.2, typeOfDesign = "asOF"))
   resolve <- function(label) store_get(store, label)
 
   for (fn in names(examples)) {

@@ -21,6 +21,15 @@ app_server <- function(input, output, session) {
     default_fn = "getSampleSizeMeans",
     pending = pending
   )
+  mod_runner_server(
+    "simulation", "simulation", catalog, store, store_version,
+    label_prefix = "simulation",
+    group_fn = simulation_group,
+    group_order = c("Two-arm trials", "Multi-arm", "Enrichment",
+                    "Extract from results"),
+    default_fn = "getSimulationMeans",
+    pending = pending
+  )
   mod_compare_server("compare", store, store_version)
   learn_server(input, session, store, store_version, pending, catalog)
 
@@ -111,6 +120,15 @@ samplesize_group <- function(name) {
     return("Survival planning")
   }
   "Conversion calculators"
+}
+
+#' Subgroup labels for the simulation function picker
+#' @keywords internal
+simulation_group <- function(name) {
+  if (startsWith(name, "getSimulationMultiArm")) return("Multi-arm")
+  if (startsWith(name, "getSimulationEnrichment")) return("Enrichment")
+  if (startsWith(name, "getSimulation")) return("Two-arm trials")
+  "Extract from results"
 }
 
 #' Warn if the installed rpact differs from the catalog's generation version

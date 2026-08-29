@@ -132,6 +132,27 @@ learn_ui <- function() {
         ),
         button_id = "learn_go_6",
         button_label = "Compare the two designs"
+      ),
+      chapter(
+        7, "Trust, but simulate",
+        shiny::p(
+          "The formulas behind chapters 1-6 rest on assumptions - ",
+          "normality, known variances, proportional hazards. Simulation ",
+          "is how trialists check them: generate a thousand trials under ",
+          "your design and count what actually happens. You'll rerun the ",
+          "chapter-1 trial in silico and watch the promised 2.5% type I ",
+          "error and 80% power come back out, within simulation noise."
+        ),
+        shiny::p(
+          "Once the round trip checks out, simulation becomes the design ",
+          "tool for what formulas cannot do at all: multi-arm trials ",
+          "with interim treatment selection and biomarker enrichment ",
+          "designs, both waiting in the Simulation tab. Note the seed ",
+          "argument - fixing it makes a simulation exactly reproducible, ",
+          "a habit worth keeping."
+        ),
+        button_id = "learn_go_7",
+        button_label = "Simulate your first trial"
       )
     )
   )
@@ -187,5 +208,9 @@ learn_server <- function(input, session, store, store_version, pending, catalog)
     ensure_design("O'Brien-Fleming (3 looks)", "asOF")
     ensure_design("Pocock (3 looks)", "asP")
     go("Compare Designs")
+  })
+  shiny::observeEvent(input$learn_go_7, {
+    ensure_design("O'Brien-Fleming (3 looks)", "asOF")
+    go("Simulation", "simulation", "getSimulationMeans", 1)
   })
 }

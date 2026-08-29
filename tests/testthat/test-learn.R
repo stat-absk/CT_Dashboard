@@ -2,10 +2,10 @@
 # the runner modules via `pending`, and later chapters seed the designs
 # they depend on.
 
-test_that("learn_ui builds with six ordered chapters", {
+test_that("learn_ui builds with seven ordered chapters", {
   ui <- learn_ui()
   html <- as.character(shiny::tagList(ui))
-  for (n in 1:6) {
+  for (n in 1:7) {
     expect_match(html, paste0(n, " · "), fixed = TRUE)
   }
   # the arc starts with sample size, not group sequential designs

@@ -26,6 +26,10 @@ app_ui <- function() {
       mod_runner_ui("design")
     ),
     bslib::nav_panel(
+      "Simulation",
+      mod_runner_ui("simulation")
+    ),
+    bslib::nav_panel(
       "Compare Designs",
       mod_compare_ui("compare")
     ),

@@ -124,6 +124,85 @@
       "interpretation": "A z-value futility bound of 0.5 corresponds to a one-sided p-value of about 0.31: the trial would stop for futility when the interim result is weaker than p = 0.31. Being able to restate a rule on the scale your clinical team thinks in (often conditional power) is a routine communication task - try changing targetScale and see how the same rule reads on each scale."
     }
   ],
+  "getSimulationMeans": [
+    {
+      "label": "Does the design deliver what the formulas promised?",
+      "description": "Simulate the chapter-1 trial run under the 3-look O'Brien-Fleming design: 1000 simulated trials at effect 0 (the null) and at effect 0.5, with the per-stage sample sizes from the sample size calculation. The seed makes the run exactly reproducible.",
+      "args": {
+        "design": "@O'Brien-Fleming (3 looks)",
+        "alternative": "c(0, 0.5)",
+        "stDev": "1",
+        "plannedSubjects": "c(44, 88, 132)",
+        "maxNumberOfIterations": "1000",
+        "seed": "123"
+      },
+      "interpretation": "Read the 'overall reject' row against what theory promised: about 1.9% rejection at effect 0 (the 2.5% type I error, within simulation noise) and about 81% at effect 0.5 (the designed 80% power). The expected sample size, about 112, sits right at the analytic 110. This agreement is the point: simulation validates the formulas - and once you trust it, it can answer questions the formulas cannot. Note plannedSubjects is cumulative across stages, and try more iterations to watch the noise shrink."
+    }
+  ],
+  "getSimulationRates": [
+    {
+      "label": "Checking the binary-endpoint calculation",
+      "description": "Simulate the chapter-1 rates trial: 325 subjects (the analytic answer for 45% vs 30%), 1000 simulated trials at pi1 = 0.30 (null) and pi1 = 0.45.",
+      "args": {
+        "pi1": "c(0.3, 0.45)",
+        "pi2": "0.3",
+        "plannedSubjects": "325",
+        "maxNumberOfIterations": "1000",
+        "seed": "456"
+      },
+      "interpretation": "About 2.9% rejection under the null and 79% at pi1 = 0.45 - the analytic 80% recovered by brute force. For a fixed design this is a round trip; the payoff comes when you perturb assumptions the formula bakes in: try pi2 = 0.35 (a sicker control group than planned) and watch what happens to power without changing the sample size."
+    }
+  ],
+  "getSimulationSurvival": [
+    {
+      "label": "A survival trial in silico",
+      "description": "Simulate the chapter-3 survival trial: 247 planned events, 429 subjects accrued over 12 months, control median 12 months, at hazard ratios 0.7 and 1.0. Benefit is a hazard ratio below 1, hence directionUpper = FALSE.",
+      "args": {
+        "plannedEvents": "247",
+        "maxNumberOfSubjects": "429",
+        "accrualTime": "12",
+        "median2": "12",
+        "hazardRatio": "c(0.7, 1)",
+        "directionUpper": "FALSE",
+        "maxNumberOfIterations": "1000",
+        "seed": "789"
+      },
+      "interpretation": "About 79% power at hazard ratio 0.7 and 2.1% at 1.0, matching the analytic design. The extra insight only simulation gives: the analysis-time row shows trials under the alternative finish around month 21 rather than month 24, because an effective treatment... slows event accumulation but the trial stops at 247 events whenever they arrive. Simulation turns a sample size table into a calendar you can plan against."
+    }
+  ],
+  "getSimulationMultiArmMeans": [
+    {
+      "label": "Pick the best of three arms at an interim",
+      "description": "Three active treatment arms against a shared control, with the best-performing arm selected at the interim and carried to stage 2. Needs a 2-stage inverse normal design: create one in the Design tab (Design Inverse Normal, kMax = 2) and save it, then it appears in the design dropdown.",
+      "args": {
+        "design": "@O'Brien-Fleming (2 looks, inverse normal)",
+        "activeArms": "3",
+        "muMaxVector": "c(0, 0.5)",
+        "stDev": "1",
+        "typeOfSelection": "\"best\"",
+        "plannedSubjects": "c(30, 60)",
+        "maxNumberOfIterations": "1000",
+        "seed": "321"
+      },
+      "interpretation": "The 'reject at least one' row is the familywise power: about 2.7% when no arm works (the protected familywise error) and about 66% when the best arm has effect 0.5. The selected-arms table shows how often each arm survives the interim. There is no closed-form sample size formula for this design - selection rules, multiplicity, and staging interact - which is exactly why multi-arm trials are designed by simulation."
+    }
+  ],
+  "getSimulationEnrichmentMeans": [
+    {
+      "label": "Enrich for the subgroup that benefits",
+      "description": "A population-enrichment trial: a biomarker-positive subgroup ('S', 40% of patients, effect 0.5) and the rest ('R', effect 0.1). At the interim the design can restrict enrollment to the subpopulation where the treatment works. Uses the same saved 2-stage inverse normal design as the multi-arm example.",
+      "args": {
+        "design": "@O'Brien-Fleming (2 looks, inverse normal)",
+        "effectList": "list(subGroups = c(\"S\", \"R\"), prevalences = c(0.4, 0.6), stDevs = 1, effects = matrix(c(0.5, 0.1), nrow = 1))",
+        "plannedSubjects": "c(150, 300)",
+        "typeOfSelection": "\"epsilon\"",
+        "epsilonValue": "0.1",
+        "maxNumberOfIterations": "500",
+        "seed": "654"
+      },
+      "interpretation": "About 83% probability of rejecting at least one hypothesis, even though the full-population effect is diluted (0.4 x 0.5 + 0.6 x 0.1 = 0.26) - the interim enrichment rescues power by focusing stage 2 where the effect lives. This design family is the statistical backbone of biomarker-driven oncology trials, and like multi-arm designs it has no formula: simulation is the design tool."
+    }
+  ],
   "getSampleSizeMeans": [
     {
       "label": "Continuous endpoint, fixed design",

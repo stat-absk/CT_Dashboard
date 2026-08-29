@@ -11,7 +11,9 @@
 OBJECT_ARG_CLASSES <- list(
   design = "TrialDesign",
   dataSet = "Dataset",
-  dataInput = "Dataset"
+  dataInput = "Dataset",
+  x = "SimulationResults",
+  simulationResult = "SimulationResults"
 )
 
 #' Decide the widget for one catalogued argument

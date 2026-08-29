@@ -38,7 +38,13 @@ describe_object <- function(x, title = NULL) {
   }
   if (inherits(x, "TrialDesign") && !is.null(type) && !is.null(kmax)) {
     name <- DESIGN_TYPE_NAMES[[type]] %||% type
-    return(sprintf("%s (%s)", name, looks(kmax)))
+    qualifier <- if (inherits(x, "TrialDesignInverseNormal") &&
+                     !inherits(x, "TrialDesignGroupSequential")) {
+      ", inverse normal"
+    } else {
+      ""
+    }
+    return(sprintf("%s (%s%s)", name, looks(kmax), qualifier))
   }
   if (!is.null(title) && !is.na(title)) {
     return(sub("^Get ", "", title))

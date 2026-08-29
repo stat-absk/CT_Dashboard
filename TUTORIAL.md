@@ -1,7 +1,7 @@
 # Trial Design Workbench — Hands-On Tutorial
 
 A complete, follow-along practice course for the
-[Clinical Trial Design Workbench](https://stat-absk-learn-trial-design.share.connect.posit.cloud/).
+[Clinical Trial Design Workbench](https://stat-absk-ct-dashboard.share.connect.posit.cloud/).
 Every feature of the app gets at least one exercise with exact inputs to
 type, the result you should see, and a variation to try on your own.
 Work through it in order and you will have practiced every part of

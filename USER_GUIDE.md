@@ -4,7 +4,7 @@ A step-by-step walkthrough of the Clinical Trial Design Workbench: a free,
 hands-on environment for learning clinical trial design, from your first
 sample size calculation to running an interim analysis.
 
-**Open the app:** https://stat-absk-learn-trial-design.share.connect.posit.cloud/ —
+**Open the app:** https://stat-absk-ct-dashboard.share.connect.posit.cloud/ —
 nothing to install. All statistics are computed by the
 [rpact](https://www.rpact.org) R package; this app is an independent
 open-source learning interface on top of it.

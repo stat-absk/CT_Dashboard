@@ -3,10 +3,11 @@ Title: RPACT Trial Design Workbench
 Version: 0.0.0.9000
 Authors@R:
     person("Abhishek", email = "stat.absk@gmail.com", role = c("aut", "cre"))
-Description: A full-capability Shiny dashboard for confirmatory adaptive
-    clinical trial design with the 'rpact' package. Every user-facing rpact
-    function is exposed through a catalog-driven interface with reproducible
-    R code output and an audit trail, targeting regulated (GxP) environments.
+Description: A Shiny dashboard for learning confirmatory adaptive clinical
+    trial design with the 'rpact' package, built as a tutorial and hands-on
+    practice environment for new and junior statisticians. Every user-facing
+    rpact function is exposed through a catalog-driven interface that mirrors
+    the package API, with reproducible R code shown for every result.
 License: MIT + file LICENSE
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)

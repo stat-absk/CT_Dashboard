@@ -5,6 +5,16 @@ app_server <- function(input, output, session) {
 
   check_catalog_version(catalog, session)
 
+  store <- store_new()
+  store_version <- shiny::reactiveVal(0)
+
+  mod_runner_server("design", "design", catalog, store, store_version)
+
+  output$store_table <- shiny::renderTable({
+    store_version()
+    store_list(store)
+  })
+
   output$env_info <- shiny::renderTable({
     data.frame(
       Component = c("R", "rpact", "rpactdash", "Catalog generated against rpact"),

@@ -1,0 +1,11 @@
+{
+  "version": "0.0.1",
+  "configurations": [
+    {
+      "name": "rpactdash",
+      "runtimeExecutable": "Rscript",
+      "runtimeArgs": ["-e", "pkgload::load_all(quiet=TRUE); shiny::runApp(run_app(), port=8787, launch.browser=FALSE)"],
+      "port": 8787
+    }
+  ]
+}

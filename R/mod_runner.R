@@ -1,0 +1,183 @@
+# Generic function-runner Shiny module. One instance serves a whole
+# catalog family: the user picks a function, gets one input per argument
+# (rpact names and defaults, exactly as documented), runs it, and reads
+# the result as summary / table / plot / reproducible R code / audit
+# record. Successful results can be registered in the session object
+# store and referenced from other inputs as @label.
+
+#' @keywords internal
+mod_runner_ui <- function(id) {
+  ns <- shiny::NS(id)
+  bslib::layout_sidebar(
+    sidebar = bslib::sidebar(
+      width = 380,
+      shiny::uiOutput(ns("fn_select")),
+      shiny::uiOutput(ns("fn_title")),
+      shiny::uiOutput(ns("args_form")),
+      shiny::actionButton(ns("run"), "Run", class = "btn-primary"),
+      shiny::helpText(
+        "Argument values are R expressions (e.g. 0.025, c(0.5, 1), \"asOF\").",
+        "Leave blank to use the rpact default.",
+        "Reference a stored session object with @label."
+      )
+    ),
+    bslib::navset_card_tab(
+      bslib::nav_panel("Summary", shiny::verbatimTextOutput(ns("summary"))),
+      bslib::nav_panel("Table", shiny::div(
+        style = "overflow-x: auto;", shiny::tableOutput(ns("table"))
+      )),
+      bslib::nav_panel(
+        "Plot",
+        shiny::uiOutput(ns("plot_type_select")),
+        shiny::plotOutput(ns("plot"), height = "480px")
+      ),
+      bslib::nav_panel("R Code", shiny::verbatimTextOutput(ns("rcode"))),
+      bslib::nav_panel("Audit", shiny::verbatimTextOutput(ns("audit")))
+    ),
+    bslib::card(
+      bslib::card_header("Store result"),
+      shiny::div(
+        style = "display: flex; gap: 0.5rem; align-items: center;",
+        shiny::textInput(ns("store_label"), NULL, placeholder = "label"),
+        shiny::actionButton(ns("store_save"), "Save to session objects")
+      )
+    )
+  )
+}
+
+#' @param id Module id.
+#' @param family Catalog family served by this instance.
+#' @param catalog Catalog list.
+#' @param store Session object store ([store_new()]).
+#' @param store_version A `reactiveVal` bumped whenever the store changes.
+#' @param label_prefix Prefix for suggested store labels.
+#' @keywords internal
+mod_runner_server <- function(id, family, catalog, store, store_version,
+                              label_prefix = family) {
+  shiny::moduleServer(id, function(input, output, session) {
+    ns <- session$ns
+    entries <- catalog_family(catalog, family)
+    fn_names <- vapply(entries, function(f) f$name, character(1))
+    entry_by_name <- stats::setNames(entries, fn_names)
+
+    output$fn_select <- shiny::renderUI({
+      shiny::selectInput(ns("fn"), "Function", choices = fn_names)
+    })
+
+    current_entry <- shiny::reactive({
+      shiny::req(input$fn)
+      entry_by_name[[input$fn]]
+    })
+
+    output$fn_title <- shiny::renderUI({
+      entry <- current_entry()
+      if (is.null(entry$title) || is.na(entry$title)) return(NULL)
+      shiny::helpText(entry$title)
+    })
+
+    output$args_form <- shiny::renderUI({
+      entry <- current_entry()
+      inputs <- lapply(entry$args, function(a) {
+        if (identical(a$name, "...")) return(NULL)
+        placeholder <- if (isTRUE(a$required)) "(required)" else a$default
+        label <- if (isTRUE(a$required)) paste0(a$name, " *") else a$name
+        shiny::textInput(ns(paste0("arg_", a$name)), label, value = "",
+                         placeholder = placeholder)
+      })
+      do.call(shiny::tagList, Filter(Negate(is.null), inputs))
+    })
+
+    outcome <- shiny::eventReactive(input$run, {
+      entry <- current_entry()
+      arg_names <- setdiff(
+        vapply(entry$args, function(a) a$name, character(1)), "..."
+      )
+      inputs <- stats::setNames(
+        lapply(arg_names, function(a) input[[paste0("arg_", a)]]),
+        arg_names
+      )
+      res <- tryCatch(
+        run_catalog_function(
+          entry$name, inputs, catalog,
+          resolve = function(label) store_get(store, label)
+        ),
+        error = function(e) list(
+          ok = FALSE, result = NULL, error = conditionMessage(e),
+          call_text = NA_character_, args_text = list(), fn_name = entry$name
+        )
+      )
+      record <- audit_record(res, user = session$user)
+      audit_append(record)
+      if (!res$ok) {
+        shiny::showNotification(res$error, type = "error", duration = 10)
+      }
+      list(res = res, record = record,
+           described = if (res$ok) describe_result(res$result) else NULL)
+    })
+
+    output$summary <- shiny::renderPrint({
+      o <- outcome()
+      if (!o$res$ok) cat("Error:", o$res$error)
+      else cat(o$described$summary_text %||% o$described$print_text %||% "No summary available")
+    })
+
+    output$table <- shiny::renderTable({
+      o <- outcome()
+      shiny::req(o$res$ok, !is.null(o$described$table))
+      o$described$table
+    })
+
+    output$plot_type_select <- shiny::renderUI({
+      o <- outcome()
+      shiny::req(o$res$ok)
+      types <- o$described$plot_types
+      if (length(types) == 0) return(shiny::helpText("No plots available for this result."))
+      shiny::selectInput(ns("plot_type"), "Plot type", choices = types)
+    })
+
+    output$plot <- shiny::renderPlot({
+      o <- outcome()
+      shiny::req(o$res$ok, input$plot_type)
+      print(plot(o$res$result, type = as.integer(input$plot_type)))
+    })
+
+    output$rcode <- shiny::renderPrint({
+      o <- outcome()
+      shiny::req(o$res$ok)
+      cat(o$described$r_code %||% o$res$call_text)
+    })
+
+    output$audit <- shiny::renderPrint({
+      o <- outcome()
+      cat(jsonlite::toJSON(o$record, auto_unbox = TRUE, pretty = TRUE, null = "null"))
+    })
+
+    shiny::observeEvent(outcome(), {
+      shiny::updateTextInput(session, "store_label",
+                             value = store_next_label(store, label_prefix))
+    })
+
+    shiny::observeEvent(input$store_save, {
+      o <- outcome()
+      if (is.null(o) || !o$res$ok) {
+        shiny::showNotification("Nothing to store: run a function successfully first.",
+                                type = "warning")
+        return()
+      }
+      label <- trimws(input$store_label)
+      tryCatch({
+        store_put(store, label, o$res$result,
+                  fn_name = o$res$fn_name, call_text = o$res$call_text)
+        store_version(store_version() + 1)
+        shiny::showNotification(
+          sprintf("Stored as @%s - reference it in any argument field.", label),
+          type = "message"
+        )
+      }, error = function(e) {
+        shiny::showNotification(conditionMessage(e), type = "error")
+      })
+    })
+  })
+}
+
+`%||%` <- function(x, y) if (is.null(x)) y else x

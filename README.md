@@ -11,8 +11,8 @@ with reproducible R code output and an audit trail, targeting regulated
 | Phase | Scope | Status |
 |---|---|---|
 | 0 | Scaffold, function catalog, coverage tests, CI | **Done** |
-| 1 | Core engine: generic runner, result renderer, object store, audit log | Next |
-| 2 | Design module (7 functions) | Planned |
+| 1 | Core engine: generic runner, result renderer, object store, audit log | **Done** |
+| 2 | Design module (9 functions) | Next |
 | 3 | Sample size & power module (12 functions) | Planned |
 | 4 | Simulation module | Deferred |
 | 5 | Analysis module | Deferred |

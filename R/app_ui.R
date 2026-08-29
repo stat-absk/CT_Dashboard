@@ -10,9 +10,17 @@ app_ui <- function() {
     ),
     bslib::nav_panel(
       "Design",
+      mod_runner_ui("design")
+    ),
+    bslib::nav_panel(
+      "Session Objects",
       bslib::card(
-        bslib::card_header("Design module"),
-        shiny::p("Group-sequential and adaptive design functions. Arrives in Phase 2.")
+        bslib::card_header("Stored session objects"),
+        shiny::p(
+          "Results saved from any module. Reference one in an argument ",
+          "field as @label (e.g. design = @design_1)."
+        ),
+        shiny::tableOutput("store_table")
       )
     ),
     bslib::nav_panel(

@@ -64,6 +64,18 @@ test_that("every worked example runs successfully through the engine", {
             rpact::getDataset(n1 = c(22, 22), n2 = c(22, 22),
                               means1 = c(0.64, 0.51), means2 = c(0.08, 0.12),
                               stDevs1 = c(1.02, 0.98), stDevs2 = c(0.97, 1.01)))
+  # the other two pre-filled datasets from the Enter data tab
+  store_put(store, "Interim data (binary)",
+            rpact::getDataset(n1 = c(40, 40), n2 = c(40, 40),
+                              events1 = c(12, 19), events2 = c(6, 13)))
+  store_put(store, "Interim data (survival)",
+            rpact::getDataset(overallEvents = c(38, 78),
+                              overallLogRanks = c(1.66, 2.11),
+                              overallAllocationRatios = c(1, 1)))
+  # stage results saved under the label the app suggests for them
+  store_put(store, "Stage Results",
+            rpact::getStageResults(store_get(store, "O'Brien-Fleming (3 looks)"),
+                                   store_get(store, "Interim data (continuous)")))
   resolve <- function(label) store_get(store, label)
 
   for (fn in names(examples)) {

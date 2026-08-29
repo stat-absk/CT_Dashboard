@@ -134,6 +134,24 @@
         "nPlanned": "44"
       },
       "interpretation": "Read the stage-2 column like a monitoring committee: the overall test statistic (2.26) has not crossed the efficacy boundary (2.51), so the test action says continue - close is not crossed, that is the discipline the boundaries buy. The forward-looking numbers say continuing is promising: conditional power 90% with the planned 44 remaining subjects, and the repeated confidence interval has narrowed to [-0.06, 1.01], almost excluding zero. Change means2 in the data to see how quickly this picture turns."
+    },
+    {
+      "label": "Interim analysis, binary endpoint",
+      "description": "The same monitoring-committee analysis for a response-rate trial: two of three stages in, 40 subjects per group per stage, responders 12 then 19 (treatment) versus 6 then 13 (control). Create the dataset on the Enter data tab (pick 'Binary', the form is pre-filled) and select it below.",
+      "args": {
+        "design": "@O'Brien-Fleming (3 looks)",
+        "dataInput": "@Interim data (binary)"
+      },
+      "interpretation": "The overall test statistic climbs from 1.61 to 2.05 - closer, but still short of the stage-2 boundary of 2.51, so the action stays 'continue'. The repeated confidence interval for the rate difference, [-0.03, 0.33] after stage 2, still touches zero. Binary endpoints carry less information per subject than continuous ones, and you can see it: similar-looking data, weaker evidence."
+    },
+    {
+      "label": "Interim analysis, survival endpoint",
+      "description": "Interim monitoring for a time-to-event trial. Survival data enter as cumulative events and log-rank statistics per stage: 38 events (log-rank 1.66) at look 1, 78 events (2.11) at look 2. Create the dataset on the Enter data tab (pick 'Survival') and select it below.",
+      "args": {
+        "design": "@O'Brien-Fleming (3 looks)",
+        "dataInput": "@Interim data (survival)"
+      },
+      "interpretation": "The log-rank statistic of 2.11 at stage 2 has not crossed the boundary of 2.51: continue. The repeated confidence interval for the hazard ratio, about [0.91, 2.85], still includes 1. Note what the data entry asked for - cumulative events and log-rank statistics, not subject-level survival times: that stage-wise summary is exactly what a statistician receives from a data manager at an interim."
     }
   ],
   "getStageResults": [
@@ -144,7 +162,7 @@
         "design": "@O'Brien-Fleming (3 looks)",
         "dataInput": "@Interim data (continuous)"
       },
-      "interpretation": "The overall test statistics (1.87 at stage 1, 2.26 at stage 2) are computed from the cumulative data - each stage folds in everything before it. Save this result and feed it to 'Test Actions', 'Final P Value', or 'Conditional Rejection Probabilities' in the picker: that chain - data to stage results to inference - is exactly how an rpact analysis script is structured."
+      "interpretation": "The overall test statistics (1.87 at stage 1, 2.26 at stage 2) are computed from the cumulative data - each stage folds in everything before it. Save this result under the suggested name 'Stage Results' and feed it to 'Test Actions', 'Final P Value', or 'Conditional Rejection Probabilities' in the picker: that chain - data to stage results to inference - is exactly how an rpact analysis script is structured."
     }
   ],
   "getRepeatedConfidenceIntervals": [
@@ -455,6 +473,321 @@
         "eventTime": "12"
       },
       "interpretation": "pi = 1 - exp(-lambda x t) = 0.45: under this hazard, about 45% of subjects have an event within a year. This links the survival world (hazards) to the binary world (event proportions) - useful for sanity-checking hazard assumptions against published event rates, which are usually reported as proportions at a landmark time."
+    }
+  ],
+  "getTestActions": [
+    {
+      "label": "What should the committee do at each look?",
+      "description": "The formal decision rule applied to saved stage results: for each completed stage, stop for efficacy, stop for futility, or continue. Run 'Stage Results' first and save it under the suggested name 'Stage Results' - it appears in the dropdown below.",
+      "args": {
+        "stageResults": "@Stage Results"
+      },
+      "interpretation": "Both completed stages say 'continue': the overall test statistics (1.87, then 2.26) never crossed the efficacy boundaries (3.71, then 2.51). This is the same verdict getAnalysisResults reports, distilled to one word per stage - useful when all a meeting needs is the action, not the full analysis printout."
+    }
+  ],
+  "getConditionalPower": [
+    {
+      "label": "Is finishing the trial worth it?",
+      "description": "Given the saved stage results after two of three stages, and 44 subjects still planned for stage 3: what is the chance the trial ends in success? By default the observed effect so far is assumed to continue.",
+      "args": {
+        "stageResults": "@Stage Results",
+        "nPlanned": "44"
+      },
+      "interpretation": "Conditional power is about 90%: if the effect seen so far is real, the final 44 subjects will very likely push the trial over the line. This is the number a monitoring committee weighs against stopping for futility - and the number adaptive designs use to recalculate sample size. Try nPlanned = 20 to see how a smaller final stage erodes the probability of success."
+    }
+  ],
+  "getConditionalRejectionProbabilities": [
+    {
+      "label": "The alpha you carry into the rest of the trial",
+      "description": "For the saved stage results: the probability, computed under the null hypothesis, of still rejecting at the end given the data observed so far. This is the currency adaptive designs trade in.",
+      "args": {
+        "stageResults": "@Stage Results"
+      },
+      "interpretation": "The conditional rejection probability rises from 0.14 after stage 1 to 0.38 after stage 2 - the accumulating evidence has 'earned' a bigger share of the significance level. If you redesigned the remainder of the trial mid-course, this is exactly the type I error budget the new part would be allowed to spend; that is the CRP principle behind many adaptive methods."
+    }
+  ],
+  "getRepeatedPValues": [
+    {
+      "label": "P-values you may quote mid-trial",
+      "description": "The p-value companion to repeated confidence intervals: a p-value per stage that stays valid despite the repeated looks, computed from the saved stage results.",
+      "args": {
+        "stageResults": "@Stage Results"
+      },
+      "interpretation": "The repeated p-value falls from 0.22 after stage 1 to 0.043 after stage 2 - still above the 0.025 significance level, matching the 'continue' decision. Compare 0.043 with the naive p-value for a z of 2.26 (about 0.012): the repeated version is deliberately larger, because it accounts for every look taken and every look still to come."
+    }
+  ],
+  "getFinalPValue": [
+    {
+      "label": "The p-value for the final write-up",
+      "description": "The overall p-value of the group sequential trial, adjusted for the sequential design. Uses the saved stage results from two completed stages.",
+      "args": {
+        "stageResults": "@Stage Results"
+      },
+      "interpretation": "The result is deliberately empty: with two of three stages done and no boundary crossed, the trial has not stopped, so a final p-value does not exist yet - rpact tells you so rather than inventing one. That refusal is the lesson. Enter data where the boundary is crossed (try stage-2 means of 1.05 vs 0.12 on the Enter data tab) and the final stage and p-value appear."
+    }
+  ],
+  "getFinalConfidenceInterval": [
+    {
+      "label": "The confidence interval for the final write-up",
+      "description": "The design-adjusted confidence interval and median-unbiased effect estimate reported once a group sequential trial stops. Uses the design and interim dataset from your saved work.",
+      "args": {
+        "design": "@O'Brien-Fleming (3 looks)",
+        "dataInput": "@Interim data (continuous)"
+      },
+      "interpretation": "Like the final p-value, the final confidence interval is only defined once the trial stops - here it is empty because stage 2 says 'continue'. When a trial does stop early, the naive interval is biased (trials that stop early tend to overestimate the effect); this function corrects for the sequential stopping. Recreate the dataset with stage-2 means of 1.05 vs 0.12 and rerun: the trial stops at stage 2 with a corrected interval of about [0.30, 1.13]."
+    }
+  ],
+  "getWideFormat": [
+    {
+      "label": "Your dataset as one row per stage",
+      "description": "Shows a saved dataset in wide format: one row per stage, one column per group and quantity, including the cumulative ('overall') values rpact derives from the stage-wise entries.",
+      "args": {
+        "dataInput": "@Interim data (continuous)"
+      },
+      "interpretation": "Check the derived columns: the overall mean for group 1 after stage 2 is 0.575 - the sample-size-weighted average of 0.64 and 0.51. Group sequential analysis always works on these cumulative statistics; seeing them computed from your stage-wise entries makes the analysis output much easier to audit."
+    }
+  ],
+  "getLongFormat": [
+    {
+      "label": "Your dataset as one row per stage and group",
+      "description": "The same saved dataset in long format: one row per stage-by-group combination - the shape most plotting and modelling tools prefer.",
+      "args": {
+        "dataInput": "@Interim data (continuous)"
+      },
+      "interpretation": "Same numbers, different shape: stage 1 group 1, stage 1 group 2, stage 2 group 1, and so on. If you export interim data to plot recruitment or effects over time in your own scripts, this is the format to start from."
+    }
+  ],
+  "getSimulationCounts": [
+    {
+      "label": "Checking the recurrent-events calculation",
+      "description": "Simulate the recurrent-event trial from the sample size example: 744 subjects accrued over half a year, everyone observed for one year, control rate 0.8 events per year, overdispersion 0.5, tested at rate ratios 0.75 and 1. Benefit is a ratio below 1, hence directionUpper = FALSE.",
+      "args": {
+        "lambda2": "0.8",
+        "theta": "c(0.75, 1)",
+        "overdispersion": "0.5",
+        "fixedExposureTime": "1",
+        "accrualTime": "0.5",
+        "maxNumberOfSubjects": "744",
+        "directionUpper": "FALSE",
+        "maxNumberOfIterations": "500",
+        "seed": "246"
+      },
+      "interpretation": "About 82% rejection at rate ratio 0.75 and 3% at 1 - the analytic 80% power and 2.5% type I error recovered by simulation. rpact flags count-data simulation as experimental, which makes this round trip more than a formality: agreement between formula and simulation is how you build trust in a newer method. Try overdispersion = 1 to watch power fall without touching the sample size."
+    }
+  ],
+  "getSimulationMultiArmRates": [
+    {
+      "label": "Three arms, binary endpoint, pick the best",
+      "description": "The multi-arm selection design with a response-rate endpoint: three active arms against control, best arm at the interim goes on to stage 2. Control response 30%, best arm 50%. Uses the saved 2-stage inverse normal design.",
+      "args": {
+        "design": "@O'Brien-Fleming (2 looks, inverse normal)",
+        "activeArms": "3",
+        "piMaxVector": "c(0.3, 0.5)",
+        "piControl": "0.3",
+        "typeOfSelection": "\"best\"",
+        "plannedSubjects": "c(30, 60)",
+        "maxNumberOfIterations": "1000",
+        "seed": "321"
+      },
+      "interpretation": "Familywise error 2.9% when no arm beats control (piMax = 0.3), power 47% when the best arm lifts response to 50%. Compare with the multi-arm means example: same structure, notably less power - binary endpoints again. 30 subjects per arm per stage is simply thin for rates; double plannedSubjects and watch the power respond."
+    }
+  ],
+  "getSimulationMultiArmSurvival": [
+    {
+      "label": "Three arms, survival endpoint, pick the best",
+      "description": "Multi-arm selection with a time-to-event endpoint: three active arms, the best continues after the interim. Benefit is a hazard ratio below 1 (best arm 0.7), hence directionUpper = FALSE; the per-stage numbers are cumulative events, not subjects.",
+      "args": {
+        "design": "@O'Brien-Fleming (2 looks, inverse normal)",
+        "activeArms": "3",
+        "omegaMaxVector": "c(1, 0.7)",
+        "directionUpper": "FALSE",
+        "typeOfSelection": "\"best\"",
+        "plannedEvents": "c(75, 150)",
+        "maxNumberOfIterations": "500",
+        "seed": "111"
+      },
+      "interpretation": "Familywise error holds at 2.8%; power at hazard ratio 0.7 is only about 37%. That is the honest cost of a multi-arm survival trial: 150 events spread across three comparisons is not many. A two-arm trial detected HR 0.7 with 247 events at 80% power - use that as the anchor when judging how many events a selection design really needs."
+    }
+  ],
+  "getSimulationEnrichmentRates": [
+    {
+      "label": "Enrichment with a response-rate endpoint",
+      "description": "The biomarker-enrichment design for rates: subgroup 'S' (40% of patients) responds at 50% versus 30% control; the rest ('R') at 35%. At the interim the trial may restrict to the subpopulation that benefits. Uses the saved 2-stage inverse normal design.",
+      "args": {
+        "design": "@O'Brien-Fleming (2 looks, inverse normal)",
+        "effectList": "list(subGroups = c(\"S\", \"R\"), prevalences = c(0.4, 0.6), piControls = c(0.3, 0.3), piTreatments = matrix(c(0.5, 0.35), nrow = 1))",
+        "plannedSubjects": "c(150, 300)",
+        "typeOfSelection": "\"epsilon\"",
+        "epsilonValue": "0.1",
+        "maxNumberOfIterations": "500",
+        "seed": "654"
+      },
+      "interpretation": "About 71% probability of rejecting at least one hypothesis. The effectList reads as a table: one row of treatment response rates per subgroup, with control rates and prevalences alongside - the same structure as the enrichment means example, in rate language. The epsilon rule keeps every subpopulation within 0.1 of the best-performing one, a gentler policy than 'best only'."
+    }
+  ],
+  "getSimulationEnrichmentSurvival": [
+    {
+      "label": "Enrichment with a survival endpoint",
+      "description": "Biomarker enrichment for time-to-event: the treatment works well in subgroup 'S' (hazard ratio 0.6, 40% prevalence) and barely in 'R' (0.9). Benefit is a hazard ratio below 1, hence directionUpper = FALSE; planned numbers are cumulative events.",
+      "args": {
+        "design": "@O'Brien-Fleming (2 looks, inverse normal)",
+        "effectList": "list(subGroups = c(\"S\", \"R\"), prevalences = c(0.4, 0.6), hazardRatios = matrix(c(0.6, 0.9), nrow = 1))",
+        "plannedEvents": "c(120, 240)",
+        "typeOfSelection": "\"epsilon\"",
+        "epsilonValue": "0.1",
+        "directionUpper": "FALSE",
+        "maxNumberOfIterations": "500",
+        "seed": "987"
+      },
+      "interpretation": "About 79% probability of at least one rejection - respectable, because the interim can concentrate stage 2 on subgroup S where the hazard ratio is 0.6. Without enrichment, the full-population effect is a diluted mix of 0.6 and 0.9. This is the oncology-trial workhorse scenario: a biomarker that predicts who benefits, and a design that acts on it mid-trial."
+    }
+  ],
+  "getMedianByLambda": [
+    {
+      "label": "Hazard rate to median survival",
+      "description": "The inverse of the median-to-lambda conversion: a hazard rate of 0.0578 events per subject-month corresponds to what median survival?",
+      "args": {
+        "lambda": "0.0578"
+      },
+      "interpretation": "Median = log(2) / lambda = 12 months - the round trip back from the getLambdaByMedian example. These two converters are used constantly when checking a protocol's assumptions: medians for the clinical sections, hazard rates for the design engine, one line to move between them (exact under exponential survival)."
+    }
+  ],
+  "getLambdaByPi": [
+    {
+      "label": "Event probability to hazard rate",
+      "description": "A published trial reports that 30% of control patients had an event within 12 months. What constant hazard rate does that correspond to?",
+      "args": {
+        "piValue": "0.3",
+        "eventTime": "12"
+      },
+      "interpretation": "lambda = -log(1 - 0.3) / 12 = 0.0297 events per subject-month. This is how literature numbers - usually landmark event proportions - become design inputs. Chain it: feed the result to getMedianByLambda and the same published number reads as a median of about 23 months."
+    }
+  ],
+  "getPiByMedian": [
+    {
+      "label": "Median survival to event probability",
+      "description": "If median survival is 12 months, what fraction of subjects have an event within 12 months?",
+      "args": {
+        "median": "12",
+        "eventTime": "12"
+      },
+      "interpretation": "Exactly 0.5 - by definition of the median, and a reassuring sanity check that the exponential machinery is self-consistent. Change eventTime to 24 and the answer becomes 0.75: under a constant hazard, three quarters have an event within two medians."
+    }
+  ],
+  "getMedianByPi": [
+    {
+      "label": "Event probability to median survival",
+      "description": "45% of control subjects are expected to have an event within 12 months. What median survival does that imply?",
+      "args": {
+        "piValue": "0.45",
+        "eventTime": "12"
+      },
+      "interpretation": "About 13.9 months. Landmark proportions and medians are two dialects for the same survival assumption; this converter (with getPiByMedian as its inverse) translates between them so you can cross-check a protocol's stated median against the event rates it also quotes."
+    }
+  ],
+  "getHazardRatioByLambda": [
+    {
+      "label": "Two hazard rates to a hazard ratio",
+      "description": "Treatment arm hazard 0.04 events per subject-month, control 0.0578. What is the hazard ratio?",
+      "args": {
+        "lambda1": "0.04",
+        "lambda2": "0.0578"
+      },
+      "interpretation": "HR = 0.04 / 0.0578 = 0.69 - just a division, but having it as a function keeps conversion chains readable in the R code panel. Note the convention used everywhere in rpact: group 1 is treatment, group 2 is control, and a ratio below 1 favors treatment."
+    }
+  ],
+  "getHazardRatioByPi": [
+    {
+      "label": "Two event probabilities to a hazard ratio",
+      "description": "At 12 months, 30% of treatment and 40% of control subjects are expected to have an event. What hazard ratio is that?",
+      "args": {
+        "pi1": "0.3",
+        "pi2": "0.4",
+        "eventTime": "12"
+      },
+      "interpretation": "HR = log(1 - 0.3) / log(1 - 0.4) = 0.70. This is the converter to reach for when a publication only reports landmark event rates: two proportions in, a design-ready hazard ratio out - under the exponential assumption, which is worth stating in the protocol."
+    }
+  ],
+  "getPi1ByPi2AndHazardRatio": [
+    {
+      "label": "Implied treatment event rate",
+      "description": "Control has a 45% event probability at 12 months and the target hazard ratio is 0.7. What event probability in the treatment arm does that combination imply?",
+      "args": {
+        "pi2": "0.45",
+        "hazardRatio": "0.7",
+        "eventTime": "12"
+      },
+      "interpretation": "About 34% - the hazard ratio of 0.7 translates into an 11-point drop in the 12-month event rate here. This is a great communication tool: clinicians often find '45% down to 34% at one year' far more meaningful than 'hazard ratio 0.7', and this function makes the two statements provably the same."
+    }
+  ],
+  "getPi2ByPi1AndHazardRatio": [
+    {
+      "label": "Implied control event rate",
+      "description": "Working backwards: the treatment arm is expected to have a 35% event probability at 12 months under a hazard ratio of 0.7. What control event rate is being assumed?",
+      "args": {
+        "pi1": "0.35",
+        "hazardRatio": "0.7",
+        "eventTime": "12"
+      },
+      "interpretation": "About 46%. Use this direction when reverse-engineering someone else's design: given their treatment-arm assumption and hazard ratio, you recover the control-arm rate they must have believed - and can check it against historical data."
+    }
+  ],
+  "getLambda1ByLambda2AndHazardRatio": [
+    {
+      "label": "Implied treatment hazard rate",
+      "description": "Control hazard 0.0578 per subject-month, target hazard ratio 0.7: what treatment hazard is being assumed?",
+      "args": {
+        "lambda2": "0.0578",
+        "hazardRatio": "0.7"
+      },
+      "interpretation": "0.0405 per subject-month - simply 0.7 x 0.0578, the definition of proportional hazards in one multiplication. Feed it to getMedianByLambda to state the same assumption as a median of about 17 months, ready for the protocol synopsis."
+    }
+  ],
+  "getLambda2ByLambda1AndHazardRatio": [
+    {
+      "label": "Implied control hazard rate",
+      "description": "The treatment arm is assumed to have hazard 0.04 per subject-month under a hazard ratio of 0.7. What control hazard does that imply?",
+      "args": {
+        "lambda1": "0.04",
+        "hazardRatio": "0.7"
+      },
+      "interpretation": "0.0571 per subject-month (0.04 / 0.7). Together with its three siblings this closes the loop: any two of {lambda1, lambda2, hazard ratio} determine the third, and there is a converter for every direction you might need to travel."
+    }
+  ],
+  "getPiecewiseExponentialDistribution": [
+    {
+      "label": "Event probabilities under a piecewise hazard",
+      "description": "For the piecewise control hazard used in the survival planning examples (0.025/month in months 0-6, 0.04 in 6-12, 0.015 after), what is the probability of an event by months 6, 12, 18, and 24?",
+      "args": {
+        "time": "seq(6, 24, 6)",
+        "piecewiseSurvivalTime": "c(0, 6, 12)",
+        "piecewiseLambda": "c(0.025, 0.04, 0.015)"
+      },
+      "interpretation": "14% by month 6, 32% by month 12, then only 38% and 43% - the curve nearly flattens once the hazard drops to 0.015. This is the calculation to run before believing a piecewise assumption: seeing the implied event curve, month by month, is the fastest way to spot an assumption that contradicts the historical data."
+    }
+  ],
+  "getPiecewiseExponentialQuantile": [
+    {
+      "label": "Median survival under a piecewise hazard",
+      "description": "Same piecewise hazard: at what time has half the population had an event? (quantile = 0.5 asks for the median.)",
+      "args": {
+        "quantile": "0.5",
+        "piecewiseSurvivalTime": "c(0, 6, 12)",
+        "piecewiseLambda": "c(0.025, 0.04, 0.015)"
+      },
+      "interpretation": "About 32 months - far beyond the 12-month window where the hazard was high, because the low late hazard (0.015) stretches the upper half of the distribution enormously. A single 'median survival' number hides this shape; the piecewise machinery is how you keep the shape in the design."
+    }
+  ],
+  "getPiecewiseExponentialRandomNumbers": [
+    {
+      "label": "Simulated event times from a piecewise hazard",
+      "description": "Draw 10 random event times from the same piecewise hazard - the building block Monte Carlo survival simulations are made of.",
+      "args": {
+        "n": "10",
+        "piecewiseSurvivalTime": "c(0, 6, 12)",
+        "piecewiseLambda": "c(0.025, 0.04, 0.015)"
+      },
+      "interpretation": "Ten event times, different on every run (this generator has no seed argument - true randomness is the point here). Look at the spread: a few early events from the high-hazard year, and a long tail stretching past month 50, exactly the shape the distribution function predicted. This is what getSimulationSurvival does internally, hundreds of thousands of times."
     }
   ]
 }

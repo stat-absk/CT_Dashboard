@@ -137,6 +137,15 @@ Nudge the stage-2 means and watch the decision flip.
 > are widened so they stay valid despite multiple looks — naive
 > intervals quoted mid-trial overstate precision.
 
+## Ready for more? The hands-on tutorial
+
+The [hands-on tutorial](TUTORIAL.md) continues where the chapters end:
+a follow-along practice course with exercises for every feature of the
+app — every calculator, every design family, every simulation type,
+the full interim-analysis chain, and a capstone where you design a
+trial end to end. Every exercise starts from a worked example built
+into the app and quotes the exact numbers you should see.
+
 ## Beyond the chapters
 
 - **The full toolbox** — the pickers cover every rpact sample size,

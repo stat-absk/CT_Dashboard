@@ -3,17 +3,39 @@
 # they depend on.
 
 test_that("learn_ui builds with eight ordered chapters", {
-  ui <- learn_ui()
-  html <- as.character(shiny::tagList(ui))
+  html <- as.character(shiny::tagList(learn_ui()))
   for (n in 1:8) {
-    expect_match(html, paste0(n, " · "), fixed = TRUE)
+    # each chapter is a card with an anchor, a contents link, and a button
+    expect_match(html, paste0('id="chapter-', n, '"'), fixed = TRUE)
+    expect_match(html, paste0('href="#chapter-', n, '"'), fixed = TRUE)
+    expect_match(html, paste0('id="learn_go_', n, '"'), fixed = TRUE)
   }
-  # the arc starts with sample size, not group sequential designs
-  expect_match(html, "first sample size")
+  # the hero's way in
+  expect_match(html, 'id="learn_start"', fixed = TRUE)
+  # the arc starts by sizing a fixed trial, not with sequential designs
   expect_lt(
-    regexpr("first sample size", html)[1],
-    regexpr("group sequential", html)[1]
+    regexpr("Sizing a fixed trial", html)[1],
+    regexpr("Designs that can stop early", html)[1]
   )
+})
+
+test_that("the contents lists exactly the chapters that exist", {
+  # The contents and the cards are generated from one declaration; this is
+  # the guard that keeps them from drifting apart if that ever changes.
+  parts <- learn_parts()
+  chapters <- unlist(lapply(parts, `[[`, "chapters"), recursive = FALSE)
+
+  expect_identical(vapply(chapters, `[[`, numeric(1), "n"), as.numeric(1:8))
+  expect_identical(
+    vapply(chapters, `[[`, character(1), "id"),
+    paste0("learn_go_", 1:8)
+  )
+
+  toc <- as.character(shiny::tagList(learn_toc(parts)))
+  for (ch in chapters) {
+    expect_match(toc, ch$title, fixed = TRUE)
+    expect_match(toc, paste0('href="#chapter-', ch$n, '"'), fixed = TRUE)
+  }
 })
 
 test_that("a pending example switches the runner's function and runs it", {

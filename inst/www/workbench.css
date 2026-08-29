@@ -13,6 +13,15 @@
   --wb-radius: 12px;
   --wb-hairline: color-mix(in srgb, var(--bs-body-color) 10%, transparent);
   --wb-shadow: 0 1px 2px rgba(0, 0, 0, 0.04), 0 6px 20px rgba(0, 0, 0, 0.05);
+
+  /* The accent as *text*. The brand teal clears 4.5:1 on white but collapses
+   * to 2.6:1 on the dark ground, so small accent text gets a lightened
+   * variant there. Fills and borders keep using --bs-primary directly. */
+  --wb-accent-text: var(--bs-primary);
+}
+
+[data-bs-theme="dark"] {
+  --wb-accent-text: color-mix(in srgb, var(--bs-primary) 50%, white);
 }
 
 /* ---------- Typography (optical sizing, tracking, hierarchy) ---------- */
@@ -24,6 +33,10 @@ body {
   line-height: 1.5;
 }
 
+/* Contents links glide to their chapter rather than teleporting, so the
+ * reader keeps their sense of where they landed. */
+html { scroll-behavior: smooth; }
+
 h1, h2, h3, h4, h5, h6 {
   letter-spacing: -0.015em;
   line-height: 1.2;
@@ -32,6 +45,22 @@ h1, h2, h3, h4, h5, h6 {
 .navbar-brand {
   font-weight: 600;
   letter-spacing: -0.02em;
+}
+
+/* The brand is a long title carrying a badge, and Bootstrap sets it nowrap -
+ * which pushes it past a phone's viewport and makes the whole page scroll
+ * sideways. Below the collapse breakpoint the brand has the row to itself,
+ * so it may wrap there; above it, wrapping would push the nav onto a second
+ * row, so it stays on one line. */
+@media (max-width: 991.98px) {
+  .navbar-brand {
+    white-space: normal;
+    line-height: 1.25;
+  }
+}
+
+@media (max-width: 575.98px) {
+  .navbar-brand { font-size: 1rem; }
 }
 
 .card-header {
@@ -151,6 +180,373 @@ pre.shiny-text-output, pre {
   animation: wb-rise 350ms cubic-bezier(0.2, 0.9, 0.25, 1);
 }
 
+/* ---------- The Start tab: a course, not a list ----------
+ * Hierarchy: one obvious action (start chapter 1), then the path itself.
+ * The chapters are grouped into three acts because they genuinely are three
+ * acts - fixed designs, interim looks, and what formulas cannot do - and the
+ * grouping is information, not decoration.
+ */
+
+/* bslib's fill layout pins body to exactly one viewport height, so a
+ * document-level scroll drags the sticky navbar off-screen with it and the
+ * tab bar becomes unreachable. This page is long enough for that to matter,
+ * so it scrolls inside its own panel and leaves the chrome in place. */
+.wb-start {
+  flex: 1 1 auto;
+  min-height: 0;
+  overflow-y: auto;
+  scroll-behavior: smooth;
+  padding-bottom: 3.5rem;
+  /* Centred by padding rather than by centring the children: several of
+   * them set `margin: x 0 y`, which would win over any margin-inline:auto
+   * and quietly knock the section headings out of alignment. */
+  padding-inline: max(1rem, calc((100% - 1060px) / 2));
+}
+
+.wb-eyebrow {
+  text-transform: uppercase;
+  letter-spacing: 0.09em;
+  font-size: 0.72rem;
+  font-weight: 600;
+  color: var(--wb-accent-text);
+  margin: 0;
+}
+
+/* The hero carries the page's only large type and its only wash of color. */
+.wb-hero {
+  position: relative;
+  overflow: hidden;
+  margin: 1.25rem 0 0;
+  padding: clamp(1.75rem, 4.5vw, 3.25rem);
+  border: 1px solid var(--wb-hairline);
+  border-radius: 18px;
+  background:
+    radial-gradient(115% 135% at 0% 0%,
+      color-mix(in srgb, var(--bs-primary) 15%, transparent) 0%,
+      transparent 58%),
+    radial-gradient(95% 115% at 100% 8%,
+      color-mix(in srgb, var(--bs-primary) 8%, transparent) 0%,
+      transparent 52%),
+    var(--bs-body-bg);
+}
+
+/* The eyebrow line, carrying the honesty marker beside it. */
+.wb-hero-flags {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.7rem;
+}
+
+.wb-flag {
+  padding: 0.15rem 0.6rem;
+  border: 1px solid color-mix(in srgb, var(--bs-body-color) 24%, transparent);
+  border-radius: 999px;
+  font-size: 0.68rem;
+  font-weight: 600;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+  color: var(--bs-secondary-color);
+}
+
+.wb-hero h1 {
+  margin: 0.55rem 0 0;
+  max-width: 19ch;
+  font-size: clamp(1.95rem, 4.4vw, 2.85rem);
+  font-weight: 700;
+  line-height: 1.05;
+  letter-spacing: -0.032em;   /* large type reads too loose at default tracking */
+  text-wrap: balance;
+}
+
+.wb-hero-lead {
+  margin: 1rem 0 0;
+  max-width: 56ch;
+  font-size: clamp(1rem, 1.5vw, 1.1rem);
+  line-height: 1.55;
+  color: var(--bs-secondary-color);
+}
+
+.wb-hero-actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.75rem;
+  margin-top: 1.75rem;
+}
+
+.wb-hero-actions .btn {
+  padding: 0.6rem 1.15rem;    /* comfortably past the 44px touch target */
+  font-weight: 550;
+}
+
+/* Bootstrap's outline-secondary loses almost all contrast on a dark ground,
+ * so the quiet button derives from the body color instead of a theme role. */
+.wb-btn-ghost,
+.wb-btn-ghost:visited {
+  border: 1px solid color-mix(in srgb, var(--bs-body-color) 28%, transparent);
+  color: var(--bs-body-color);
+  background: transparent;
+}
+
+.wb-btn-ghost:hover,
+.wb-btn-ghost:focus {
+  border-color: color-mix(in srgb, var(--bs-body-color) 55%, transparent);
+  color: var(--bs-body-color);
+  background: color-mix(in srgb, var(--bs-body-color) 7%, transparent);
+}
+
+/* The honesty badge in the navbar. Relative to whatever the navbar's own
+ * text color is, so it reads in both themes without being loud. */
+.wb-wip {
+  /* Bootstrap's .badge hardcodes white text, which disappears on the light
+   * navbar. Inheriting the brand's color is right in both themes. */
+  color: inherit;
+  border: 1px solid color-mix(in srgb, currentColor 38%, transparent);
+  padding: 0.2em 0.55em;
+  font-size: 0.68rem;
+  font-weight: 500;
+  letter-spacing: 0.01em;
+  opacity: 0.75;
+  vertical-align: middle;
+}
+
+/* The badge needs about 100px the navbar does not have at laptop widths;
+ * keeping it there would push the tabs onto a second row on every screen
+ * of the app. The Start page carries the same marker in its hero at every
+ * width, so nothing is lost by dropping it here when space is tight. */
+@media (max-width: 1399.98px) {
+  .wb-wip { display: none; }
+}
+
+/* Three facts, stated once, where they answer "is this worth my time?" */
+.wb-stats {
+  display: flex;
+  flex-wrap: wrap;
+  gap: clamp(1.5rem, 5vw, 3.25rem);
+  margin-top: 2.25rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid var(--wb-hairline);
+}
+
+.wb-stat-n {
+  display: block;
+  font-size: 1.55rem;
+  font-weight: 650;
+  line-height: 1.1;
+  letter-spacing: -0.025em;
+  font-variant-numeric: tabular-nums;
+}
+
+.wb-stat-l {
+  display: block;
+  margin-top: 0.15rem;
+  font-size: 0.8rem;
+  color: var(--bs-secondary-color);
+}
+
+/* ---------- Contents ----------
+ * The course runs about 2500px, so without this the reader cannot see what
+ * the eight chapters are without scrolling the whole thing. Three columns,
+ * one per part, so the contents states the shape of the course as well as
+ * listing it. Deliberately quiet: it is a map, not a destination.
+ */
+
+.wb-toc {
+  display: block;
+  margin: 1.5rem 0 0;
+  padding: 1.35rem 1.5rem 1.5rem;
+  border: 1px solid var(--wb-hairline);
+  border-radius: var(--wb-radius);
+  background: color-mix(in srgb, var(--bs-body-color) 2.5%, var(--bs-body-bg));
+}
+
+.wb-toc-cols {
+  display: grid;
+  gap: 1.35rem 2rem;
+  margin-top: 1rem;
+  grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+}
+
+.wb-toc-part {
+  margin: 0 0 0.5rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 1px solid var(--wb-hairline);
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: var(--bs-secondary-color);
+}
+
+.wb-toc-list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.wb-toc-list a {
+  display: flex;
+  gap: 0.6rem;
+  padding: 0.4rem 0.4rem 0.4rem 0.15rem;
+  border-radius: 7px;
+  font-size: 0.875rem;
+  line-height: 1.4;
+  color: var(--bs-body-color);
+  text-decoration: none;
+  transition: background-color 140ms ease-out, color 140ms ease-out;
+}
+
+.wb-toc-list a:hover,
+.wb-toc-list a:focus-visible {
+  background: color-mix(in srgb, var(--bs-primary) 9%, transparent);
+  color: var(--wb-accent-text);
+}
+
+.wb-toc-n {
+  flex: none;
+  width: 1.1rem;
+  font-weight: 650;
+  font-variant-numeric: tabular-nums;
+  color: var(--wb-accent-text);
+}
+
+/* ---------- The three acts ---------- */
+
+.wb-act {
+  margin: 2.9rem 0 1.15rem;
+}
+
+.wb-act h2 {
+  margin: 0.4rem 0 0;
+  font-size: 1.3rem;
+  font-weight: 650;
+  letter-spacing: -0.02em;
+}
+
+.wb-act p {
+  margin: 0.45rem 0 0;
+  max-width: 62ch;
+  font-size: 0.93rem;
+  line-height: 1.55;
+  color: var(--bs-secondary-color);
+}
+
+.wb-chapters {
+  display: grid;
+  gap: 1rem;
+  grid-template-columns: repeat(auto-fit, minmax(295px, 1fr));
+}
+
+/* ---------- A chapter ---------- */
+
+.wb-chapter {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  /* Breathing room above a chapter jumped to from the contents. */
+  scroll-margin-top: 1.25rem;
+  padding: 1.3rem 1.4rem 1.4rem;
+  border: 1px solid var(--wb-hairline);
+  border-radius: var(--wb-radius);
+  background: var(--bs-body-bg);
+  transition: transform 200ms cubic-bezier(0.2, 0.9, 0.25, 1),
+    box-shadow 200ms ease-out, border-color 200ms ease-out;
+}
+
+.wb-chapter:hover,
+.wb-chapter:focus-within {
+  transform: translateY(-2px);
+  box-shadow: var(--wb-shadow);
+  border-color: color-mix(in srgb, var(--bs-primary) 38%, var(--wb-hairline));
+}
+
+/* The numeral is the rhythm of the page and the only thing encoding sequence,
+ * so it is large - but it is decoration over content, so it stays faint. */
+.wb-chapter-n {
+  position: absolute;
+  top: -0.6rem;
+  right: 0.55rem;
+  font-size: 4.6rem;
+  font-weight: 700;
+  line-height: 1;
+  letter-spacing: -0.05em;
+  color: color-mix(in srgb, var(--wb-accent-text) 15%, transparent);
+  pointer-events: none;
+  user-select: none;
+}
+
+.wb-chapter-title {
+  position: relative;
+  margin: 0 3rem 0 0;         /* clears the numeral */
+  font-size: 1.06rem;
+  font-weight: 650;
+  line-height: 1.3;
+  letter-spacing: -0.015em;
+}
+
+.wb-chapter-lead {
+  margin: 0.55rem 0 1rem;
+  font-size: 0.9rem;
+  line-height: 1.55;
+  color: var(--bs-secondary-color);
+}
+
+/* Each chapter's sharpest sentence, pulled out so the page rewards scanning. */
+.wb-takeaway {
+  margin: 0 0 1.25rem;
+  padding-left: 0.9rem;
+  border-left: 2px solid color-mix(in srgb, var(--wb-accent-text) 60%, transparent);
+  font-size: 0.875rem;
+  line-height: 1.5;
+}
+
+.wb-chapter-foot {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.55rem;
+  margin-top: auto;           /* buttons line up across a row of cards */
+}
+
+.wb-chapter-foot .btn {
+  padding: 0.5rem 0.95rem;
+  font-size: 0.875rem;
+  font-weight: 550;
+}
+
+/* Where the button lands. Stated, because a button that changes tabs
+ * should say where it is taking you. */
+.wb-dest {
+  padding: 2px 0.6rem;
+  border: 1px solid var(--wb-hairline);
+  border-radius: 999px;
+  font-size: 0.74rem;
+  color: var(--bs-secondary-color);
+  white-space: nowrap;
+}
+
+.wb-outro {
+  margin-top: 3rem;
+  padding: 1.5rem 1.6rem;
+  border: 1px solid var(--wb-hairline);
+  border-radius: var(--wb-radius);
+  background: color-mix(in srgb, var(--bs-body-color) 3%, var(--bs-body-bg));
+}
+
+.wb-outro h2 {
+  margin: 0;
+  font-size: 1.05rem;
+  font-weight: 650;
+}
+
+.wb-outro p {
+  margin: 0.55rem 0 0;
+  max-width: 68ch;
+  font-size: 0.9rem;
+  line-height: 1.55;
+  color: var(--bs-secondary-color);
+}
+
 /* ---------- Honored preferences ---------- */
 
 @media (prefers-reduced-motion: reduce) {
@@ -159,6 +555,8 @@ pre.shiny-text-output, pre {
     transition-duration: 1ms !important;
   }
   .btn:active { transform: none; }
+  .wb-chapter:hover, .wb-chapter:focus-within { transform: none; }
+  html, .wb-start { scroll-behavior: auto; }
 }
 
 @media (prefers-reduced-transparency: reduce) {
@@ -170,8 +568,15 @@ pre.shiny-text-output, pre {
 }
 
 @media (prefers-contrast: more) {
-  .card, pre.shiny-text-output, pre {
+  .card, pre.shiny-text-output, pre,
+  .wb-chapter, .wb-hero, .wb-outro, .wb-dest {
     border-color: var(--bs-body-color);
     box-shadow: none;
+  }
+  /* The numeral is decoration; at high contrast it must not compete. */
+  .wb-chapter-n { color: color-mix(in srgb, var(--bs-primary) 30%, transparent); }
+  .wb-hero { background: var(--bs-body-bg); }
+  .wb-chapter-lead, .wb-hero-lead, .wb-act p, .wb-outro p, .wb-stat-l, .wb-dest {
+    color: var(--bs-body-color);
   }
 }

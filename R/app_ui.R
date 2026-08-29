@@ -6,7 +6,7 @@ app_ui <- function() {
     title = shiny::tagList(
       "Clinical Trial Design Workbench",
       shiny::span(
-        class = "badge rounded-pill border text-secondary fw-normal ms-2 align-middle",
+        class = "badge rounded-pill wb-wip ms-2 align-middle",
         title = "Under active development - features and examples are still being added.",
         "work in progress"
       )

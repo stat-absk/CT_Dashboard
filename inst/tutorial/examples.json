@@ -123,5 +123,214 @@
       },
       "interpretation": "A z-value futility bound of 0.5 corresponds to a one-sided p-value of about 0.31: the trial would stop for futility when the interim result is weaker than p = 0.31. Being able to restate a rule on the scale your clinical team thinks in (often conditional power) is a routine communication task - try changing targetScale and see how the same rule reads on each scale."
     }
+  ],
+  "getSampleSizeMeans": [
+    {
+      "label": "Continuous endpoint, fixed design",
+      "description": "The textbook calculation: a two-sample comparison of means with standardized effect 0.5 (difference 0.5, standard deviation 1), one-sided alpha 2.5%, power 80%, no interim analyses.",
+      "args": {
+        "alternative": "0.5",
+        "stDev": "1"
+      },
+      "interpretation": "About 128 subjects in total (64 per group) - the classic answer for a medium standardized effect. Two things worth internalizing: sample size scales with (stDev/alternative)^2, so halving the effect quadruples the trial; and the efficacy boundary on the treatment-effect scale (0.35) tells you the smallest observed difference that would reach significance."
+    },
+    {
+      "label": "Same trial with a group sequential design",
+      "description": "The identical means comparison, but run under a saved 3-look O'Brien-Fleming-type design. Save the O'Brien-Fleming worked example from the Design tab as design_1 first - @design_1 below refers to it.",
+      "args": {
+        "design": "@design_1",
+        "alternative": "0.5",
+        "stDev": "1"
+      },
+      "interpretation": "Compare with the fixed-design example: the maximum sample size rises only from about 128 to 129 (the 2% inflation factor at work), but the expected sample size under the alternative drops to about 110, because the trial can stop at 43 or 86 subjects if the effect shows early. This pair of numbers - small maximum premium, large expected saving - is the entire sales pitch for group sequential designs."
+    }
+  ],
+  "getSampleSizeRates": [
+    {
+      "label": "Binary endpoint, 45% vs 30% response",
+      "description": "A two-sample comparison of response rates: treatment is assumed to lift the response rate from 30% to 45%, one-sided alpha 2.5%, power 80%, normal approximation.",
+      "args": {
+        "pi1": "0.45",
+        "pi2": "0.3"
+      },
+      "interpretation": "About 325 subjects in total for a 15-percentage-point improvement. Note how much larger this is than the continuous-endpoint example: binary endpoints carry less information per subject. Try moving pi2 to 0.5 while keeping the same 15-point difference - the required sample size grows, because variance pi(1-pi) is maximal near 0.5."
+    }
+  ],
+  "getSampleSizeSurvival": [
+    {
+      "label": "Survival endpoint, HR 0.7, median control survival 12 months",
+      "description": "A time-to-event trial: control median survival 12 months, target hazard ratio 0.7, subjects accrued uniformly over 12 months with 12 months of additional follow-up, one-sided alpha 2.5%, power 80%.",
+      "args": {
+        "hazardRatio": "0.7",
+        "median2": "12",
+        "accrualTime": "12",
+        "followUpTime": "12"
+      },
+      "interpretation": "The driver of a survival trial is events, not subjects: about 247 events are needed for HR 0.7, and with this accrual and follow-up that translates into about 429 subjects and a 24-month trial. Play with followUpTime and watch the trade: longer follow-up means fewer subjects (each contributes more events) but a longer study - a budget-versus-calendar decision every survival trial faces."
+    },
+    {
+      "label": "Piecewise accrual and piecewise hazards",
+      "description": "A more realistic setup: sites ramp up (15 subjects/month for the first year, 30/month for the second), and the control hazard is piecewise - 0.025/month in months 0-6, 0.04 in months 6-12, 0.015 thereafter. Target hazard ratio 0.7.",
+      "args": {
+        "piecewiseSurvivalTime": "c(0, 6, 12)",
+        "lambda2": "c(0.025, 0.04, 0.015)",
+        "hazardRatio": "0.7",
+        "accrualTime": "c(0, 12, 24)",
+        "accrualIntensity": "c(15, 30)"
+      },
+      "interpretation": "The event requirement (about 247) is the same as in the simple example - it depends only on the hazard ratio, alpha, and power. What changes is everything else: 540 subjects accrue over 24 months, and because the late hazard is low (0.015/month), events arrive slowly - the required follow-up is about 25 months and the analysis lands near month 49. This is why realistic accrual and hazard assumptions matter: the statistics are the same, the calendar is not."
+    }
+  ],
+  "getSampleSizeCounts": [
+    {
+      "label": "Recurrent events, negative binomial",
+      "description": "A count-data endpoint (e.g. exacerbations per year): control rate 0.8 events per subject-year, target rate ratio 0.75, overdispersion 0.5, everyone observed for exactly one year.",
+      "args": {
+        "lambda2": "0.8",
+        "theta": "0.75",
+        "overdispersion": "0.5",
+        "fixedExposureTime": "1"
+      },
+      "interpretation": "About 744 subjects - count endpoints with overdispersion are expensive. Set overdispersion to 0 and rerun: the requirement drops sharply, because overdispersion (patient-to-patient heterogeneity beyond Poisson) dilutes the information each subject contributes. Under-guessing this parameter at the design stage is one of the classic ways recurrent-event trials end up underpowered."
+    }
+  ],
+  "getPowerMeans": [
+    {
+      "label": "Power curve under a saved sequential design",
+      "description": "The flip side of sample size: fix the maximum sample size at 128 and ask what power the saved 3-look design achieves across a range of standardized effects. Save the O'Brien-Fleming design example as design_1 first.",
+      "args": {
+        "design": "@design_1",
+        "alternative": "seq(0.2, 0.8, 0.2)",
+        "stDev": "1",
+        "maxNumberOfSubjects": "128",
+        "directionUpper": "TRUE"
+      },
+      "interpretation": "Read the cumulative power row: 20% at effect 0.2, 61% at 0.4, 92% at 0.6, 99% at 0.8 - the S-shaped power curve every trialist carries in their head. Also read the expected-sample-size rows: at effect 0.8 the trial stops early so often that it averages just 85 subjects of the 128 maximum. The Plot tab draws both curves."
+    }
+  ],
+  "getPowerRates": [
+    {
+      "label": "Power for a range of response rates, n = 200",
+      "description": "With 200 subjects and a control response rate of 30%, how much power is there to detect treatment response rates from 40% to 60%?",
+      "args": {
+        "pi1": "seq(0.4, 0.6, 0.05)",
+        "pi2": "0.3",
+        "maxNumberOfSubjects": "200",
+        "directionUpper": "TRUE"
+      },
+      "interpretation": "Power climbs from 32% (pi1 = 0.40) through 59% (0.45) and 83% (0.50) to 99% (0.60). The sobering lesson: with n = 200, a real 10-point improvement is more likely missed than found. Power calculations before a trial protect you from exactly this - running a study that cannot answer its own question."
+    }
+  ],
+  "getPowerSurvival": [
+    {
+      "label": "Power for a range of hazard ratios, 200 events",
+      "description": "A survival trial with 400 subjects and 200 target events (control median 12 months, 12-month accrual): what is the power if the true hazard ratio is 0.6, 0.7, or 0.8?",
+      "args": {
+        "hazardRatio": "c(0.6, 0.7, 0.8)",
+        "median2": "12",
+        "accrualTime": "12",
+        "maxNumberOfSubjects": "400",
+        "maxNumberOfEvents": "200",
+        "directionUpper": "FALSE"
+      },
+      "interpretation": "Power is 95% at HR 0.6, 71% at 0.7, and only 35% at 0.8 - survival trials sized for optimistic hazard ratios are fragile against moderate effects. Note directionUpper = FALSE: benefit means a hazard ratio below 1, so power is directed towards smaller values; forgetting this flag computes power for the wrong tail (run it with TRUE and see the powers collapse)."
+    }
+  ],
+  "getPowerCounts": [
+    {
+      "label": "Power for recurrent events, n = 400",
+      "description": "With 400 subjects, control rate 0.8 events/year, and overdispersion 0.5: what is the power to detect rate ratios of 0.7 or 0.8? Benefit is a ratio below 1, hence directionUpper = FALSE.",
+      "args": {
+        "lambda2": "0.8",
+        "theta": "c(0.7, 0.8)",
+        "overdispersion": "0.5",
+        "fixedExposureTime": "1",
+        "maxNumberOfSubjects": "400",
+        "directionUpper": "FALSE"
+      },
+      "interpretation": "Power is about 71% for a rate ratio of 0.7 but only 37% for 0.8 - halving the effect (on the log scale) costs roughly half the power here. Together with the sample-size example (744 subjects for 80% power at ratio 0.75), this brackets the realistic operating range for the design."
+    }
+  ],
+  "getEventProbabilities": [
+    {
+      "label": "How fast do events accumulate?",
+      "description": "For a trial with 400 subjects accrued over 12 months, control hazard 0.05/month, and hazard ratio 0.8: what fraction of subjects will have had an event at months 6 through 30?",
+      "args": {
+        "time": "seq(6, 30, 6)",
+        "accrualTime": "12",
+        "lambda2": "0.05",
+        "hazardRatio": "0.8",
+        "maxNumberOfSubjects": "400"
+      },
+      "interpretation": "The cumulative event probability grows from 6% at month 6 to 23% at month 12 and 65% at month 30 - multiply by 400 to translate into expected event counts. This is the tool for answering the planning question survival designs live and die by: when will we reach the target number of events? Note the treatment arm (probabilities '1') lags the control arm - effective treatment slows down your own trial."
+    }
+  ],
+  "getNumberOfSubjects": [
+    {
+      "label": "Recruitment curve with a ramp-up",
+      "description": "Sites recruit 15 subjects/month for the first 6 months and 30/month for the next 6. How many subjects are on study at months 3 through 24?",
+      "args": {
+        "time": "seq(3, 24, 3)",
+        "accrualTime": "c(0, 6, 12)",
+        "accrualIntensity": "c(15, 30)"
+      },
+      "interpretation": "The curve runs 45, 90, 180, 270 and then flattens - accrual ends at month 12 with 270 subjects (6 x 15 + 6 x 30). Piecewise accrual notation reads as intervals: c(0, 6, 12) with intensities c(15, 30) means 15/month on [0, 6) and 30/month on [6, 12]. Getting this notation right here makes the survival sample size functions, which use the same convention, much easier to read."
+    }
+  ],
+  "getAccrualTime": [
+    {
+      "label": "From relative site capacity to absolute intensities",
+      "description": "Planned recruitment is known in relative terms - the second period runs at 1.5x the rate of the first (0.22 vs 0.33) over 30 months - and the trial needs 1000 subjects. What absolute rates does that imply?",
+      "args": {
+        "accrualTime": "c(0, 6, 30)",
+        "accrualIntensity": "c(0.22, 0.33)",
+        "maxNumberOfSubjects": "1000"
+      },
+      "interpretation": "The relative intensities scale up to about 23.8 and 35.7 subjects/month so that the total reaches exactly 1000 by month 30. This mirrors how planning actually happens: feasibility teams provide relative ramp-up shapes, the statistician anchors them to the required sample size. The result can feed straight into getSampleSizeSurvival as the accrual specification."
+    }
+  ],
+  "getPiecewiseSurvivalTime": [
+    {
+      "label": "Piecewise hazards under a proportional effect",
+      "description": "The control hazard varies over time - 0.025/month in months 0-6, 0.04 in 6-12, 0.015 after - and treatment reduces it proportionally by 20% (hazard ratio 0.8). What are the treatment-arm hazards?",
+      "args": {
+        "piecewiseSurvivalTime": "c(0, 6, 12)",
+        "lambda2": "c(0.025, 0.04, 0.015)",
+        "hazardRatio": "0.8"
+      },
+      "interpretation": "Each treatment hazard is exactly 0.8 x the control hazard (0.020, 0.032, 0.012) - that is what 'proportional hazards' means concretely: the ratio is constant even when the hazards themselves rise and fall. This object is the building block the survival sample size and simulation functions consume; inspect it here once and the piecewise notation elsewhere stops being mysterious."
+    }
+  ],
+  "getLambdaByMedian": [
+    {
+      "label": "Median survival to hazard rate",
+      "description": "Clinicians quote median survival; the exponential model works in hazard rates. Convert a median of 12 months to its hazard rate.",
+      "args": {
+        "median": "12"
+      },
+      "interpretation": "lambda = log(2) / median = 0.0578 events per subject-month. This one-line conversion is used constantly when translating clinical assumptions into design inputs - and it only holds under the exponential model, which is precisely the assumption worth questioning when survival curves plateau."
+    }
+  ],
+  "getHazardRatioByMedian": [
+    {
+      "label": "Medians to hazard ratio",
+      "description": "Treatment is expected to extend median survival from 12 months (control) to 18 months. What hazard ratio does that correspond to under exponential survival?",
+      "args": {
+        "median1": "18",
+        "median2": "12"
+      },
+      "interpretation": "HR = median2 / median1 = 0.667 - a 50% longer median is the same statement as a one-third lower hazard. Clinical teams reason in medians, design functions want hazard ratios; this converter (and its inverses) is the bridge. It is exact only for exponential survival, a caveat that belongs in every protocol that uses it."
+    }
+  ],
+  "getPiByLambda": [
+    {
+      "label": "Hazard rate to event probability",
+      "description": "With a hazard rate of 0.05 events per month, what is the probability a subject has an event within 12 months?",
+      "args": {
+        "lambda": "0.05",
+        "eventTime": "12"
+      },
+      "interpretation": "pi = 1 - exp(-lambda x t) = 0.45: under this hazard, about 45% of subjects have an event within a year. This links the survival world (hazards) to the binary world (event proportions) - useful for sanity-checking hazard assumptions against published event rates, which are usually reported as proportions at a landmark time."
+    }
   ]
 }

@@ -29,10 +29,7 @@ app_ui <- function() {
     ),
     bslib::nav_panel(
       "Sample Size & Power",
-      bslib::card(
-        bslib::card_header("Sample size & power module"),
-        shiny::p("Sample size, power, and survival planning helpers. Arrives in Phase 3.")
-      )
+      mod_runner_ui("samplesize")
     ),
     bslib::nav_panel(
       "Catalog",

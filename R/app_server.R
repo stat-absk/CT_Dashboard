@@ -9,6 +9,13 @@ app_server <- function(input, output, session) {
   store_version <- shiny::reactiveVal(0)
 
   mod_runner_server("design", "design", catalog, store, store_version)
+  mod_runner_server(
+    "samplesize", "samplesize_power", catalog, store, store_version,
+    label_prefix = "result",
+    group_fn = samplesize_group,
+    group_order = c("Sample size", "Power", "Survival planning",
+                    "Conversion calculators")
+  )
   mod_compare_server("compare", store, store_version)
 
   output$store_table <- shiny::renderTable({
@@ -36,6 +43,18 @@ app_server <- function(input, output, session) {
       Functions = as.integer(counts)
     )
   })
+}
+
+#' Subgroup labels for the sample size & power function picker
+#' @keywords internal
+samplesize_group <- function(name) {
+  if (startsWith(name, "getSampleSize")) return("Sample size")
+  if (startsWith(name, "getPower")) return("Power")
+  if (name %in% c("getEventProbabilities", "getNumberOfSubjects",
+                  "getAccrualTime", "getPiecewiseSurvivalTime")) {
+    return("Survival planning")
+  }
+  "Conversion calculators"
 }
 
 #' Warn if the installed rpact differs from the catalog's generation version

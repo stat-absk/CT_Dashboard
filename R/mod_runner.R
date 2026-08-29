@@ -56,15 +56,25 @@ mod_runner_ui <- function(id) {
 #' @param label_prefix Prefix for suggested store labels.
 #' @keywords internal
 mod_runner_server <- function(id, family, catalog, store, store_version,
-                              label_prefix = family, examples = load_examples()) {
+                              label_prefix = family, examples = load_examples(),
+                              group_fn = NULL, group_order = NULL) {
   shiny::moduleServer(id, function(input, output, session) {
     ns <- session$ns
     entries <- catalog_family(catalog, family)
     fn_names <- vapply(entries, function(f) f$name, character(1))
     entry_by_name <- stats::setNames(entries, fn_names)
 
+    choices <- if (is.null(group_fn)) {
+      fn_names
+    } else {
+      labels <- vapply(fn_names, group_fn, character(1))
+      order <- group_order %||% unique(labels)
+      grouped <- lapply(order, function(g) fn_names[labels == g])
+      stats::setNames(grouped, order)
+    }
+
     output$fn_select <- shiny::renderUI({
-      shiny::selectInput(ns("fn"), "Function", choices = fn_names)
+      shiny::selectInput(ns("fn"), "Function", choices = choices)
     })
 
     current_entry <- shiny::reactive({

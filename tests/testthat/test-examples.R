@@ -19,6 +19,19 @@ test_that("every design function with a form has at least one worked example", {
                            paste(missing, collapse = ", ")))
 })
 
+test_that("the core sample size & power functions all have worked examples", {
+  core <- c(
+    paste0("getSampleSize", c("Means", "Rates", "Survival", "Counts")),
+    paste0("getPower", c("Means", "Rates", "Survival", "Counts")),
+    "getEventProbabilities", "getNumberOfSubjects",
+    "getAccrualTime", "getPiecewiseSurvivalTime"
+  )
+  missing <- setdiff(core, names(examples))
+  expect_true(length(missing) == 0,
+              info = paste("Core functions without examples:",
+                           paste(missing, collapse = ", ")))
+})
+
 test_that("examples reference catalogued functions and valid arguments", {
   for (fn in names(examples)) {
     expect_true(fn %in% catalogued_names, info = paste("Unknown function:", fn))

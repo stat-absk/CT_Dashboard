@@ -49,7 +49,7 @@ run_app()
 | 3 | Sample size & power module (28 functions, grouped) | **Done** |
 | 4 | Simulation module | Deferred |
 | 5 | Analysis module | Deferred |
-| 6 | Guided learning paths, reports, deployment | Planned |
+| 6 | Guided learning path, report export, session save/restore, deployment | **Done** |
 
 ## How the interface works
 
@@ -100,6 +100,27 @@ testthat::test_local()
 ```
 
 Environment pinned via `renv.lock` (R 4.6, rpact 4.4.0).
+
+## Reports and sessions
+
+The **Saved Work** tab exports a self-contained HTML report - every
+saved result with its creating call, rpact summary, first plot, and a
+complete runnable R script - which prints cleanly to PDF. Sessions can
+be saved to a `.rds` file and restored later.
+
+## Hosting it
+
+`app.R` at the repo root makes the app deployable as-is. For free
+hosting on [shinyapps.io](https://www.shinyapps.io):
+
+```r
+install.packages("rsconnect")
+rsconnect::setAccountInfo(name = "<account>", token = "<token>", secret = "<secret>")
+rsconnect::deployApp(appName = "rpact-workbench")
+```
+
+Any Shiny host (Posit Connect, Shiny Server) works the same way - the
+dependencies come from `DESCRIPTION`.
 
 ## License & attribution
 

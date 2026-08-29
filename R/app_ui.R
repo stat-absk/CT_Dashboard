@@ -39,7 +39,30 @@ app_ui <- function() {
           "for example, a saved design appears in the 'design' dropdown ",
           "of the sample size calculators."
         ),
-        shiny::tableOutput("store_table")
+        shiny::tableOutput("store_table"),
+        bslib::card_footer(
+          shiny::div(
+            class = "d-flex gap-2 align-items-center flex-wrap",
+            shiny::downloadButton("download_report", "Download report",
+                                  class = "btn-primary btn-sm"),
+            shiny::downloadButton("download_scenario", "Save session to file",
+                                  class = "btn-outline-primary btn-sm"),
+            shiny::span(class = "text-muted small",
+              "The report is a single HTML file with every result, plot, ",
+              "and a runnable R script - it prints cleanly to PDF."
+            )
+          )
+        )
+      ),
+      bslib::card(
+        bslib::card_header("Continue where you left off"),
+        shiny::p(
+          "A session file (.rds) holds everything in your saved work. ",
+          "Restore one here to pick up a previous session."
+        ),
+        shiny::fileInput("restore_scenario", NULL, accept = ".rds",
+                         buttonLabel = "Restore from file",
+                         placeholder = "No session file chosen")
       )
     ),
     bslib::nav_spacer(),

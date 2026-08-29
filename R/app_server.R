@@ -24,6 +24,39 @@ app_server <- function(input, output, session) {
   mod_compare_server("compare", store, store_version)
   learn_server(input, session, store, store_version, pending, catalog)
 
+  output$download_report <- shiny::downloadHandler(
+    filename = function() {
+      paste0("trial-design-report-", format(Sys.Date()), ".html")
+    },
+    content = function(file) {
+      writeLines(render_report(store, catalog), file, useBytes = TRUE)
+    }
+  )
+
+  output$download_scenario <- shiny::downloadHandler(
+    filename = function() {
+      paste0("trial-design-session-", format(Sys.Date()), ".rds")
+    },
+    content = function(file) store_save(store, file)
+  )
+
+  shiny::observeEvent(input$restore_scenario, {
+    tryCatch({
+      store_load(store, input$restore_scenario$datapath)
+      store_version(store_version() + 1)
+      shiny::showNotification(
+        sprintf("Restored %d saved item(s) from your session file.",
+                length(store$objects)),
+        type = "message"
+      )
+    }, error = function(e) {
+      shiny::showNotification(
+        paste("That file could not be restored:", conditionMessage(e)),
+        type = "error"
+      )
+    })
+  })
+
   titles <- stats::setNames(
     vapply(catalog$functions, function(f)
       sub("^Get ", "", if (is.null(f$title) || is.na(f$title)) f$name else f$title),

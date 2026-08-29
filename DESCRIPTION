@@ -17,6 +17,7 @@ Depends:
 Imports:
     bslib,
     ggplot2,
+    htmltools,
     jsonlite,
     rlang,
     rpact (>= 4.4.0),

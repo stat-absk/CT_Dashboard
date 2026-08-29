@@ -1,6 +1,7 @@
 # RPACT Trial Design Workbench
 
 **Try it live: https://stat-absk-learn-trial-design.share.connect.posit.cloud/** — no installation needed.
+New here? Follow the **[step-by-step user guide](USER_GUIDE.md)**.
 
 An open-source [Shiny](https://shiny.posit.co/) dashboard for learning
 confirmatory adaptive clinical trial design with the

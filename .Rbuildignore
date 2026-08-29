@@ -2,8 +2,10 @@
 ^renv\.lock$
 ^app\.R$
 ^rsconnect$
+^manifest\.json$
 ^\.Rprofile$
 ^data-raw$
 ^\.github$
 ^README\.md$
 ^LICENSE\.md$
+^USER_GUIDE\.md$

@@ -30,6 +30,14 @@ app_ui <- function() {
       mod_runner_ui("simulation")
     ),
     bslib::nav_panel(
+      "Analysis",
+      bslib::navset_underline(
+        id = "analysis_tabs",
+        bslib::nav_panel("1 · Enter data", mod_dataset_ui("dataset")),
+        bslib::nav_panel("2 · Analyze", mod_runner_ui("analysis"))
+      )
+    ),
+    bslib::nav_panel(
       "Compare Designs",
       mod_compare_ui("compare")
     ),

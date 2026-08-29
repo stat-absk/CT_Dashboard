@@ -30,6 +30,17 @@ app_server <- function(input, output, session) {
     default_fn = "getSimulationMeans",
     pending = pending
   )
+  mod_dataset_server("dataset", catalog, store, store_version)
+  mod_runner_server(
+    "analysis", "analysis", catalog, store, store_version,
+    label_prefix = "analysis",
+    group_fn = analysis_group,
+    group_order = c("Analyze a running trial", "Final inference",
+                    "Multi-arm closed tests", "Data utilities"),
+    default_fn = "getAnalysisResults",
+    pending = pending,
+    exclude = c("getDataset", "getDataSet")
+  )
   mod_compare_server("compare", store, store_version)
   learn_server(input, session, store, store_version, pending, catalog)
 
@@ -120,6 +131,19 @@ samplesize_group <- function(name) {
     return("Survival planning")
   }
   "Conversion calculators"
+}
+
+#' Subgroup labels for the analysis function picker
+#' @keywords internal
+analysis_group <- function(name) {
+  if (name %in% c("getFinalConfidenceInterval", "getFinalPValue")) {
+    return("Final inference")
+  }
+  if (startsWith(name, "getClosed")) return("Multi-arm closed tests")
+  if (name %in% c("getWideFormat", "getLongFormat", "getDataset", "getDataSet")) {
+    return("Data utilities")
+  }
+  "Analyze a running trial"
 }
 
 #' Subgroup labels for the simulation function picker

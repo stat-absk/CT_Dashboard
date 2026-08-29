@@ -153,6 +153,26 @@ learn_ui <- function() {
         ),
         button_id = "learn_go_7",
         button_label = "Simulate your first trial"
+      ),
+      chapter(
+        8, "The trial is running: your first interim analysis",
+        shiny::p(
+          "Everything so far was planning. Now the trial is underway: ",
+          "two of the three stages are complete, and you are the ",
+          "statistician reporting to the data monitoring committee. The ",
+          "question on the table: has the efficacy boundary been ",
+          "crossed - stop for success - or does the trial continue?"
+        ),
+        shiny::p(
+          "You'll see the full interim picture: the observed effect, ",
+          "the test statistic against the boundary (close, but not ",
+          "over), a 90% conditional power for the final stage, and ",
+          "repeated confidence intervals that stay honest despite the ",
+          "early looks. The data itself is entered on the Analysis ",
+          "tab's 'Enter data' form - this chapter fills it in for you."
+        ),
+        button_id = "learn_go_8",
+        button_label = "Run the interim analysis"
       )
     )
   )
@@ -192,6 +212,27 @@ learn_server <- function(input, session, store, store_version, pending, catalog)
     )
   }
 
+  ensure_dataset <- function() {
+    label <- "Interim data (continuous)"
+    if (!is.null(store_get(store, label))) return(invisible())
+    outcome <- run_catalog_function(
+      "getDataset",
+      list(n1 = "c(22, 22)", n2 = "c(22, 22)",
+           means1 = "c(0.64, 0.51)", means2 = "c(0.08, 0.12)",
+           stDevs1 = "c(1.02, 0.98)", stDevs2 = "c(0.97, 1.01)"),
+      catalog
+    )
+    audit_append(audit_record(outcome, user = session$user))
+    store_put(store, label, outcome$result,
+              fn_name = "getDataset", call_text = outcome$call_text)
+    store_version(store_version() + 1)
+    shiny::showNotification(
+      sprintf("'%s' was created and added to your saved work for this chapter.",
+              label),
+      type = "message"
+    )
+  }
+
   shiny::observeEvent(input$learn_go_1,
     go("Sample Size & Power", "samplesize", "getSampleSizeMeans", 1))
   shiny::observeEvent(input$learn_go_2,
@@ -212,5 +253,11 @@ learn_server <- function(input, session, store, store_version, pending, catalog)
   shiny::observeEvent(input$learn_go_7, {
     ensure_design("O'Brien-Fleming (3 looks)", "asOF")
     go("Simulation", "simulation", "getSimulationMeans", 1)
+  })
+  shiny::observeEvent(input$learn_go_8, {
+    ensure_design("O'Brien-Fleming (3 looks)", "asOF")
+    ensure_dataset()
+    go("Analysis", "analysis", "getAnalysisResults", 1)
+    bslib::nav_select("analysis_tabs", "2 · Analyze", session = session)
   })
 }

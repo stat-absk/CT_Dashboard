@@ -13,7 +13,8 @@ OBJECT_ARG_CLASSES <- list(
   dataSet = "Dataset",
   dataInput = "Dataset",
   x = "SimulationResults",
-  simulationResult = "SimulationResults"
+  simulationResult = "SimulationResults",
+  stageResults = "StageResults"
 )
 
 #' Decide the widget for one catalogued argument

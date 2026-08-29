@@ -124,6 +124,51 @@
       "interpretation": "A z-value futility bound of 0.5 corresponds to a one-sided p-value of about 0.31: the trial would stop for futility when the interim result is weaker than p = 0.31. Being able to restate a rule on the scale your clinical team thinks in (often conditional power) is a routine communication task - try changing targetScale and see how the same rule reads on each scale."
     }
   ],
+  "getAnalysisResults": [
+    {
+      "label": "The interim decision: continue or stop?",
+      "description": "The chapter-1 trial is running under the 3-look O'Brien-Fleming design, and two stages are in. This is the analysis a data monitoring committee sees: observed effect, test statistic against the boundary, and what to do next. Uses the 'Interim data (continuous)' dataset from the Enter data tab (the Learn path creates it for you). nPlanned is the stage-3 sample size still to come.",
+      "args": {
+        "design": "@O'Brien-Fleming (3 looks)",
+        "dataInput": "@Interim data (continuous)",
+        "nPlanned": "44"
+      },
+      "interpretation": "Read the stage-2 column like a monitoring committee: the overall test statistic (2.26) has not crossed the efficacy boundary (2.51), so the test action says continue - close is not crossed, that is the discipline the boundaries buy. The forward-looking numbers say continuing is promising: conditional power 90% with the planned 44 remaining subjects, and the repeated confidence interval has narrowed to [-0.06, 1.01], almost excluding zero. Change means2 in the data to see how quickly this picture turns."
+    }
+  ],
+  "getStageResults": [
+    {
+      "label": "The machinery under the analysis",
+      "description": "The stage-wise building blocks behind getAnalysisResults: overall effects, test statistics, and p-values per stage. Save the result - the stage-results object is what the final-inference and test-action functions consume.",
+      "args": {
+        "design": "@O'Brien-Fleming (3 looks)",
+        "dataInput": "@Interim data (continuous)"
+      },
+      "interpretation": "The overall test statistics (1.87 at stage 1, 2.26 at stage 2) are computed from the cumulative data - each stage folds in everything before it. Save this result and feed it to 'Test Actions', 'Final P Value', or 'Conditional Rejection Probabilities' in the picker: that chain - data to stage results to inference - is exactly how an rpact analysis script is structured."
+    }
+  ],
+  "getRepeatedConfidenceIntervals": [
+    {
+      "label": "Confidence intervals you may quote mid-trial",
+      "description": "Naive confidence intervals computed at an interim are too narrow - they ignore the repeated looks. Repeated confidence intervals stay valid at every stage of the group sequential design.",
+      "args": {
+        "design": "@O'Brien-Fleming (3 looks)",
+        "dataInput": "@Interim data (continuous)"
+      },
+      "interpretation": "Watch the intervals tighten as data accumulates: [-0.66, 1.78] after stage 1, [-0.06, 1.01] after stage 2. Both are wider than a naive t-interval on the same data - that width is the honest price of looking early, and it is why interim estimates quoted to a monitoring committee should always be repeated CIs, not standard ones."
+    }
+  ],
+  "getObservedInformationRates": [
+    {
+      "label": "Are we where the plan said we would be?",
+      "description": "The design planned its looks at 33%, 67%, and 100% of the information (here, 132 subjects). This checks the plan against reality: with 88 subjects observed, what information fractions were the looks actually at?",
+      "args": {
+        "dataInput": "@Interim data (continuous)",
+        "maxInformation": "132"
+      },
+      "interpretation": "Here recruitment matched the plan exactly (0.333, 0.667), so nothing needs adjusting. In real trials it never does: stages land at unplanned information fractions, and this function feeds the recalculated rates back into the analysis so the alpha spending stays honest. It is the quiet bookkeeping that makes group sequential designs work in practice."
+    }
+  ],
   "getSimulationMeans": [
     {
       "label": "Does the design deliver what the formulas promised?",

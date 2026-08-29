@@ -77,10 +77,12 @@ mod_runner_ui <- function(id) {
 mod_runner_server <- function(id, family, catalog, store, store_version,
                               label_prefix = family, examples = load_examples(),
                               group_fn = NULL, group_order = NULL,
-                              default_fn = NULL, pending = NULL) {
+                              default_fn = NULL, pending = NULL,
+                              exclude = character(0)) {
   shiny::moduleServer(id, function(input, output, session) {
     ns <- session$ns
     entries <- catalog_family(catalog, family)
+    entries <- Filter(function(f) !f$name %in% exclude, entries)
     fn_names <- vapply(entries, function(f) f$name, character(1))
     entry_by_name <- stats::setNames(entries, fn_names)
 

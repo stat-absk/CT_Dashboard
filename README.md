@@ -48,7 +48,7 @@ run_app()
 | 2 | Design module with tutorial content and worked examples | **Done** |
 | 3 | Sample size & power module (28 functions, grouped) | **Done** |
 | 4 | Simulation module (two-arm, multi-arm, enrichment) | **Done** |
-| 5 | Analysis module | Deferred |
+| 5 | Analysis module (data entry + interim monitoring) | **Done** |
 | 6 | Guided learning path, report export, session save/restore, deployment | **Done** |
 
 ## How the interface works

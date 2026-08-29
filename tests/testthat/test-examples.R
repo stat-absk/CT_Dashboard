@@ -60,6 +60,10 @@ test_that("every worked example runs successfully through the engine", {
   store_put(store, "O'Brien-Fleming (2 looks, inverse normal)",
             rpact::getDesignInverseNormal(kMax = 2, alpha = 0.025,
                                           beta = 0.2, typeOfDesign = "asOF"))
+  store_put(store, "Interim data (continuous)",
+            rpact::getDataset(n1 = c(22, 22), n2 = c(22, 22),
+                              means1 = c(0.64, 0.51), means2 = c(0.08, 0.12),
+                              stDevs1 = c(1.02, 0.98), stDevs2 = c(0.97, 1.01)))
   resolve <- function(label) store_get(store, label)
 
   for (fn in names(examples)) {
